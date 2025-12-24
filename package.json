@@ -1,0 +1,70 @@
+{
+  "name": "@f88/promidas-utils",
+  "version": "0.1.0",
+  "description": "Utilities for Promidas",
+  "engines": {
+    "node": ">=20"
+  },
+  "private": false,
+  "type": "module",
+  "keywords": [
+    "utilities",
+    "promidas",
+    "protopedia",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "F88 <685250+F88@users.noreply.github.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/F88/promidas-utils#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/F88/promidas-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/F88/promidas-utils/issues"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:codecov": "vitest run --coverage --reporter=default --reporter=junit --outputFile.junit=test-report.junit.xml",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:exports": "npm run build && vitest run --config vitest.exports.config.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint \"**/*.ts\"",
+    "lint:fix": "eslint \"**/*.ts\" --fix",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean && node scripts/generate-version.mjs",
+    "build": "tsc --project tsconfig.build.json",
+    "pack": "npm pack",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --project tsconfig.dev.json --noEmit",
+    "prepare": "npm run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "devDependencies": {},
+  "files": [
+    "README.md",
+    "LICENSE",
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "@f88:registry": "https://npm.pkg.github.com/",
+    "access": "restricted"
+  }
+}
