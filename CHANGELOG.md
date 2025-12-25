@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Comprehensive test coverage for token and version modules
+    - Test coverage reached 100% for `lib/token` and `lib/version`
+    - Added 44 test cases covering all public APIs
+    - Edge case tests for storage unavailability and error propagation
+    - Environment variable edge cases (undefined process, placeholder values)
+
+### Changed
+
+- Improved test structure with nested `describe` blocks for better organization
+- Enhanced mock storage implementation to correctly handle empty strings
+
 ## [0.1.0] - 2025-12-25
 
 ### Added
