@@ -129,7 +129,9 @@ export class TokenManager {
    */
   static forEnv(key: TokenIdentifier): ReadOnlyTokenStorage {
     if (typeof process === 'undefined' || !process.env) {
-      throw new EnvironmentUnavailableError();
+      throw new EnvironmentUnavailableError(
+        'Environment variables are not available',
+      );
     }
     return new EnvironmentTokenStorage(key);
   }

@@ -63,7 +63,9 @@ export class ConfigManager {
    */
   static forEnv(key: ConfigIdentifier): ReadOnlyConfigStorage {
     if (typeof process === 'undefined' || !process.env) {
-      throw new EnvironmentUnavailableError();
+      throw new EnvironmentUnavailableError(
+        'Environment variables are not available',
+      );
     }
     return new EnvironmentConfigStorage(key);
   }
