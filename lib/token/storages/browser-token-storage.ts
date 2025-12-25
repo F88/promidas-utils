@@ -1,12 +1,13 @@
 /**
  * @fileoverview Browser storage implementation for token management.
- * @module lib/token/storages/browser-storage
+ * @module lib/token/storages/browser-token-storage
  */
 
+import { EnvironmentUnavailableError } from '../../errors.js';
 import type { TokenIdentifier, TokenStorage } from '../types.js';
 
 /**
- * Browser storage implementation using Web Storage API.
+ * Browser token storage implementation using Web Storage API.
  *
  * @description
  * Provides token storage using `sessionStorage` or `localStorage`.
@@ -16,14 +17,14 @@ import type { TokenIdentifier, TokenStorage } from '../types.js';
  * ```typescript
  * import { TOKEN_KEYS } from '../constants.js';
  *
- * const storage = new BrowserStorage(localStorage, TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
+ * const storage = new BrowserTokenStorage(localStorage, TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
  * await storage.save('my-token');
  * const token = await storage.get();
  * ```
  */
-export class BrowserStorage implements TokenStorage {
+export class BrowserTokenStorage implements TokenStorage {
   /**
-   * Creates a new BrowserStorage instance.
+   * Creates a new BrowserTokenStorage instance.
    *
    * @param storage - The storage object (`sessionStorage` or `localStorage`)
    * @param key - The token identifier key
@@ -33,17 +34,23 @@ export class BrowserStorage implements TokenStorage {
     private readonly key: TokenIdentifier,
   ) {}
 
+  private ensureStorageAvailable(): void {
+    if (typeof this.storage === 'undefined') {
+      throw new EnvironmentUnavailableError('Web Storage API is not available');
+    }
+  }
+
   /**
    * Checks if a token exists in storage.
    *
    * @returns A promise that resolves to `true` if a token exists, `false` otherwise
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async has(): Promise<boolean> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     return this.storage.getItem(this.key) !== null;
   }
 
@@ -52,12 +59,12 @@ export class BrowserStorage implements TokenStorage {
    *
    * @returns A promise that resolves to the stored token, or `null` if not found
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async get(): Promise<string | null> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     return this.storage.getItem(this.key);
   }
 
@@ -67,12 +74,12 @@ export class BrowserStorage implements TokenStorage {
    * @param token - The token string to save
    * @returns A promise that resolves when the token is saved
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async save(token: string): Promise<void> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     this.storage.setItem(this.key, token);
   }
 
@@ -81,12 +88,12 @@ export class BrowserStorage implements TokenStorage {
    *
    * @returns A promise that resolves when the token is removed
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async remove(): Promise<void> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     this.storage.removeItem(this.key);
   }
 }

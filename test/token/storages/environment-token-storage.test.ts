@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { EnvironmentStorage } from '../../../lib/token/storages/environment-storage.js';
+import { EnvironmentTokenStorage } from '../../../lib/token/storages/environment-token-storage.js';
 
-describe('EnvironmentStorage', () => {
+describe('EnvironmentTokenStorage', () => {
   const TEST_KEY = 'TEST_TOKEN_KEY';
-  let storage: EnvironmentStorage;
+  let storage: EnvironmentTokenStorage;
   let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(() => {
-    storage = new EnvironmentStorage(TEST_KEY);
+    storage = new EnvironmentTokenStorage(TEST_KEY);
     originalEnv = { ...process.env };
   });
 
@@ -79,6 +79,14 @@ describe('EnvironmentStorage', () => {
     it('should return false when token is placeholder value', async () => {
       process.env[TEST_KEY] = 'your_token_here';
       const result = await storage.has();
+      expect(result).toBe(false);
+    });
+
+    it('should return false when process.env is not available', async () => {
+      vi.stubGlobal('process', undefined);
+
+      const result = await storage.has();
+
       expect(result).toBe(false);
     });
   });

@@ -3,9 +3,11 @@
  * @module lib/token/token-manager
  */
 
+import { EnvironmentUnavailableError } from '../errors.js';
+
 import { TOKEN_KEYS, type TokenIdentifier } from './constants.js';
-import { BrowserStorage } from './storages/browser-storage.js';
-import { EnvironmentStorage } from './storages/environment-storage.js';
+import { BrowserTokenStorage } from './storages/browser-token-storage.js';
+import { EnvironmentTokenStorage } from './storages/environment-token-storage.js';
 import type { ReadOnlyTokenStorage, TokenStorage } from './types.js';
 
 /**
@@ -57,6 +59,9 @@ export class TokenManager {
    *
    * @remarks
    * Tokens are automatically cleared when the browser tab or window is closed.
+   * Throws EnvironmentUnavailableError when the Web Storage API is unavailable (for example, in non-browser environments).
+   *
+   * @throws {EnvironmentUnavailableError} When the Web Storage API is unavailable
    *
    * @example
    * ```typescript
@@ -66,7 +71,10 @@ export class TokenManager {
    * ```
    */
   static forSessionStorage(key: TokenIdentifier): TokenStorage {
-    return new BrowserStorage(sessionStorage, key);
+    if (typeof sessionStorage === 'undefined') {
+      throw new EnvironmentUnavailableError('Web Storage API is not available');
+    }
+    return new BrowserTokenStorage(sessionStorage, key);
   }
 
   /**
@@ -78,6 +86,9 @@ export class TokenManager {
    * @remarks
    * Tokens persist even after the browser is closed.
    * They must be explicitly removed using the `remove()` method.
+   * Throws EnvironmentUnavailableError when the Web Storage API is unavailable (for example, in non-browser environments).
+   *
+   * @throws {EnvironmentUnavailableError} When the Web Storage API is unavailable
    *
    * @example
    * ```typescript
@@ -87,7 +98,10 @@ export class TokenManager {
    * ```
    */
   static forLocalStorage(key: TokenIdentifier): TokenStorage {
-    return new BrowserStorage(localStorage, key);
+    if (typeof localStorage === 'undefined') {
+      throw new EnvironmentUnavailableError('Web Storage API is not available');
+    }
+    return new BrowserTokenStorage(localStorage, key);
   }
 
   /**
@@ -100,6 +114,9 @@ export class TokenManager {
    * Provides read-only access to tokens stored in `process.env`.
    * Only `get()` and `has()` methods are available.
    * Returns `null` for placeholder values like `'your_token_here'`.
+   * Throws EnvironmentUnavailableError when `process.env` is unavailable (for example, outside Node/browser runtimes).
+   *
+   * @throws {EnvironmentUnavailableError} When environment variables are not available
    *
    * @example
    * ```typescript
@@ -111,6 +128,11 @@ export class TokenManager {
    * ```
    */
   static forEnv(key: TokenIdentifier): ReadOnlyTokenStorage {
-    return new EnvironmentStorage(key);
+    if (typeof process === 'undefined' || !process.env) {
+      throw new EnvironmentUnavailableError(
+        'Environment variables are not available',
+      );
+    }
+    return new EnvironmentTokenStorage(key);
   }
 }

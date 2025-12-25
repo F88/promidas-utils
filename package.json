@@ -73,6 +73,10 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
+    "./config": {
+      "types": "./dist/lib/config/index.d.ts",
+      "import": "./dist/lib/config/index.js"
+    },
     "./token": {
       "types": "./dist/lib/token/index.d.ts",
       "import": "./dist/lib/token/index.js"

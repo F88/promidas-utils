@@ -19,6 +19,7 @@ instructions-for-ais:
 - 定数: `TOKEN_KEYS`
 - 型: `TokenIdentifier`, `ReadOnlyTokenStorage`, `TokenStorage`
 - クラス: `TokenManager`
+- エラー: `EnvironmentUnavailableError`
 
 > ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
@@ -52,10 +53,13 @@ ProtoPedia API v2 用トークンキー定数。ブラウザストレージと�
 
 - `static forSessionStorage(key: TokenIdentifier): TokenStorage`
     - `sessionStorage` を使用。タブ/ウィンドウ終了で破棄。
+    - 非ブラウザなど Web Storage が無い環境では呼び出し時に `EnvironmentUnavailableError` が発生します。
 - `static forLocalStorage(key: TokenIdentifier): TokenStorage`
     - `localStorage` を使用。永続保存。
+    - 非ブラウザなど Web Storage が無い環境では呼び出し時に `EnvironmentUnavailableError` が発生します。
 - `static forEnv(key: TokenIdentifier): ReadOnlyTokenStorage`
     - `process.env` から読み取る読み取り専用ストレージ。`your_token_here` は無効として `null` を返す。
+    - `process.env` が無い環境では呼び出し時に `EnvironmentUnavailableError` が発生します。
 
 ### 使用例
 

@@ -18,6 +18,9 @@ export interface ReadOnlyTokenStorage {
    * Checks if a token exists in storage.
    *
    * @returns A promise that resolves to `true` if a token exists, `false` otherwise
+   *
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   has(): Promise<boolean>;
 
@@ -25,6 +28,9 @@ export interface ReadOnlyTokenStorage {
    * Retrieves the token from storage.
    *
    * @returns A promise that resolves to the stored token, or `null` if not found
+   *
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   get(): Promise<string | null>;
 }
@@ -38,6 +44,9 @@ export interface TokenStorage extends ReadOnlyTokenStorage {
    *
    * @param token - The token string to save
    * @returns A promise that resolves when the token is saved
+   *
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   save(token: string): Promise<void>;
 
@@ -45,6 +54,9 @@ export interface TokenStorage extends ReadOnlyTokenStorage {
    * Removes the token from storage.
    *
    * @returns A promise that resolves when the token is removed
+   *
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   remove(): Promise<void>;
 }

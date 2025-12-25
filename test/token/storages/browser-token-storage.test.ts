@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { EnvironmentUnavailableError } from '../../../lib/errors.js';
 import { TOKEN_KEYS } from '../../../lib/token/constants.js';
-import { BrowserStorage } from '../../../lib/token/storages/browser-storage.js';
+import { BrowserTokenStorage } from '../../../lib/token/storages/browser-token-storage.js';
 
-describe('BrowserStorage', () => {
+describe('BrowserTokenStorage', () => {
   let mockStorage: Storage;
 
   beforeEach(() => {
@@ -28,7 +29,7 @@ describe('BrowserStorage', () => {
 
   describe('has()', () => {
     it('should return true when token exists in storage', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -40,7 +41,7 @@ describe('BrowserStorage', () => {
     });
 
     it('should return false when token does not exist in storage', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -51,12 +52,15 @@ describe('BrowserStorage', () => {
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         undefined as unknown as Storage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
 
-      await expect(storage.has()).rejects.toThrow('Storage is not available');
+      await expect(storage.has()).rejects.toThrow(EnvironmentUnavailableError);
+      await expect(storage.has()).rejects.toThrow(
+        'Web Storage API is not available',
+      );
     });
 
     it('should propagate error when storage.getItem throws', async () => {
@@ -64,7 +68,7 @@ describe('BrowserStorage', () => {
       mockStorage.getItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -75,7 +79,7 @@ describe('BrowserStorage', () => {
 
   describe('get()', () => {
     it('should return token when it exists in storage', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -88,7 +92,7 @@ describe('BrowserStorage', () => {
     });
 
     it('should return null when token does not exist', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -99,12 +103,15 @@ describe('BrowserStorage', () => {
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         undefined as unknown as Storage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
 
-      await expect(storage.get()).rejects.toThrow('Storage is not available');
+      await expect(storage.get()).rejects.toThrow(EnvironmentUnavailableError);
+      await expect(storage.get()).rejects.toThrow(
+        'Web Storage API is not available',
+      );
     });
 
     it('should propagate error when storage.getItem throws', async () => {
@@ -112,7 +119,7 @@ describe('BrowserStorage', () => {
       mockStorage.getItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -121,7 +128,7 @@ describe('BrowserStorage', () => {
     });
 
     it('should return empty string if stored value is empty string', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -135,7 +142,7 @@ describe('BrowserStorage', () => {
 
   describe('save()', () => {
     it('should save token to storage', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -152,7 +159,7 @@ describe('BrowserStorage', () => {
     });
 
     it('should overwrite existing token', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -165,13 +172,16 @@ describe('BrowserStorage', () => {
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         undefined as unknown as Storage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
 
       await expect(storage.save('token')).rejects.toThrow(
-        'Storage is not available',
+        EnvironmentUnavailableError,
+      );
+      await expect(storage.save('token')).rejects.toThrow(
+        'Web Storage API is not available',
       );
     });
 
@@ -180,7 +190,7 @@ describe('BrowserStorage', () => {
       mockStorage.setItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -191,7 +201,7 @@ describe('BrowserStorage', () => {
 
   describe('remove()', () => {
     it('should remove token from storage', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -207,7 +217,7 @@ describe('BrowserStorage', () => {
     });
 
     it('should not throw error when removing non-existent token', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
@@ -216,13 +226,16 @@ describe('BrowserStorage', () => {
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         undefined as unknown as Storage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
 
       await expect(storage.remove()).rejects.toThrow(
-        'Storage is not available',
+        EnvironmentUnavailableError,
+      );
+      await expect(storage.remove()).rejects.toThrow(
+        'Web Storage API is not available',
       );
     });
 
@@ -231,7 +244,7 @@ describe('BrowserStorage', () => {
       mockStorage.removeItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
+      const storage = new BrowserTokenStorage(
         mockStorage,
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
