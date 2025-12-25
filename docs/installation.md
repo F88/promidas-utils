@@ -55,7 +55,9 @@ npm install github:F88/promidas-utils
 import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
 import { getStoreState } from '@f88/promidas-utils/store';
 
-const storage = TokenManager.forLocalStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
+const storage = TokenManager.forLocalStorage(
+    TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+);
 ```
 
 詳細は [API リファレンス](/api) を参照してください。
