@@ -36,9 +36,9 @@ export type { TokenIdentifier } from '../lib/token/constants.js';
  * @example
  * Reading from environment variables:
  * ```typescript
- * import { TokenManager, TOKEN_ENV_KEYS } from '@f88/promidas-utils/token';
+ * import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
  *
- * const storage = TokenManager.forEnv(TOKEN_ENV_KEYS.PROTOPEDIA_API_V2_TOKEN);
+ * const storage = TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
  * const token = await storage.get();
  *
  * if (await storage.has()) {

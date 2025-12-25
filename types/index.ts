@@ -32,7 +32,7 @@ export type { StoreState } from './store.js';
  * @see {@link TokenIdentifier} for token identifier types
  * @see {@link TokenStorage} for token storage interface
  */
-export { TOKEN_ENV_KEYS, TOKEN_STORAGE_KEYS } from '../lib/token/constants.js';
+export { TOKEN_KEYS } from '../lib/token/constants.js';
 export {
   type ReadOnlyTokenStorage,
   type TokenIdentifier,
