@@ -31,7 +31,7 @@
  * const token = process.env[TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN];
  * ```
  */
-export const TOKEN_KEYS = {
+export const TOKEN_KEYS = Object.freeze({
   /**
    * Key for ProtoPedia API Version 2.0 bearer token.
    *
@@ -39,7 +39,7 @@ export const TOKEN_KEYS = {
    * Used across browser storage and environment variables.
    */
   PROTOPEDIA_API_V2_TOKEN: 'PROTOPEDIA_API_V2_TOKEN',
-} as const;
+} as const);
 
 /**
  * Type representing valid token identifiers.

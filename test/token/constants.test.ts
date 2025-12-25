@@ -8,9 +8,7 @@ describe('TOKEN_KEYS', () => {
   });
 
   it('should be a readonly object', () => {
-    expect(Object.isFrozen(TOKEN_KEYS)).toBe(false);
-    // Note: 'as const' makes the object readonly at TypeScript level,
-    // but not frozen at runtime. This is expected behavior.
+    expect(Object.isFrozen(TOKEN_KEYS)).toBe(true);
   });
 
   it('should have exactly one key', () => {
