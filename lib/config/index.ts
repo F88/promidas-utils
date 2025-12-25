@@ -4,6 +4,7 @@
  */
 
 export { ConfigManager } from './config-manager.js';
+export { EnvironmentUnavailableError } from '../errors.js';
 export type {
   ConfigIdentifier,
   ConfigStorage,

@@ -18,6 +18,7 @@ instructions-for-ais:
 
 - 型: `ConfigIdentifier`, `ReadOnlyConfigStorage`, `ConfigStorage`
 - クラス: `ConfigManager`
+- エラー: `EnvironmentUnavailableError`
 
 > ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 

@@ -19,6 +19,7 @@ instructions-for-ais:
 - 定数: `TOKEN_KEYS`
 - 型: `TokenIdentifier`, `ReadOnlyTokenStorage`, `TokenStorage`
 - クラス: `TokenManager`
+- エラー: `EnvironmentUnavailableError`
 
 > ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
