@@ -8,3 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.0] - 2025-12-25
+
+### Added
+
+- Token management utilities (`@f88/promidas-utils/token`)
+    - `TokenManager` factory for sessionStorage/localStorage/environment variables
+    - `TOKEN_KEYS` constants for standard token identifiers
+    - `ReadOnlyTokenStorage` and `TokenStorage` interfaces
+- Store state utilities (`@f88/promidas-utils/store`)
+    - `getStoreState` function for determining cache state
+    - `StoreState` type (`'not-stored' | 'stored' | 'expired'`)
+- API documentation with per-path reference pages
+- Release guide and changelog
