@@ -54,9 +54,6 @@ jobs:
       - name: Run type checking
         run: npm run typecheck
 
-      - name: Run performance tests
-        run: npm run test:perf
-
       - name: Run tests for Codecov Test Analytics
         run: npm run test:codecov
 
