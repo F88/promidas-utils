@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Config management utilities (`@f88/promidas-utils/config`)
+    - `ConfigManager` factory for localStorage/environment variables
+    - `BrowserConfigStorage` for localStorage-based config storage
+    - `EnvironmentConfigStorage` for read-only environment variable access
+    - `ConfigIdentifier`, `ReadOnlyConfigStorage`, and `ConfigStorage` types
+    - Comprehensive test coverage (34 test cases)
+
 - Comprehensive test coverage for token and version modules
     - Test coverage reached 100% for `lib/token` and `lib/version`
     - Added 44 test cases covering all public APIs
@@ -23,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Renamed token storage classes for clarity
+    - `BrowserStorage` → `BrowserTokenStorage`
+    - `EnvironmentStorage` → `EnvironmentTokenStorage`
 - Improved test structure with nested `describe` blocks for better organization
 - Enhanced mock storage implementation to correctly handle empty strings
 - Made `TOKEN_KEYS` runtime-immutable via `Object.freeze()`

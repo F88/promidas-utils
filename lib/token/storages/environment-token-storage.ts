@@ -1,12 +1,12 @@
 /**
  * @fileoverview Environment variable storage implementation for token management.
- * @module lib/token/storages/environment-storage
+ * @module lib/token/storages/environment-token-storage
  */
 
 import type { ReadOnlyTokenStorage } from '../types.js';
 
 /**
- * Environment variable storage implementation.
+ * Environment variable token storage implementation.
  *
  * @description
  * Provides read-only token storage using environment variables (process.env).
@@ -20,13 +20,13 @@ import type { ReadOnlyTokenStorage } from '../types.js';
  *
  * @example
  * ```typescript
- * const storage = new EnvironmentStorage('MY_TOKEN_ENV_KEY');
+ * const storage = new EnvironmentTokenStorage('MY_TOKEN_ENV_KEY');
  * const token = await storage.get(); // Reads from process.env
  * ```
  */
-export class EnvironmentStorage implements ReadOnlyTokenStorage {
+export class EnvironmentTokenStorage implements ReadOnlyTokenStorage {
   /**
-   * Creates a new EnvironmentStorage instance.
+   * Creates a new EnvironmentTokenStorage instance.
    *
    * @param key - The token identifier key
    */

@@ -1,13 +1,13 @@
-import { afterEach, describe, it, expect, vi, beforeEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TOKEN_KEYS, type TokenIdentifier } from '../../lib/token/constants.js';
-import { BrowserStorage } from '../../lib/token/storages/browser-storage.js';
-import { EnvironmentStorage } from '../../lib/token/storages/environment-storage.js';
+import { BrowserTokenStorage } from '../../lib/token/storages/browser-token-storage.js';
+import { EnvironmentTokenStorage } from '../../lib/token/storages/environment-token-storage.js';
 import { TokenManager } from '../../lib/token/token-manager.js';
 
 // Mock the storage classes
-vi.mock('../../lib/token/storages/browser-storage.js');
-vi.mock('../../lib/token/storages/environment-storage.js');
+vi.mock('../../lib/token/storages/browser-token-storage.js');
+vi.mock('../../lib/token/storages/environment-token-storage.js');
 
 describe('TokenManager', () => {
   let mockSessionStorage: Storage;
@@ -47,24 +47,24 @@ describe('TokenManager', () => {
 
   describe('Factory Methods', () => {
     describe('forSessionStorage()', () => {
-      it('should create BrowserStorage instance with sessionStorage', () => {
+      it('should create BrowserTokenStorage instance with sessionStorage', () => {
         const storage = TokenManager.forSessionStorage(
           TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
         );
 
-        expect(BrowserStorage).toHaveBeenCalledWith(
+        expect(BrowserTokenStorage).toHaveBeenCalledWith(
           mockSessionStorage,
           TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
         );
-        expect(storage).toBeInstanceOf(BrowserStorage);
+        expect(storage).toBeInstanceOf(BrowserTokenStorage);
       });
 
-      it('should pass the provided key to BrowserStorage', () => {
+      it('should pass the provided key to BrowserTokenStorage', () => {
         const customKey = 'CUSTOM_TOKEN' as TokenIdentifier;
 
         TokenManager.forSessionStorage(customKey);
 
-        expect(BrowserStorage).toHaveBeenCalledWith(
+        expect(BrowserTokenStorage).toHaveBeenCalledWith(
           mockSessionStorage,
           customKey,
         );
@@ -72,24 +72,24 @@ describe('TokenManager', () => {
     });
 
     describe('forLocalStorage()', () => {
-      it('should create BrowserStorage instance with localStorage', () => {
+      it('should create BrowserTokenStorage instance with localStorage', () => {
         const storage = TokenManager.forLocalStorage(
           TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
         );
 
-        expect(BrowserStorage).toHaveBeenCalledWith(
+        expect(BrowserTokenStorage).toHaveBeenCalledWith(
           mockLocalStorage,
           TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
         );
-        expect(storage).toBeInstanceOf(BrowserStorage);
+        expect(storage).toBeInstanceOf(BrowserTokenStorage);
       });
 
-      it('should pass the provided key to BrowserStorage', () => {
+      it('should pass the provided key to BrowserTokenStorage', () => {
         const customKey = 'CUSTOM_TOKEN' as TokenIdentifier;
 
         TokenManager.forLocalStorage(customKey);
 
-        expect(BrowserStorage).toHaveBeenCalledWith(
+        expect(BrowserTokenStorage).toHaveBeenCalledWith(
           mockLocalStorage,
           customKey,
         );
@@ -97,21 +97,21 @@ describe('TokenManager', () => {
     });
 
     describe('forEnv()', () => {
-      it('should create EnvironmentStorage instance', () => {
+      it('should create EnvironmentTokenStorage instance', () => {
         const storage = TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
 
-        expect(EnvironmentStorage).toHaveBeenCalledWith(
+        expect(EnvironmentTokenStorage).toHaveBeenCalledWith(
           TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
         );
-        expect(storage).toBeInstanceOf(EnvironmentStorage);
+        expect(storage).toBeInstanceOf(EnvironmentTokenStorage);
       });
 
-      it('should pass the provided key to EnvironmentStorage', () => {
+      it('should pass the provided key to EnvironmentTokenStorage', () => {
         const customKey = 'CUSTOM_TOKEN' as TokenIdentifier;
 
         TokenManager.forEnv(customKey);
 
-        expect(EnvironmentStorage).toHaveBeenCalledWith(customKey);
+        expect(EnvironmentTokenStorage).toHaveBeenCalledWith(customKey);
       });
     });
   });

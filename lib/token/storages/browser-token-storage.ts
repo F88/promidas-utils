@@ -1,12 +1,12 @@
 /**
  * @fileoverview Browser storage implementation for token management.
- * @module lib/token/storages/browser-storage
+ * @module lib/token/storages/browser-token-storage
  */
 
 import type { TokenIdentifier, TokenStorage } from '../types.js';
 
 /**
- * Browser storage implementation using Web Storage API.
+ * Browser token storage implementation using Web Storage API.
  *
  * @description
  * Provides token storage using `sessionStorage` or `localStorage`.
@@ -16,14 +16,14 @@ import type { TokenIdentifier, TokenStorage } from '../types.js';
  * ```typescript
  * import { TOKEN_KEYS } from '../constants.js';
  *
- * const storage = new BrowserStorage(localStorage, TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
+ * const storage = new BrowserTokenStorage(localStorage, TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
  * await storage.save('my-token');
  * const token = await storage.get();
  * ```
  */
-export class BrowserStorage implements TokenStorage {
+export class BrowserTokenStorage implements TokenStorage {
   /**
-   * Creates a new BrowserStorage instance.
+   * Creates a new BrowserTokenStorage instance.
    *
    * @param storage - The storage object (`sessionStorage` or `localStorage`)
    * @param key - The token identifier key

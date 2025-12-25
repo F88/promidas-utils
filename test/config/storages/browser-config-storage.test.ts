@@ -1,9 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
-import { TOKEN_KEYS } from '../../../lib/token/constants.js';
-import { BrowserStorage } from '../../../lib/token/storages/browser-storage.js';
+import { BrowserConfigStorage } from '../../../lib/config/storages/browser-config-storage.js';
 
-describe('BrowserStorage', () => {
+describe('BrowserConfigStorage', () => {
   let mockStorage: Storage;
 
   beforeEach(() => {
@@ -27,23 +26,17 @@ describe('BrowserStorage', () => {
   });
 
   describe('has()', () => {
-    it('should return true when token exists in storage', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      await storage.save('test-token');
+    it('should return true when config exists in storage', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
+      await storage.save('test-value');
 
       const result = await storage.has();
 
       expect(result).toBe(true);
     });
 
-    it('should return false when token does not exist in storage', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+    it('should return false when config does not exist in storage', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
       const result = await storage.has();
 
@@ -51,9 +44,9 @@ describe('BrowserStorage', () => {
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserConfigStorage(
         undefined as unknown as Storage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        'TEST_CONFIG',
       );
 
       await expect(storage.has()).rejects.toThrow('Storage is not available');
@@ -64,34 +57,25 @@ describe('BrowserStorage', () => {
       mockStorage.getItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
       await expect(storage.has()).rejects.toThrow('SecurityError');
     });
   });
 
   describe('get()', () => {
-    it('should return token when it exists in storage', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      const token = 'my-test-token';
-      await storage.save(token);
+    it('should return config value when it exists in storage', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
+      const value = 'my-test-value';
+      await storage.save(value);
 
       const result = await storage.get();
 
-      expect(result).toBe(token);
+      expect(result).toBe(value);
     });
 
-    it('should return null when token does not exist', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+    it('should return null when config does not exist', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
       const result = await storage.get();
 
@@ -99,9 +83,9 @@ describe('BrowserStorage', () => {
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserConfigStorage(
         undefined as unknown as Storage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        'TEST_CONFIG',
       );
 
       await expect(storage.get()).rejects.toThrow('Storage is not available');
@@ -112,19 +96,13 @@ describe('BrowserStorage', () => {
       mockStorage.getItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
       await expect(storage.get()).rejects.toThrow('SecurityError');
     });
 
     it('should return empty string if stored value is empty string', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
       await storage.save('');
 
       const result = await storage.get();
@@ -134,43 +112,34 @@ describe('BrowserStorage', () => {
   });
 
   describe('save()', () => {
-    it('should save token to storage', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      const token = 'new-token';
+    it('should save config value to storage', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
+      const value = 'new-value';
 
-      await storage.save(token);
+      await storage.save(value);
 
-      expect(mockStorage.setItem).toHaveBeenCalledWith(
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-        token,
-      );
+      expect(mockStorage.setItem).toHaveBeenCalledWith('TEST_CONFIG', value);
       const result = await storage.get();
-      expect(result).toBe(token);
+      expect(result).toBe(value);
     });
 
-    it('should overwrite existing token', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      await storage.save('old-token');
+    it('should overwrite existing config value', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
+      await storage.save('old-value');
 
-      await storage.save('new-token');
+      await storage.save('new-value');
 
       const result = await storage.get();
-      expect(result).toBe('new-token');
+      expect(result).toBe('new-value');
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserConfigStorage(
         undefined as unknown as Storage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        'TEST_CONFIG',
       );
 
-      await expect(storage.save('token')).rejects.toThrow(
+      await expect(storage.save('value')).rejects.toThrow(
         'Storage is not available',
       );
     });
@@ -180,45 +149,34 @@ describe('BrowserStorage', () => {
       mockStorage.setItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
-      await expect(storage.save('token')).rejects.toThrow('QuotaExceededError');
+      await expect(storage.save('value')).rejects.toThrow('QuotaExceededError');
     });
   });
 
   describe('remove()', () => {
-    it('should remove token from storage', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      await storage.save('token-to-remove');
+    it('should remove config value from storage', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
+      await storage.save('value-to-remove');
 
       await storage.remove();
 
-      expect(mockStorage.removeItem).toHaveBeenCalledWith(
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+      expect(mockStorage.removeItem).toHaveBeenCalledWith('TEST_CONFIG');
       const result = await storage.get();
       expect(result).toBeNull();
     });
 
-    it('should not throw error when removing non-existent token', async () => {
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+    it('should not throw error when removing non-existent config value', async () => {
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
       await expect(storage.remove()).resolves.not.toThrow();
     });
 
     it('should throw error when storage is not available', async () => {
-      const storage = new BrowserStorage(
+      const storage = new BrowserConfigStorage(
         undefined as unknown as Storage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        'TEST_CONFIG',
       );
 
       await expect(storage.remove()).rejects.toThrow(
@@ -231,10 +189,7 @@ describe('BrowserStorage', () => {
       mockStorage.removeItem = vi.fn(() => {
         throw error;
       });
-      const storage = new BrowserStorage(
-        mockStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+      const storage = new BrowserConfigStorage(mockStorage, 'TEST_CONFIG');
 
       await expect(storage.remove()).rejects.toThrow('SecurityError');
     });

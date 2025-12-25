@@ -5,8 +5,8 @@
 
 import { TOKEN_KEYS, type TokenIdentifier } from './constants.js';
 import { EnvironmentUnavailableError } from './errors.js';
-import { BrowserStorage } from './storages/browser-storage.js';
-import { EnvironmentStorage } from './storages/environment-storage.js';
+import { BrowserTokenStorage } from './storages/browser-token-storage.js';
+import { EnvironmentTokenStorage } from './storages/environment-token-storage.js';
 import type { ReadOnlyTokenStorage, TokenStorage } from './types.js';
 
 /**
@@ -73,7 +73,7 @@ export class TokenManager {
     if (typeof sessionStorage === 'undefined') {
       throw new EnvironmentUnavailableError('Web Storage API is not available');
     }
-    return new BrowserStorage(sessionStorage, key);
+    return new BrowserTokenStorage(sessionStorage, key);
   }
 
   /**
@@ -100,7 +100,7 @@ export class TokenManager {
     if (typeof localStorage === 'undefined') {
       throw new EnvironmentUnavailableError('Web Storage API is not available');
     }
-    return new BrowserStorage(localStorage, key);
+    return new BrowserTokenStorage(localStorage, key);
   }
 
   /**
@@ -130,6 +130,6 @@ export class TokenManager {
     if (typeof process === 'undefined' || !process.env) {
       throw new EnvironmentUnavailableError();
     }
-    return new EnvironmentStorage(key);
+    return new EnvironmentTokenStorage(key);
   }
 }
