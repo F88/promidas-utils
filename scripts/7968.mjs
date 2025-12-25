@@ -18,7 +18,9 @@ async function dumpPrototypeInfo(repo, id) {
   // Setup snapshot of prototypes
   await repo.setupSnapshot({ prototypeId: id });
   // Dump prototype with specified ID
-  console.dir(await repo.getPrototypeFromSnapshotByPrototypeId(id), { depth: null });
+  console.dir(await repo.getPrototypeFromSnapshotByPrototypeId(id), {
+    depth: null,
+  });
 }
 
 // Create repository instance
