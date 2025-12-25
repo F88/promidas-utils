@@ -80,15 +80,9 @@ npm run lint
 npm test
 ```
 
-Or use the CI script:
-
-```bash
-npm run ci
-```
-
 ## Project Structure
 
-```
+```text
 promidas-utils/
 ├── lib/                    # Source code
 │   ├── token/             # Token management utilities
@@ -97,7 +91,7 @@ promidas-utils/
 │   │   ├── types.ts
 │   │   └── storages/
 │   ├── store/             # Store state utilities
-│   └── version.ts         # Auto-generated version (do not edit)
+│   └── version.ts         # Auto-generated during build (do not edit manually)
 ├── test/                  # Test files
 │   ├── token/
 │   ├── store/
@@ -150,7 +144,7 @@ describe('MyClass', () => {
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 type(scope): subject
 
 body (optional)
@@ -203,11 +197,11 @@ Documentation structure:
 
 See [RELEASE.md](RELEASE.md) for the complete release workflow.
 
-Quick summary:
+Quick overview:
 
 1. Update version in `package.json`
 2. Update `CHANGELOG.md`
-3. Run all checks (`npm run ci`)
+3. Run all checks (typecheck, format:check, lint, test)
 4. Commit and tag
 5. Push with tags
 6. GitHub Actions will publish to GitHub Packages
