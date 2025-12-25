@@ -7,7 +7,7 @@ import { createPromidasForLocal } from '@f88/promidas';
 function createRepository() {
   return createPromidasForLocal({
     protopediaApiToken: process.env.PROTOPEDIA_API_V2_TOKEN,
-    logLevel: 'debug ',
+    logLevel: 'debug',
   });
 }
 
