@@ -79,5 +79,13 @@ describe('EnvironmentConfigStorage', () => {
 
       expect(result).toBe(false);
     });
+
+    it('should return false when process.env is undefined', async () => {
+      vi.stubGlobal('process', {});
+
+      const result = await storage.has();
+
+      expect(result).toBe(false);
+    });
   });
 });

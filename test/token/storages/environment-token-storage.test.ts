@@ -81,5 +81,13 @@ describe('EnvironmentTokenStorage', () => {
       const result = await storage.has();
       expect(result).toBe(false);
     });
+
+    it('should return false when process.env is not available', async () => {
+      vi.stubGlobal('process', undefined);
+
+      const result = await storage.has();
+
+      expect(result).toBe(false);
+    });
   });
 });
