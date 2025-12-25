@@ -28,4 +28,4 @@ const repo = createRepository();
 const id = 7968; // Specify prototype ID
 
 // Dump prototype information
-dumpPrototypeInfo(repo, id);
+await dumpPrototypeInfo(repo, id);
