@@ -1,21 +1,31 @@
 import 'dotenv/config';
 import { createPromidasForLocal } from '@f88/promidas';
 
-async function main() {
-  const repo = createPromidasForLocal({
+/**
+ * Create repository instance using factory function.
+ */
+function createRepository() {
+  return createPromidasForLocal({
     protopediaApiToken: process.env.PROTOPEDIA_API_V2_TOKEN,
-    logLevel: 'debug ',
+    logLevel: 'debug',
   });
-
-  const result = await repo.setupSnapshot({
-    // offset: 5500,
-    // limit: 1000,
-    prototypeId: 7968,
-  });
-
-  console.log(await repo.analyzePrototypes());
-  const p = await repo.getPrototypeFromSnapshotByPrototypeId(7968);
-  console.dir(p, { depth: null });
 }
 
-main();
+/**
+ * Dump prototype information by ID.
+ */
+async function dumpPrototypeInfo(repo, id) {
+  // Setup snapshot of prototypes
+  await repo.setupSnapshot({ prototypeId: id });
+  // Dump prototype with specified ID
+  console.dir(await repo.getPrototypeFromSnapshotByPrototypeId(id), {
+    depth: null,
+  });
+}
+
+// Create repository instance
+const repo = createRepository();
+const id = 7968; // Specify prototype ID
+
+// Dump prototype information
+await dumpPrototypeInfo(repo, id);
