@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TOKEN_KEYS, type TokenIdentifier } from '../../lib/token/constants.js';
+import { EnvironmentUnavailableError } from '../../lib/token/errors.js';
 import { BrowserTokenStorage } from '../../lib/token/storages/browser-token-storage.js';
 import { EnvironmentTokenStorage } from '../../lib/token/storages/environment-token-storage.js';
 import { TokenManager } from '../../lib/token/token-manager.js';
@@ -69,6 +70,17 @@ describe('TokenManager', () => {
           customKey,
         );
       });
+
+      it('should throw EnvironmentUnavailableError when sessionStorage is undefined', () => {
+        vi.stubGlobal('sessionStorage', undefined);
+
+        expect(() =>
+          TokenManager.forSessionStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN),
+        ).toThrow(EnvironmentUnavailableError);
+        expect(() =>
+          TokenManager.forSessionStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN),
+        ).toThrow('Web Storage API is not available');
+      });
     });
 
     describe('forLocalStorage()', () => {
@@ -94,6 +106,17 @@ describe('TokenManager', () => {
           customKey,
         );
       });
+
+      it('should throw EnvironmentUnavailableError when localStorage is undefined', () => {
+        vi.stubGlobal('localStorage', undefined);
+
+        expect(() =>
+          TokenManager.forLocalStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN),
+        ).toThrow(EnvironmentUnavailableError);
+        expect(() =>
+          TokenManager.forLocalStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN),
+        ).toThrow('Web Storage API is not available');
+      });
     });
 
     describe('forEnv()', () => {
@@ -112,6 +135,22 @@ describe('TokenManager', () => {
         TokenManager.forEnv(customKey);
 
         expect(EnvironmentTokenStorage).toHaveBeenCalledWith(customKey);
+      });
+
+      it('should throw EnvironmentUnavailableError when process is undefined', () => {
+        vi.stubGlobal('process', undefined);
+
+        expect(() =>
+          TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN),
+        ).toThrow(EnvironmentUnavailableError);
+      });
+
+      it('should throw EnvironmentUnavailableError when process.env is undefined', () => {
+        vi.stubGlobal('process', {});
+
+        expect(() =>
+          TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN),
+        ).toThrow(EnvironmentUnavailableError);
       });
     });
   });
