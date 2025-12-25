@@ -1,5 +1,13 @@
 # 🧰 PROMIDAS Utilities
 
+[![Publish package to GitHub Packages](https://github.com/F88/promidas-utils/actions/workflows/publish-package-to-github-packages.yml/badge.svg)](https://github.com/F88/promidas-utils/actions/workflows/publish-package-to-github-packages.yml)
+[![CI](https://github.com/F88/promidas-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/F88/promidas-utils/actions/workflows/ci.yml)
+[![Deploy VitePress site to Pages](https://github.com/F88/promidas-utils/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/F88/promidas-utils/actions/workflows/deploy-docs.yml)
+[![codecov](https://codecov.io/github/F88/promidas-utils/graph/badge.svg)](https://codecov.io/github/F88/promidas-utils)
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/F88/promidas-utils)
+[![View Code Wiki](https://www.gstatic.com/_/boq-sdlc-agents-ui/_/r/YUi5dj2UWvE.svg)](https://codewiki.google/github.com/f88/promidas-utils)
+
 Utilities to help with development using PROMIDAS
 
 ## PROMIDAS
