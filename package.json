@@ -45,6 +45,9 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
+  "peerDependencies": {
+    "@f88/promidas": ">=1.0.0"
+  },
   "devDependencies": {
     "@f88/promidas": "github:f88/promidas#v1.0.0",
     "@types/eslint": "^9.6.1",
