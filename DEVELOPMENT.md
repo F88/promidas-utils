@@ -5,7 +5,7 @@ This document provides guidelines for developers working on `@f88/promidas-utils
 ## Prerequisites
 
 - **Node.js**: 20.x or later
-- **npm**: 10.x or later
+- **npm**: 9.x or later (10.x recommended)
 
 ## Setup
 
@@ -30,12 +30,16 @@ npm install
 - `npm run typecheck` - Run TypeScript type checking without emitting files
 - `npm test` - Run all tests
 - `npm run test:coverage` - Run tests with coverage report
+- `npm run test:watch` - Run tests in watch mode during development
+- `npm run test:ui` - Start Vitest UI
 - `npm run format` - Format code with Prettier
 - `npm run format:check` - Check code formatting without modifying files
 - `npm run lint` - Lint code with ESLint
 - `npm run lint:fix` - Fix linting issues automatically
+- `npm run clean` - Remove build output directory (`dist/`)
 - `npm run docs:dev` - Start VitePress documentation development server
 - `npm run docs:build` - Build documentation for production
+- `npm run docs:preview` - Preview the built documentation
 
 ### Running Tests
 
@@ -48,7 +52,13 @@ npm test
 Run tests in watch mode during development:
 
 ```bash
-npm test -- --watch
+npm run test:watch
+```
+
+Run the Vitest UI:
+
+```bash
+npm run test:ui
 ```
 
 Run tests with coverage:
@@ -242,11 +252,7 @@ Open `coverage/index.html` to identify uncovered lines.
 
 ## Contributing
 
-1. Create a feature branch from `main`
-2. Make your changes with tests
-3. Ensure all checks pass
-4. Create a pull request
-5. Wait for review and CI checks
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the fork-based workflow for external contributors.
 
 ## Resources
 

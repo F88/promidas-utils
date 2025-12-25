@@ -15,7 +15,7 @@ instructions-for-ais:
 ## 前提条件
 
 - Node.js 20 以降
-- npm 9 以降
+- npm 9 以降 (推奨 npm 10 以降)
 
 ## インストール
 
