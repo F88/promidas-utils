@@ -17,10 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Edge case tests for storage unavailability and error propagation
     - Environment variable edge cases (undefined process, placeholder values)
 
+- Development and contribution guides
+    - Added `DEVELOPMENT.md` for local development workflow
+    - Added `CONTRIBUTING.md` describing fork-based contributions and issue guidance
+
 ### Changed
 
 - Improved test structure with nested `describe` blocks for better organization
 - Enhanced mock storage implementation to correctly handle empty strings
+- Made `TOKEN_KEYS` runtime-immutable via `Object.freeze()`
 
 ## [0.1.0] - 2025-12-25
 
