@@ -10,7 +10,12 @@
     "rootDir": ".",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "types": ["node"],
+    "types": [
+      //
+      "vitest/globals",
+      "node",
+      "webappsec-credential-management"
+    ],
     "allowArbitraryExtensions": true,
     "noUncheckedSideEffectImports": true,
 
@@ -33,9 +38,11 @@
   },
   "include": [
     //
+    "scripts/**/*.ts",
     "lib/**/*.ts",
-    "vitest.config.ts",
-    "scripts/**/*.ts"
+    "test/**/*.ts",
+    "types/**/*.ts",
+    "vitest.config.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

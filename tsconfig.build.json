@@ -3,7 +3,8 @@
 
   "include": [
     //
-    "lib/**/*.ts"
+    "lib/**/*.ts",
+    "types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
@@ -17,7 +18,7 @@
 
   "compilerOptions": {
     /* Modules */
-    "rootDir": "./lib",
+    "rootDir": "./",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     /* Emit */

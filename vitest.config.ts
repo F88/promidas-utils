@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     test: {
-      include: ['lib/**/*.test.ts'],
+      include: ['test/**/*.test.ts'],
       exclude: ['**/node_modules/**', '**/dist/**'],
       globals: true,
       environment: 'node',
