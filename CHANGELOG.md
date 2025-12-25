@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `BrowserConfigStorage` for localStorage-based config storage
     - `EnvironmentConfigStorage` for read-only environment variable access
     - `ConfigIdentifier`, `ReadOnlyConfigStorage`, and `ConfigStorage` types
+    - `EnvironmentUnavailableError` exported from config module
     - Comprehensive test coverage (34 test cases)
 
 - Comprehensive test coverage for token and version modules
@@ -30,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Moved `EnvironmentUnavailableError` from `lib/token/errors.ts` to `lib/errors.ts` for shared use across modules
 - Renamed token storage classes for clarity
     - `BrowserStorage` → `BrowserTokenStorage`
     - `EnvironmentStorage` → `EnvironmentTokenStorage`
