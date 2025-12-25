@@ -46,9 +46,10 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "dependencies": {},
-  "peerDependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@f88/promidas": "github:f88/promidas#v1.0.0",
+    "dotenv": "^17.2.3"
+  },
   "files": [
     "README.md",
     "LICENSE",
