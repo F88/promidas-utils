@@ -3,7 +3,7 @@
  * @module lib/token/storages/environment-storage
  */
 
-import type { ReadOnlyTokenStorage } from '../../../types/token.js';
+import type { ReadOnlyTokenStorage } from '../types.js';
 
 /**
  * Environment variable storage implementation.

@@ -49,3 +49,4 @@
 
 export { TOKEN_KEYS, type TokenIdentifier } from './constants.js';
 export { TokenManager } from './token-manager.js';
+export type { ReadOnlyTokenStorage, TokenStorage } from './types.js';

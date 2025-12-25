@@ -3,11 +3,11 @@
  * @module lib/token/token-manager
  */
 
-import type { ReadOnlyTokenStorage, TokenStorage } from '../../types/token.js';
 
 import { TOKEN_KEYS, type TokenIdentifier } from './constants.js';
 import { BrowserStorage } from './storages/browser-storage.js';
 import { EnvironmentStorage } from './storages/environment-storage.js';
+import type { ReadOnlyTokenStorage, TokenStorage } from './types.js';
 
 /**
  * Token manager factory.

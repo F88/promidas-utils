@@ -3,8 +3,7 @@
  * @module lib/token/storages/browser-storage
  */
 
-import type { TokenStorage } from '../../../types/token.js';
-import type { TokenIdentifier } from '../constants.js';
+import type { TokenIdentifier, TokenStorage } from '../types.js';
 
 /**
  * Browser storage implementation using Web Storage API.

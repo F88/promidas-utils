@@ -1,6 +1,6 @@
 /**
  * @fileoverview Type definitions for store state management.
- * @module types/store
+ * @module lib/store/types
  */
 
 /**

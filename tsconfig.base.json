@@ -41,7 +41,6 @@
     "scripts/**/*.ts",
     "lib/**/*.ts",
     "test/**/*.ts",
-    "types/**/*.ts",
     "vitest.config.ts"
   ],
   "exclude": ["node_modules", "dist"]

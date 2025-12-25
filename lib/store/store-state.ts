@@ -5,7 +5,7 @@
 
 import type { PrototypeInMemoryStats } from '@f88/promidas';
 
-import type { StoreState } from '../../types/store.js';
+import type { StoreState } from './types.js';
 
 /**
  * Determines the current state of the store based on the provided statistics.

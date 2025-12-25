@@ -26,3 +26,4 @@
  * @see {@link getStoreState} for detailed documentation
  */
 export { getStoreState } from './store-state.js';
+export type { StoreState } from './types.js';
