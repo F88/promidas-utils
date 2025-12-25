@@ -16,7 +16,7 @@ describe('EnvironmentStorage', () => {
     process.env = originalEnv;
   });
 
-  describe('get', () => {
+  describe('get()', () => {
     it('should return token value from environment variable', async () => {
       process.env[TEST_KEY] = 'test-token-value';
       const result = await storage.get();
@@ -59,7 +59,7 @@ describe('EnvironmentStorage', () => {
     });
   });
 
-  describe('has', () => {
+  describe('has()', () => {
     it('should return true when token exists', async () => {
       process.env[TEST_KEY] = 'test-token-value';
       const result = await storage.has();

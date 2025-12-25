@@ -9,7 +9,7 @@ describe('BrowserStorage', () => {
   beforeEach(() => {
     const store: Record<string, string> = {};
     mockStorage = {
-      getItem: vi.fn((key: string) => store[key] || null),
+      getItem: vi.fn((key: string) => store[key] ?? null),
       setItem: vi.fn((key: string, value: string) => {
         store[key] = value;
       }),
@@ -58,6 +58,19 @@ describe('BrowserStorage', () => {
 
       await expect(storage.has()).rejects.toThrow('Storage is not available');
     });
+
+    it('should propagate error when storage.getItem throws', async () => {
+      const error = new Error('SecurityError');
+      mockStorage.getItem = vi.fn(() => {
+        throw error;
+      });
+      const storage = new BrowserStorage(
+        mockStorage,
+        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+      );
+
+      await expect(storage.has()).rejects.toThrow('SecurityError');
+    });
   });
 
   describe('get()', () => {
@@ -92,6 +105,31 @@ describe('BrowserStorage', () => {
       );
 
       await expect(storage.get()).rejects.toThrow('Storage is not available');
+    });
+
+    it('should propagate error when storage.getItem throws', async () => {
+      const error = new Error('SecurityError');
+      mockStorage.getItem = vi.fn(() => {
+        throw error;
+      });
+      const storage = new BrowserStorage(
+        mockStorage,
+        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+      );
+
+      await expect(storage.get()).rejects.toThrow('SecurityError');
+    });
+
+    it('should return empty string if stored value is empty string', async () => {
+      const storage = new BrowserStorage(
+        mockStorage,
+        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+      );
+      await storage.save('');
+
+      const result = await storage.get();
+
+      expect(result).toBe('');
     });
   });
 
@@ -136,6 +174,19 @@ describe('BrowserStorage', () => {
         'Storage is not available',
       );
     });
+
+    it('should propagate error when storage.setItem throws', async () => {
+      const error = new Error('QuotaExceededError');
+      mockStorage.setItem = vi.fn(() => {
+        throw error;
+      });
+      const storage = new BrowserStorage(
+        mockStorage,
+        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+      );
+
+      await expect(storage.save('token')).rejects.toThrow('QuotaExceededError');
+    });
   });
 
   describe('remove()', () => {
@@ -173,6 +224,19 @@ describe('BrowserStorage', () => {
       await expect(storage.remove()).rejects.toThrow(
         'Storage is not available',
       );
+    });
+
+    it('should propagate error when storage.removeItem throws', async () => {
+      const error = new Error('SecurityError');
+      mockStorage.removeItem = vi.fn(() => {
+        throw error;
+      });
+      const storage = new BrowserStorage(
+        mockStorage,
+        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+      );
+
+      await expect(storage.remove()).rejects.toThrow('SecurityError');
     });
   });
 });

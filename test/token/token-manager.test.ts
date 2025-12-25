@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { TOKEN_KEYS } from '../../lib/token/constants.js';
+import { TOKEN_KEYS, type TokenIdentifier } from '../../lib/token/constants.js';
 import { BrowserStorage } from '../../lib/token/storages/browser-storage.js';
 import { EnvironmentStorage } from '../../lib/token/storages/environment-storage.js';
 import { TokenManager } from '../../lib/token/token-manager.js';
@@ -41,42 +41,74 @@ describe('TokenManager', () => {
     });
   });
 
-  describe('forSessionStorage()', () => {
-    it('should create BrowserStorage instance with sessionStorage', () => {
-      const storage = TokenManager.forSessionStorage(
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+  describe('Factory Methods', () => {
+    describe('forSessionStorage()', () => {
+      it('should create BrowserStorage instance with sessionStorage', () => {
+        const storage = TokenManager.forSessionStorage(
+          TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        );
 
-      expect(BrowserStorage).toHaveBeenCalledWith(
-        mockSessionStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      expect(storage).toBeInstanceOf(BrowserStorage);
+        expect(BrowserStorage).toHaveBeenCalledWith(
+          mockSessionStorage,
+          TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        );
+        expect(storage).toBeInstanceOf(BrowserStorage);
+      });
+
+      it('should pass the provided key to BrowserStorage', () => {
+        const customKey = 'CUSTOM_TOKEN' as TokenIdentifier;
+
+        TokenManager.forSessionStorage(customKey);
+
+        expect(BrowserStorage).toHaveBeenCalledWith(
+          mockSessionStorage,
+          customKey,
+        );
+      });
     });
-  });
 
-  describe('forLocalStorage()', () => {
-    it('should create BrowserStorage instance with localStorage', () => {
-      const storage = TokenManager.forLocalStorage(
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
+    describe('forLocalStorage()', () => {
+      it('should create BrowserStorage instance with localStorage', () => {
+        const storage = TokenManager.forLocalStorage(
+          TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        );
 
-      expect(BrowserStorage).toHaveBeenCalledWith(
-        mockLocalStorage,
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      expect(storage).toBeInstanceOf(BrowserStorage);
+        expect(BrowserStorage).toHaveBeenCalledWith(
+          mockLocalStorage,
+          TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        );
+        expect(storage).toBeInstanceOf(BrowserStorage);
+      });
+
+      it('should pass the provided key to BrowserStorage', () => {
+        const customKey = 'CUSTOM_TOKEN' as TokenIdentifier;
+
+        TokenManager.forLocalStorage(customKey);
+
+        expect(BrowserStorage).toHaveBeenCalledWith(
+          mockLocalStorage,
+          customKey,
+        );
+      });
     });
-  });
 
-  describe('forEnv()', () => {
-    it('should create EnvironmentStorage instance', () => {
-      const storage = TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
+    describe('forEnv()', () => {
+      it('should create EnvironmentStorage instance', () => {
+        const storage = TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
 
-      expect(EnvironmentStorage).toHaveBeenCalledWith(
-        TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
-      );
-      expect(storage).toBeInstanceOf(EnvironmentStorage);
+        expect(EnvironmentStorage).toHaveBeenCalledWith(
+          TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
+        );
+        expect(storage).toBeInstanceOf(EnvironmentStorage);
+      });
+
+      it('should pass the provided key to EnvironmentStorage', () => {
+        const customKey = 'CUSTOM_TOKEN' as TokenIdentifier;
+
+        TokenManager.forEnv(customKey);
+
+        expect(EnvironmentStorage).toHaveBeenCalledWith(customKey);
+      });
     });
   });
 });
