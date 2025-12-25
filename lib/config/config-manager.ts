@@ -34,6 +34,11 @@ export class ConfigManager {
    * @param key - The config identifier key
    * @returns A config storage instance using local storage
    *
+   * @remarks
+   * Configuration values persist even after the browser is closed.
+   * They must be explicitly removed using the `remove()` method.
+   * Throws EnvironmentUnavailableError when the Web Storage API is unavailable (for example, in non-browser environments).
+   *
    * @throws {EnvironmentUnavailableError} When the Web Storage API is unavailable
    */
   static forLocalStorage(key: ConfigIdentifier): ConfigStorage {
@@ -48,6 +53,11 @@ export class ConfigManager {
    *
    * @param key - The config identifier key
    * @returns A read-only config storage instance using environment variables
+   *
+   * @remarks
+   * Provides read-only access to configuration values stored in `process.env`.
+   * Only `get()` and `has()` methods are available.
+   * Throws EnvironmentUnavailableError when `process.env` is unavailable (for example, in browser environments).
    *
    * @throws {EnvironmentUnavailableError} When environment variables are not available
    */

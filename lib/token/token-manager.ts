@@ -114,9 +114,9 @@ export class TokenManager {
    * Provides read-only access to tokens stored in `process.env`.
    * Only `get()` and `has()` methods are available.
    * Returns `null` for placeholder values like `'your_token_here'`.
-  * Throws EnvironmentUnavailableError when `process.env` is unavailable (for example, outside Node/browser runtimes).
-
-  * @throws {EnvironmentUnavailableError} When environment variables are not available
+   * Throws EnvironmentUnavailableError when `process.env` is unavailable (for example, outside Node/browser runtimes).
+   *
+   * @throws {EnvironmentUnavailableError} When environment variables are not available
    *
    * @example
    * ```typescript

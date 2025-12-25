@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { BrowserConfigStorage } from '../../../lib/config/storages/browser-config-storage.js';
 import { EnvironmentUnavailableError } from '../../../lib/errors.js';
