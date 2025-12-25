@@ -1,4 +1,4 @@
-# promidas-utils
+# 🧰 PROMIDAS Utilities
 
 Utilities to help with development using PROMIDAS
 

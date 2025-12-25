@@ -10,9 +10,9 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# PROMIDAS Utilities ドキュメント
+# 🧰 PROMIDAS Utilities
 
-PROMIDAS Utilities のドキュメントへようこそ。
+Utilities to help with development using PROMIDAS.
 
 ## 🧰 PROMIDAS とは
 

@@ -3,7 +3,6 @@
  * @module lib/token/token-manager
  */
 
-
 import { TOKEN_KEYS, type TokenIdentifier } from './constants.js';
 import { BrowserStorage } from './storages/browser-storage.js';
 import { EnvironmentStorage } from './storages/environment-storage.js';

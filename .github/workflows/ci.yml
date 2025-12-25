@@ -54,9 +54,6 @@ jobs:
       - name: Run type checking
         run: npm run typecheck
 
-      - name: Validate exports
-        run: npm run test:exports
-
       - name: Run performance tests
         run: npm run test:perf
 

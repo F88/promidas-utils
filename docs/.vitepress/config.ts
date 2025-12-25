@@ -2,11 +2,10 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "🧰 PROMIDAS",
-  description:
-    "In-memory snapshot manager for ProtoPedia prototypes with TTL and efficient data access",
-  lang: "ja",
-  base: "/promidas-utils/",
+  title: '🧰 PROMIDAS Utilities',
+  description: 'Utilities to help with development using PROMIDAS',
+  lang: 'ja',
+  base: '/promidas-utils/',
   appearance: true, // or 'dark' for dark by default, 'force-dark' to force dark mode
 
   themeConfig: {
@@ -14,49 +13,62 @@ export default defineConfig({
     // logo: '/logo.svg',
 
     nav: [
-      { text: "ホーム", link: "/" },
-      { text: "デモ", link: "https://f88.github.io/PROMIDAS-demo/" },
+      { text: 'ホーム', link: '/' },
       {
-        text: `ProtoPedia`,
-        link: "https://protopedia.net/prototype/7917",
+        text: '🧰 PROMIDAS',
+        link: 'https://f88.github.io/promidas/',
+      },
+      {
+        text: '🛝 PROMIDAS Playground',
+        link: 'https://f88.github.io/PROMIDAS-demo/',
+      },
+      {
+        text: `On ProtoPedia`,
+        link: 'https://protopedia.net/prototype/7968',
       },
     ],
 
     sidebar: [
       {
-        text: "🚀 はじめに",
+        text: '🚀 はじめに',
         collapsed: true,
         items: [
-          { text: "PROMIDAS とは", link: "/" },
-          { text: "初心者向けクイックスタート", link: "/quickstart-beginners" },
-          { text: "スタートガイド", link: "/getting-started" },
+          { text: 'PROMIDAS とは', link: '/' },
+          {
+            text: 'API リファレンス',
+            link: '/api',
+            items: [
+              { text: 'token', link: '/api/token' },
+              { text: 'store', link: '/api/store' },
+            ],
+          },
         ],
       },
     ],
 
-    socialLinks: [{ icon: "github", link: "https://github.com/F88/promidas" }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/F88/promidas' }],
 
     search: {
-      provider: "local",
+      provider: 'local',
       options: {
         translations: {
           button: {
-            buttonText: "検索",
-            buttonAriaLabel: "検索",
+            buttonText: '検索',
+            buttonAriaLabel: '検索',
           },
           modal: {
-            displayDetails: "詳細を表示",
-            resetButtonTitle: "クリア",
-            backButtonTitle: "戻る",
-            noResultsText: "見つかりませんでした",
+            displayDetails: '詳細を表示',
+            resetButtonTitle: 'クリア',
+            backButtonTitle: '戻る',
+            noResultsText: '見つかりませんでした',
             footer: {
-              selectText: "選択",
-              selectKeyAriaLabel: "選択",
-              navigateText: "移動",
-              navigateUpKeyAriaLabel: "上へ",
-              navigateDownKeyAriaLabel: "下へ",
-              closeText: "閉じる",
-              closeKeyAriaLabel: "閉じる",
+              selectText: '選択',
+              selectKeyAriaLabel: '選択',
+              navigateText: '移動',
+              navigateUpKeyAriaLabel: '上へ',
+              navigateDownKeyAriaLabel: '下へ',
+              closeText: '閉じる',
+              closeKeyAriaLabel: '閉じる',
             },
           },
         },
@@ -64,31 +76,31 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: "https://github.com/F88/promidas-utils/edit/main/docs/:path",
-      text: "このページを編集",
+      pattern: 'https://github.com/F88/promidas-utils/edit/main/docs/:path',
+      text: 'このページを編集',
     },
 
     lastUpdated: {
-      text: "最終更新",
+      text: '最終更新',
       formatOptions: {
-        dateStyle: "medium",
-        timeStyle: "short",
+        dateStyle: 'medium',
+        timeStyle: 'short',
       },
     },
 
     outline: {
-      label: "目次",
+      label: '目次',
       level: [2, 3],
     },
 
     docFooter: {
-      prev: "前のページ",
-      next: "次のページ",
+      prev: '前のページ',
+      next: '次のページ',
     },
 
-    returnToTopLabel: "トップへ戻る",
-    sidebarMenuLabel: "メニュー",
-    darkModeSwitchLabel: "ダークモード",
+    returnToTopLabel: 'トップへ戻る',
+    sidebarMenuLabel: 'メニュー',
+    darkModeSwitchLabel: 'ダークモード',
   },
 
   markdown: {
@@ -99,11 +111,11 @@ export default defineConfig({
 
   head: [
     [
-      "link",
+      'link',
       {
-        rel: "icon",
-        type: "image/svg+xml",
-        href: "/promidas-utils/logo.svg",
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: '/promidas-utils/logo.svg',
       },
     ],
   ],
