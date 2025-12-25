@@ -45,7 +45,9 @@ export class BrowserTokenStorage implements TokenStorage {
    *
    * @returns A promise that resolves to `true` if a token exists, `false` otherwise
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async has(): Promise<boolean> {
     this.ensureStorageAvailable();
@@ -57,7 +59,9 @@ export class BrowserTokenStorage implements TokenStorage {
    *
    * @returns A promise that resolves to the stored token, or `null` if not found
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async get(): Promise<string | null> {
     this.ensureStorageAvailable();
@@ -70,7 +74,9 @@ export class BrowserTokenStorage implements TokenStorage {
    * @param token - The token string to save
    * @returns A promise that resolves when the token is saved
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async save(token: string): Promise<void> {
     this.ensureStorageAvailable();
@@ -82,7 +88,9 @@ export class BrowserTokenStorage implements TokenStorage {
    *
    * @returns A promise that resolves when the token is removed
    *
-   * @throws {Error} If storage is not available
+   * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async remove(): Promise<void> {
     this.ensureStorageAvailable();

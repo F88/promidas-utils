@@ -37,6 +37,8 @@ export class BrowserConfigStorage implements ConfigStorage {
    * @returns A promise that resolves to `true` if a value exists, `false` otherwise
    *
    * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async has(): Promise<boolean> {
     this.ensureStorageAvailable();
@@ -49,6 +51,8 @@ export class BrowserConfigStorage implements ConfigStorage {
    * @returns A promise that resolves to the stored value, or `null` if not found
    *
    * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async get(): Promise<string | null> {
     this.ensureStorageAvailable();
@@ -62,6 +66,8 @@ export class BrowserConfigStorage implements ConfigStorage {
    * @returns A promise that resolves when the value is saved
    *
    * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async save(value: string): Promise<void> {
     this.ensureStorageAvailable();
@@ -74,6 +80,8 @@ export class BrowserConfigStorage implements ConfigStorage {
    * @returns A promise that resolves when the value is removed
    *
    * @throws {EnvironmentUnavailableError} If storage is not available
+   * @throws {DOMException} When storage operations fail (e.g., quota exceeded, security errors)
+   * @throws {Error} When other unexpected errors occur
    */
   async remove(): Promise<void> {
     this.ensureStorageAvailable();

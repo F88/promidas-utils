@@ -20,14 +20,16 @@ export interface ReadOnlyConfigStorage {
   /**
    * Checks if a config entry exists in storage.
    *
-   * @throws {Error} When the underlying storage is unavailable
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   has(): Promise<boolean>;
 
   /**
    * Retrieves a config value from storage.
    *
-   * @throws {Error} When the underlying storage is unavailable
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   get(): Promise<string | null>;
 }
@@ -39,14 +41,16 @@ export interface ConfigStorage extends ReadOnlyConfigStorage {
   /**
    * Saves a config value to storage.
    *
-   * @throws {Error} When the underlying storage is unavailable
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   save(value: string): Promise<void>;
 
   /**
    * Removes a config value from storage.
    *
-   * @throws {Error} When the underlying storage is unavailable
+   * @throws {EnvironmentUnavailableError} When the underlying storage is unavailable
+   * @throws {Error} When storage operations fail
    */
   remove(): Promise<void>;
 }
