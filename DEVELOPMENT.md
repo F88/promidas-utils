@@ -128,19 +128,19 @@ Example test structure:
 
 ```typescript
 describe('MyClass', () => {
-  describe('methodName()', () => {
-    it('should handle normal case', () => {
-      // Test implementation
-    });
+    describe('methodName()', () => {
+        it('should handle normal case', () => {
+            // Test implementation
+        });
 
-    it('should handle edge case', () => {
-      // Test implementation
-    });
+        it('should handle edge case', () => {
+            // Test implementation
+        });
 
-    it('should throw error for invalid input', () => {
-      // Test implementation
+        it('should throw error for invalid input', () => {
+            // Test implementation
+        });
     });
-  });
 });
 ```
 
