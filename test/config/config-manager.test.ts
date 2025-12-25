@@ -103,6 +103,9 @@ describe('ConfigManager', () => {
         expect(() => ConfigManager.forEnv('TEST_CONFIG')).toThrow(
           EnvironmentUnavailableError,
         );
+        expect(() => ConfigManager.forEnv('TEST_CONFIG')).toThrow(
+          'Environment variables are not available',
+        );
       });
 
       it('should throw EnvironmentUnavailableError when process.env is undefined', () => {
@@ -110,6 +113,9 @@ describe('ConfigManager', () => {
 
         expect(() => ConfigManager.forEnv('TEST_CONFIG')).toThrow(
           EnvironmentUnavailableError,
+        );
+        expect(() => ConfigManager.forEnv('TEST_CONFIG')).toThrow(
+          'Environment variables are not available',
         );
       });
     });
