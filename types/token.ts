@@ -50,17 +50,6 @@ export type { TokenIdentifier } from '../lib/token/constants.js';
  */
 export interface ReadOnlyTokenStorage {
   /**
-   * Retrieves the token from storage.
-   *
-   * @returns A promise that resolves to the stored token, or null if not found
-   *
-   * @remarks
-   * Returns null if the token does not exist or is not accessible.
-   * Some implementations may also filter out placeholder values.
-   */
-  get(): Promise<string | null>;
-
-  /**
    * Checks if a token exists in storage.
    *
    * @returns A promise that resolves to true if a token exists, false otherwise
@@ -70,6 +59,17 @@ export interface ReadOnlyTokenStorage {
    * but storage backends may provide optimized implementations.
    */
   has(): Promise<boolean>;
+
+  /**
+   * Retrieves the token from storage.
+   *
+   * @returns A promise that resolves to the stored token, or null if not found
+   *
+   * @remarks
+   * Returns null if the token does not exist or is not accessible.
+   * Some implementations may also filter out placeholder values.
+   */
+  get(): Promise<string | null>;
 }
 
 /**
