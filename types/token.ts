@@ -9,8 +9,8 @@
  * - `TokenStorage`: For full read-write storage backends (extends ReadOnlyTokenStorage)
  *
  * All operations are asynchronous to provide a consistent API across different
- * storage mechanisms (browser storage, environment variables, Credential Management API,
- * databases, file systems, etc.).
+ * storage mechanisms (browser storage, environment variables, databases,
+ * file systems, remote secret managers, etc.).
  */
 
 export type { TokenIdentifier } from '../lib/token/constants.js';
@@ -52,7 +52,7 @@ export interface ReadOnlyTokenStorage {
   /**
    * Checks if a token exists in storage.
    *
-   * @returns A promise that resolves to true if a token exists, false otherwise
+   * @returns A promise that resolves to `true` if a token exists, `false` otherwise
    *
    * @remarks
    * This is typically implemented by calling get() and checking for null,
@@ -63,7 +63,7 @@ export interface ReadOnlyTokenStorage {
   /**
    * Retrieves the token from storage.
    *
-   * @returns A promise that resolves to the stored token, or null if not found
+   * @returns A promise that resolves to the stored token, or `null` if not found
    *
    * @remarks
    * Returns null if the token does not exist or is not accessible.
@@ -83,7 +83,6 @@ export interface ReadOnlyTokenStorage {
  * @remarks
  * This interface is implemented by storage backends that can persist and modify tokens:
  * - Browser storage (sessionStorage, localStorage)
- * - Credential Management API
  * - Database systems
  * - File systems
  * - Remote secret storage services
@@ -97,10 +96,10 @@ export interface ReadOnlyTokenStorage {
  * @example
  * Using with browser storage:
  * ```typescript
- * import { TokenManager, TOKEN_STORAGE_KEYS } from '@f88/promidas-utils/token';
+ * import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
  *
  * const storage = TokenManager.forSessionStorage(
- *   TOKEN_STORAGE_KEYS.PROTOPEDIA_API_V2_TOKEN
+ *   TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN
  * );
  *
  * // Save a token

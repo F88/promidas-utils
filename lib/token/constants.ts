@@ -11,7 +11,6 @@
  * across the application. The same keys are used for:
  * - Browser storage (sessionStorage, localStorage)
  * - Environment variables (process.env)
- * - Credential Management API
  *
  * Key names follow UPPER_SNAKE_CASE convention, which is standard for environment
  * variables and works perfectly fine for browser storage as well.
@@ -37,8 +36,7 @@ export const TOKEN_KEYS = {
    * Key for ProtoPedia API Version 2.0 bearer token.
    *
    * @remarks
-   * Used across all storage backends: browser storage, environment variables,
-   * and Credential Management API.
+   * Used across browser storage and environment variables.
    */
   PROTOPEDIA_API_V2_TOKEN: 'PROTOPEDIA_API_V2_TOKEN',
 } as const;
