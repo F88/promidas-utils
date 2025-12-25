@@ -18,3 +18,21 @@ PROMIDASを使用することで、API通信、インメモリキャッシュ、
 
 🧰 PROMIDAS
 <https://f88.github.io/promidas/>
+
+## Tech Stack
+
+### Core
+
+- **TypeScript 5.9** - Type-safe development
+- **Node.js 20+** - Runtime environment
+
+### Testing & Documentation
+
+- **Vitest 4** - Testing framework
+- **VitePress 1** - Documentation site generator
+
+### Code Quality
+
+- **Prettier 3** - Code formatter
+- **ESLint 9** - Static analysis
+- **TypeScript ESLint 8** - TypeScript linting rules
