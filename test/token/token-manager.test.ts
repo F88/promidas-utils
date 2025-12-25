@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { afterEach, describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { TOKEN_KEYS, type TokenIdentifier } from '../../lib/token/constants.js';
 import { BrowserStorage } from '../../lib/token/storages/browser-storage.js';
@@ -12,6 +12,10 @@ vi.mock('../../lib/token/storages/environment-storage.js');
 describe('TokenManager', () => {
   let mockSessionStorage: Storage;
   let mockLocalStorage: Storage;
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
 
   beforeEach(() => {
     // Create mock storage objects

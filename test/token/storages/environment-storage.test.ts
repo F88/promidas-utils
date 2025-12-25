@@ -13,6 +13,7 @@ describe('EnvironmentStorage', () => {
   });
 
   afterEach(() => {
+    vi.unstubAllGlobals();
     process.env = originalEnv;
   });
 
@@ -48,13 +49,11 @@ describe('EnvironmentStorage', () => {
     });
 
     it('should return null when process.env is not available', async () => {
-      const originalProcess = global.process;
       vi.stubGlobal('process', undefined);
 
       const result = await storage.get();
 
       expect(result).toBeNull();
-      vi.stubGlobal('process', originalProcess);
     });
   });
 
