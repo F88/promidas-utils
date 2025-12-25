@@ -35,7 +35,7 @@ describe('TokenManager', () => {
   describe('constructor', () => {
     it('should throw error when attempting to instantiate', () => {
       expect(() => {
-        // @ts-expect-error - Testing private constructor
+        // @ts-expect-error - Ignore type error for private constructor, testing runtime error
         new TokenManager();
       }).toThrow('TokenManager is a static class and cannot be instantiated');
     });
