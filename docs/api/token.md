@@ -1,10 +1,16 @@
 ---
-title: token API
 lang: ja
-title-en: token api
+title: Utilities for Token Management
+title-en: Utilities for Token Management
+title-ja: トークン管理ユーティリティ
+instructions-for-ais:
+    - This document should be written in Japanese.
+    - Use half-width characters for numbers, letters, and symbols.
+    - Prohibit updating this front-matter.
+    - Prohibit updating title line (1st line) in this document.
 ---
 
-# token API
+# Utilities for Token Management
 
 エントリーポイント: `@f88/promidas-utils/token`
 

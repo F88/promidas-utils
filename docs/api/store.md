@@ -1,10 +1,16 @@
 ---
-title: store API
 lang: ja
-title-en: store api
+title: Utilities for Store Management
+title-en: Utilities for Store Management
+title-ja: ストア管理ユーティリティ
+instructions-for-ais:
+    - This document should be written in Japanese.
+    - Use half-width characters for numbers, letters, and symbols.
+    - Prohibit updating this front-matter.
+    - Prohibit updating title line (1st line) in this document.
 ---
 
-# store API
+# Utilities for Store Management
 
 エントリーポイント: `@f88/promidas-utils/store`
 

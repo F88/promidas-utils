@@ -34,6 +34,7 @@ export default defineConfig({
         collapsed: true,
         items: [
           { text: 'PROMIDAS とは', link: '/' },
+          { text: 'インストール', link: '/installation' },
           {
             text: 'API リファレンス',
             link: '/api',
