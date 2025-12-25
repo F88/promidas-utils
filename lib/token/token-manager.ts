@@ -3,8 +3,9 @@
  * @module lib/token/token-manager
  */
 
+import { EnvironmentUnavailableError } from '../errors.js';
+
 import { TOKEN_KEYS, type TokenIdentifier } from './constants.js';
-import { EnvironmentUnavailableError } from './errors.js';
 import { BrowserTokenStorage } from './storages/browser-token-storage.js';
 import { EnvironmentTokenStorage } from './storages/environment-token-storage.js';
 import type { ReadOnlyTokenStorage, TokenStorage } from './types.js';

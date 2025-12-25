@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { EnvironmentUnavailableError } from '../../lib/errors.js';
 import { TOKEN_KEYS, type TokenIdentifier } from '../../lib/token/constants.js';
-import { EnvironmentUnavailableError } from '../../lib/token/errors.js';
 import { BrowserTokenStorage } from '../../lib/token/storages/browser-token-storage.js';
 import { EnvironmentTokenStorage } from '../../lib/token/storages/environment-token-storage.js';
 import { TokenManager } from '../../lib/token/token-manager.js';

@@ -3,7 +3,7 @@
  * @module lib/config/config-manager
  */
 
-import { EnvironmentUnavailableError } from '../token/errors.js';
+import { EnvironmentUnavailableError } from '../errors.js';
 
 import { BrowserConfigStorage } from './storages/browser-config-storage.js';
 import { EnvironmentConfigStorage } from './storages/environment-config-storage.js';

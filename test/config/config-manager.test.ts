@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConfigManager } from '../../lib/config/config-manager.js';
 import { BrowserConfigStorage } from '../../lib/config/storages/browser-config-storage.js';
 import { EnvironmentConfigStorage } from '../../lib/config/storages/environment-config-storage.js';
-import { EnvironmentUnavailableError } from '../../lib/token/errors.js';
+import { EnvironmentUnavailableError } from '../../lib/errors.js';
 
 // Mock the storage classes
 vi.mock('../../lib/config/storages/browser-config-storage.js');

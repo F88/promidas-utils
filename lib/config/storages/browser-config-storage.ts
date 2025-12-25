@@ -3,6 +3,7 @@
  * @module lib/config/storages/browser-config-storage
  */
 
+import { EnvironmentUnavailableError } from '../../errors.js';
 import type { ConfigIdentifier, ConfigStorage } from '../types.js';
 
 /**
@@ -18,31 +19,29 @@ export class BrowserConfigStorage implements ConfigStorage {
     private readonly key: ConfigIdentifier,
   ) {}
 
-  async has(): Promise<boolean> {
+  private ensureStorageAvailable(): void {
     if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
+      throw new EnvironmentUnavailableError('Web Storage API is not available');
     }
+  }
+
+  async has(): Promise<boolean> {
+    this.ensureStorageAvailable();
     return this.storage.getItem(this.key) !== null;
   }
 
   async get(): Promise<string | null> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     return this.storage.getItem(this.key);
   }
 
   async save(value: string): Promise<void> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     this.storage.setItem(this.key, value);
   }
 
   async remove(): Promise<void> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     this.storage.removeItem(this.key);
   }
 }

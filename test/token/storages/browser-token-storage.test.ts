@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { EnvironmentUnavailableError } from '../../../lib/errors.js';
 import { TOKEN_KEYS } from '../../../lib/token/constants.js';
 import { BrowserTokenStorage } from '../../../lib/token/storages/browser-token-storage.js';
 
@@ -56,7 +57,10 @@ describe('BrowserTokenStorage', () => {
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
 
-      await expect(storage.has()).rejects.toThrow('Storage is not available');
+      await expect(storage.has()).rejects.toThrow(EnvironmentUnavailableError);
+      await expect(storage.has()).rejects.toThrow(
+        'Web Storage API is not available',
+      );
     });
 
     it('should propagate error when storage.getItem throws', async () => {
@@ -104,7 +108,10 @@ describe('BrowserTokenStorage', () => {
         TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,
       );
 
-      await expect(storage.get()).rejects.toThrow('Storage is not available');
+      await expect(storage.get()).rejects.toThrow(EnvironmentUnavailableError);
+      await expect(storage.get()).rejects.toThrow(
+        'Web Storage API is not available',
+      );
     });
 
     it('should propagate error when storage.getItem throws', async () => {
@@ -171,7 +178,10 @@ describe('BrowserTokenStorage', () => {
       );
 
       await expect(storage.save('token')).rejects.toThrow(
-        'Storage is not available',
+        EnvironmentUnavailableError,
+      );
+      await expect(storage.save('token')).rejects.toThrow(
+        'Web Storage API is not available',
       );
     });
 
@@ -222,7 +232,10 @@ describe('BrowserTokenStorage', () => {
       );
 
       await expect(storage.remove()).rejects.toThrow(
-        'Storage is not available',
+        EnvironmentUnavailableError,
+      );
+      await expect(storage.remove()).rejects.toThrow(
+        'Web Storage API is not available',
       );
     });
 

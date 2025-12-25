@@ -3,6 +3,7 @@
  * @module lib/token/storages/browser-token-storage
  */
 
+import { EnvironmentUnavailableError } from '../../errors.js';
 import type { TokenIdentifier, TokenStorage } from '../types.js';
 
 /**
@@ -33,6 +34,12 @@ export class BrowserTokenStorage implements TokenStorage {
     private readonly key: TokenIdentifier,
   ) {}
 
+  private ensureStorageAvailable(): void {
+    if (typeof this.storage === 'undefined') {
+      throw new EnvironmentUnavailableError('Web Storage API is not available');
+    }
+  }
+
   /**
    * Checks if a token exists in storage.
    *
@@ -41,9 +48,7 @@ export class BrowserTokenStorage implements TokenStorage {
    * @throws {Error} If storage is not available
    */
   async has(): Promise<boolean> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     return this.storage.getItem(this.key) !== null;
   }
 
@@ -55,9 +60,7 @@ export class BrowserTokenStorage implements TokenStorage {
    * @throws {Error} If storage is not available
    */
   async get(): Promise<string | null> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     return this.storage.getItem(this.key);
   }
 
@@ -70,9 +73,7 @@ export class BrowserTokenStorage implements TokenStorage {
    * @throws {Error} If storage is not available
    */
   async save(token: string): Promise<void> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     this.storage.setItem(this.key, token);
   }
 
@@ -84,9 +85,7 @@ export class BrowserTokenStorage implements TokenStorage {
    * @throws {Error} If storage is not available
    */
   async remove(): Promise<void> {
-    if (typeof this.storage === 'undefined') {
-      throw new Error('Storage is not available');
-    }
+    this.ensureStorageAvailable();
     this.storage.removeItem(this.key);
   }
 }

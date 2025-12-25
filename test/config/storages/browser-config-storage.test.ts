@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import { BrowserConfigStorage } from '../../../lib/config/storages/browser-config-storage.js';
+import { EnvironmentUnavailableError } from '../../../lib/errors.js';
 
 describe('BrowserConfigStorage', () => {
   let mockStorage: Storage;
@@ -49,7 +50,10 @@ describe('BrowserConfigStorage', () => {
         'TEST_CONFIG',
       );
 
-      await expect(storage.has()).rejects.toThrow('Storage is not available');
+      await expect(storage.has()).rejects.toThrow(EnvironmentUnavailableError);
+      await expect(storage.has()).rejects.toThrow(
+        'Web Storage API is not available',
+      );
     });
 
     it('should propagate error when storage.getItem throws', async () => {
@@ -88,7 +92,10 @@ describe('BrowserConfigStorage', () => {
         'TEST_CONFIG',
       );
 
-      await expect(storage.get()).rejects.toThrow('Storage is not available');
+      await expect(storage.get()).rejects.toThrow(EnvironmentUnavailableError);
+      await expect(storage.get()).rejects.toThrow(
+        'Web Storage API is not available',
+      );
     });
 
     it('should propagate error when storage.getItem throws', async () => {
@@ -140,7 +147,10 @@ describe('BrowserConfigStorage', () => {
       );
 
       await expect(storage.save('value')).rejects.toThrow(
-        'Storage is not available',
+        EnvironmentUnavailableError,
+      );
+      await expect(storage.save('value')).rejects.toThrow(
+        'Web Storage API is not available',
       );
     });
 
@@ -180,7 +190,10 @@ describe('BrowserConfigStorage', () => {
       );
 
       await expect(storage.remove()).rejects.toThrow(
-        'Storage is not available',
+        EnvironmentUnavailableError,
+      );
+      await expect(storage.remove()).rejects.toThrow(
+        'Web Storage API is not available',
       );
     });
 
