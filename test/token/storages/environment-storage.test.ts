@@ -48,14 +48,12 @@ describe('EnvironmentStorage', () => {
     });
 
     it('should return null when process.env is not available', async () => {
-      const originalProcess = global.process;
       // @ts-expect-error - Testing process undefined scenario
-      global.process = undefined;
+      vi.stubGlobal('process', undefined);
 
       const result = await storage.get();
 
       expect(result).toBeNull();
-      global.process = originalProcess;
     });
   });
 
