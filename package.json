@@ -30,7 +30,6 @@
     "test:codecov": "vitest run --coverage --reporter=default --reporter=junit --outputFile.junit=test-report.junit.xml",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:exports": "npm run build && vitest run --config vitest.exports.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint \"**/*.ts\"",
