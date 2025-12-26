@@ -12,7 +12,7 @@ instructions-for-ais:
 
 # 🧰 PROMIDAS Utilities
 
-Utilities to help with development using PROMIDAS.
+Utilities to assist development using PROMIDAS.
 
 ## 🧰 PROMIDAS とは
 

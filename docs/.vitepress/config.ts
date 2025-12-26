@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: '🧰 PROMIDAS Utilities',
-  description: 'Utilities to help with development using PROMIDAS',
+  description: 'Utilities to assist development using PROMIDAS',
   lang: 'ja',
   base: '/promidas-utils/',
   appearance: true, // or 'dark' for dark by default, 'force-dark' to force dark mode
