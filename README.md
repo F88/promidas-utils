@@ -10,6 +10,9 @@
 
 Utilities to help with development using PROMIDAS
 
+🧰 PROMIDAS Utilities
+<https://f88.github.io/promidas-utils/>
+
 ## PROMIDAS
 
 PROMIDASは、ProtoPedia API v2を利用したデータ取得とキャッシュ管理を簡素化するライブラリです。
