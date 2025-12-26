@@ -48,7 +48,9 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/F88/promidas' }],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/F88/promidas-utils' },
+    ],
 
     search: {
       provider: 'local',
