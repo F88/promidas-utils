@@ -8,7 +8,7 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/F88/promidas-utils)
 [![View Code Wiki](https://www.gstatic.com/_/boq-sdlc-agents-ui/_/r/YUi5dj2UWvE.svg)](https://codewiki.google/github.com/f88/promidas-utils)
 
-Utilities to help with development using PROMIDAS
+Utilities to assist development using PROMIDAS
 
 🧰 PROMIDAS Utilities
 <https://f88.github.io/promidas-utils/>
