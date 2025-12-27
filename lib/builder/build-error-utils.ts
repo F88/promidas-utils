@@ -248,7 +248,7 @@ export function parseError(error: Error): string {
  * It supports store-specific errors (ConfigurationError, DataSizeExceededError,
  * SizeEstimationError, StoreError) and generic Error objects.
  *
- * @param error - The error to convert, or null
+ * @param error - The error to convert
  * @returns Localized error message in Japanese
  *
  * @example

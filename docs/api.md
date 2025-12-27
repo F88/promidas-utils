@@ -19,6 +19,7 @@ instructions-for-ais:
 - トークン関連: `@f88/promidas-utils/token`
 - 設定値関連: `@f88/promidas-utils/config`
 - ストア関連: `@f88/promidas-utils/store`
+- ビルダー関連: `@f88/promidas-utils/builder`
 - リポジトリ関連:
     - スナップショット操作結果: `@f88/promidas-utils/repository/snapshot-operation-result`
 
@@ -29,4 +30,5 @@ instructions-for-ais:
 - [token](/api/token)
 - [config](/api/config)
 - [store](/api/store)
+- [builder](/api/builder)
 - [repository/snapshot-operation-result](/api/repository/snapshot-operation-result)
