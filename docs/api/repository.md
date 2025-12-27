@@ -12,7 +12,7 @@ instructions-for-ais:
 
 # Utilities for Snapshot Operation Result
 
-エントリーポイント: `@f88/promidas-utils/repository/snapshot-operation-result`
+エントリーポイント: `@f88/promidas-utils/repository`
 
 公開 API:
 
@@ -48,7 +48,7 @@ type ParsedSnapshotOperationFailure = SnapshotOperationFailure & {
 #### 使用例
 
 ```typescript
-import { parseSnapshotOperationFailure } from '@f88/promidas-utils/repository/snapshot-operation-result';
+import { parseSnapshotOperationFailure } from '@f88/promidas-utils/repository';
 
 const result = await repository.getSnapshot(prototypeId);
 
@@ -72,7 +72,7 @@ if (!result.ok) {
 #### 使用例
 
 ```typescript
-import { toLocalizedMessage } from '@f88/promidas-utils/repository/snapshot-operation-result';
+import { toLocalizedMessage } from '@f88/promidas-utils/repository';
 
 const result = await repository.getSnapshot(prototypeId);
 
