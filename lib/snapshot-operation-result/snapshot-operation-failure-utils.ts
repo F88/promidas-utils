@@ -1,3 +1,12 @@
+/**
+ * Utilities for parsing and localizing PROMIDAS snapshot operation failures.
+ *
+ * This module provides functions to convert PROMIDAS snapshot operation failures
+ * into user-friendly Japanese error messages.
+ *
+ * @packageDocumentation
+ */
+
 import type {
   SnapshotOperationFailure,
   FetcherSnapshotFailure,
@@ -6,21 +15,23 @@ import type {
 } from '@f88/promidas/repository/types';
 
 /**
- * Parsed snapshot operation failure with localized message
+ * Parsed snapshot operation failure with localized message.
  *
- * Extends the original SnapshotOperationFailure type with localized message.
+ * Extends the original SnapshotOperationFailure type with a localized message.
  * All original properties (origin, code, kind, status, etc.) are preserved.
  */
 export type ParsedSnapshotOperationFailure = SnapshotOperationFailure & {
-  /** User-friendly localized error message */
+  /** User-friendly localized error message in Japanese */
   localizedMessage: string;
 };
 
 /**
  * Parses fetcher-originated snapshot operation failures to localized message.
  *
+ * Converts fetcher errors into user-friendly Japanese messages with contextual information.
+ *
  * @param failure - The fetcher snapshot failure to parse
- * @returns Localized error message in Japanese
+ * @returns Localized error message in Japanese with reference information
  * @internal Exported primarily for testing purposes
  */
 export function parseFetcherSnapshotFailure(
@@ -218,8 +229,10 @@ export function parseFetcherSnapshotFailure(
 }
 
 /**
- * Parses store-originated snapshot operation failures to localized message.
+ * Converts store errors into user-friendly Japanese messages with troubleshooting information.
  *
+ * @param failure - The store snapshot failure to parse
+ * @returns Localized error message in Japanese with troubleshooting information
  * @param failure - The store snapshot failure to parse
  * @returns Localized error message in Japanese
  * @internal Exported primarily for testing purposes
@@ -305,8 +318,10 @@ export function parseStoreSnapshotFailure(
 }
 
 /**
- * Parses unknown-origin snapshot operation failures to localized message.
+ * Returns the original error message as-is since no additional context is available.
  *
+ * @param failure - The unknown snapshot failure to parse
+ * @returns The original error message from the failur
  * @param failure - The unknown snapshot failure to parse
  * @returns Localized error message in Japanese
  * @internal Exported primarily for testing purposes
@@ -318,8 +333,8 @@ export function parseUnknownSnapshotFailure(
 }
 
 /**
- * Parses snapshot operation failures to structured error information.
- *
+ * Parses snapshot operation failures to structured error information. origin.
+ * All original properties are preserved
  * Adds a localized message to the original error object based on the error's
  * origin (fetcher, store, or unknown).
  *
@@ -338,8 +353,8 @@ export function parseSnapshotOperationFailure(
 }
 
 /**
- * Converts snapshot operation failures to user-friendly Japanese messages.
- *
+ * Converts snapshot operation failures to user-friendly Japanese messages..
+ * Returns a default message for null input
  * Directly calls the appropriate parse function based on the error's origin,
  * avoiding unnecessary object creation when only the message is needed.
  *

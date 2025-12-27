@@ -42,6 +42,15 @@ export default defineConfig({
               { text: 'token', link: '/api/token' },
               { text: 'config', link: '/api/config' },
               { text: 'store', link: '/api/store' },
+              {
+                text: 'repository',
+                items: [
+                  {
+                    text: 'snapshot-operation-result',
+                    link: '/api/repository/snapshot-operation-result',
+                  },
+                ],
+              },
             ],
           },
         ],
