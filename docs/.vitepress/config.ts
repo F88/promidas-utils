@@ -42,6 +42,8 @@ export default defineConfig({
               { text: 'token', link: '/api/token' },
               { text: 'config', link: '/api/config' },
               { text: 'store', link: '/api/store' },
+              { text: 'builder', link: '/api/builder' },
+              { text: 'repository', link: '/api/repository' },
             ],
           },
         ],

@@ -19,6 +19,8 @@ instructions-for-ais:
 - トークン関連: `@f88/promidas-utils/token`
 - 設定値関連: `@f88/promidas-utils/config`
 - ストア関連: `@f88/promidas-utils/store`
+- ビルダー関連: `@f88/promidas-utils/builder`
+- リポジトリ関連: `@f88/promidas-utils/repository`
 
 > 現在はルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
@@ -27,3 +29,5 @@ instructions-for-ais:
 - [token](/api/token)
 - [config](/api/config)
 - [store](/api/store)
+- [builder](/api/builder)
+- [repository](/api/repository)

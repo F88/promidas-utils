@@ -87,6 +87,14 @@
     "./store": {
       "types": "./dist/lib/store/index.d.ts",
       "import": "./dist/lib/store/index.js"
+    },
+    "./builder": {
+      "types": "./dist/lib/builder/index.d.ts",
+      "import": "./dist/lib/builder/index.js"
+    },
+    "./repository": {
+      "types": "./dist/lib/repository/index.d.ts",
+      "import": "./dist/lib/repository/index.js"
     }
   },
   "publishConfig": {
