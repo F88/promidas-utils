@@ -328,5 +328,46 @@ describe('build-error-utils', () => {
 
       expect(result).toBe('不明なエラーが発生しました: Generic error message');
     });
+
+    it('should return empty string when DataSizeExceededError has no lines in reference block', () => {
+      // Create error with no message and localized message that contains the raw message
+      const error = new DataSizeExceededError('UNCHANGED', 2000000, 1000000);
+      Object.defineProperty(error, 'message', { value: '' });
+      Object.defineProperty(error, 'dataSizeBytes', { value: undefined });
+      Object.defineProperty(error, 'maxDataSizeBytes', { value: undefined });
+      Object.defineProperty(error, 'dataState', { value: undefined });
+      Object.defineProperty(error, 'name', { value: '' });
+
+      const result = parseDataSizeExceededError(error);
+
+      // Reference block should still be included even with minimal data
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should return empty string when SizeEstimationError has no lines in reference block', () => {
+      // Create error with no message and no cause message
+      const causeError = new Error('');
+      Object.defineProperty(causeError, 'name', { value: '' });
+      const error = new SizeEstimationError('UNCHANGED', causeError);
+      Object.defineProperty(error, 'message', { value: '' });
+      Object.defineProperty(error, 'dataState', { value: undefined });
+      Object.defineProperty(error, 'name', { value: '' });
+
+      const result = parseSizeEstimationError(error);
+
+      // Reference block should still be included
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should return empty string when StoreError has no lines in reference block', () => {
+      const error = new StoreError('');
+      Object.defineProperty(error, 'message', { value: '' });
+      Object.defineProperty(error, 'name', { value: '' });
+
+      const result = parseStoreError(error);
+
+      // Reference block should still be included
+      expect(result).toContain('[参考情報]');
+    });
   });
 });

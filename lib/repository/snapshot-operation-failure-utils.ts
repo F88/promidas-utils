@@ -221,6 +221,7 @@ export function parseFetcherSnapshotFailure(
     // Fallback
     case 'UNKNOWN':
       return withFetcherReferenceInfo(failure.message);
+    /* c8 ignore next */
     default: {
       const _exhaustiveCheck: never = failure.code;
       return _exhaustiveCheck;
@@ -248,6 +249,7 @@ export function parseStoreSnapshotFailure(
         return '既存のスナップショットは保持されます。';
       case 'UNKNOWN':
         return '既存のスナップショットの状態は不明です。';
+      /* c8 ignore next */
       default: {
         const _exhaustiveCheck: never = dataState;
         return _exhaustiveCheck;
@@ -310,6 +312,7 @@ export function parseStoreSnapshotFailure(
           localizeStoreDataState(failure.dataState),
         ].join('\n'),
       );
+    /* c8 ignore next */
     default: {
       const _exhaustiveCheck: never = failure.code;
       return _exhaustiveCheck;
@@ -377,6 +380,7 @@ export function toLocalizedMessage(
       return parseStoreSnapshotFailure(failure);
     case 'unknown':
       return parseUnknownSnapshotFailure(failure);
+    /* c8 ignore next */
     default: {
       const _exhaustiveCheck: never = origin;
       return _exhaustiveCheck;

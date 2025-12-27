@@ -75,6 +75,7 @@ export function parseDataSizeExceededError(
         return '既存のスナップショットは保持されます。';
       case 'UNKNOWN':
         return '既存のスナップショットの状態は不明です。';
+      /* c8 ignore next */
       default: {
         const _exhaustiveCheck: never = dataState;
         return _exhaustiveCheck;
@@ -133,6 +134,7 @@ export function parseSizeEstimationError(error: SizeEstimationError): string {
         return '既存のスナップショットは保持されます。';
       case 'UNKNOWN':
         return '既存のスナップショットの状態は不明です。';
+      /* c8 ignore next */
       default: {
         const _exhaustiveCheck: never = dataState;
         return _exhaustiveCheck;

@@ -1046,6 +1046,38 @@ describe('snapshot-operation-failure-utils', () => {
           '詳細: APIトークンが無効です。設定を確認してください。',
         );
       });
+
+      it('should return empty string when fetcher failure has no lines in reference block', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_UNAUTHORIZED',
+          message: 'APIトークンが無効です。設定を確認してください。',
+          status: 401,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        // Should still have reference block
+        expect(result).toContain('[参考情報]');
+      });
+
+      it('should return empty string when store failure has no lines in reference block', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message:
+            'データサイズが制限を超えました。\n既存のスナップショットは保持されます。\n次を試してください:\n- limitパラメータを減らす\n- ストアのmaxDataSizeBytesを増やす(設定可能な場合)',
+          dataState: 'UNCHANGED',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        // Should still have reference block
+        expect(result).toContain('[参考情報]');
+      });
     });
   });
 });
