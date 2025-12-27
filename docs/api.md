@@ -20,8 +20,7 @@ instructions-for-ais:
 - 設定値関連: `@f88/promidas-utils/config`
 - ストア関連: `@f88/promidas-utils/store`
 - ビルダー関連: `@f88/promidas-utils/builder`
-- リポジトリ関連:
-    - スナップショット操作結果: `@f88/promidas-utils/repository/snapshot-operation-result`
+- リポジトリ関連: `@f88/promidas-utils/repository`
 
 > 現在はルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
@@ -31,4 +30,4 @@ instructions-for-ais:
 - [config](/api/config)
 - [store](/api/store)
 - [builder](/api/builder)
-- [repository/snapshot-operation-result](/api/repository/snapshot-operation-result)
+- [repository](/api/repository)

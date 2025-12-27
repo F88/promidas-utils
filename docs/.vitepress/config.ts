@@ -43,15 +43,7 @@ export default defineConfig({
               { text: 'config', link: '/api/config' },
               { text: 'store', link: '/api/store' },
               { text: 'builder', link: '/api/builder' },
-              {
-                text: 'repository',
-                items: [
-                  {
-                    text: 'snapshot-operation-result',
-                    link: '/api/repository/snapshot-operation-result',
-                  },
-                ],
-              },
+              { text: 'repository', link: '/api/repository' },
             ],
           },
         ],

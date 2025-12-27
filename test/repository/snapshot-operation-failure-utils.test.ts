@@ -12,7 +12,7 @@ import {
   parseStoreSnapshotFailure,
   parseUnknownSnapshotFailure,
   toLocalizedMessage,
-} from '../../lib/snapshot-operation-result/snapshot-operation-failure-utils.js';
+} from '../../lib/repository/snapshot-operation-failure-utils.js';
 
 describe('snapshot-operation-failure-utils', () => {
   describe('parseFetcherSnapshotFailure', () => {

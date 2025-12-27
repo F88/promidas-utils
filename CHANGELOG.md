@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Repository utilities (`@f88/promidas-utils/repository`)
+    - `toLocalizedMessage(failure)` - スナップショット操作失敗を日本語メッセージに変換
+    - `parseSnapshotOperationFailure(failure)` - 失敗オブジェクトにローカライズメッセージを追加
+    - `ParsedSnapshotOperationFailure` 型 - ローカライズメッセージ付き失敗型
+
+- Builder utilities (`@f88/promidas-utils/builder`)
+    - `toErrorMessage(error)` - ビルドエラーを日本語メッセージに変換
+
+- Builder/Repository APIドキュメント追加
+
 ## [0.2.0] - 2025-12-26
 
 ### Added
