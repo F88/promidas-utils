@@ -21,21 +21,22 @@ export type ParsedSnapshotOperationFailure = SnapshotOperationFailure & {
  *
  * @param failure - The fetcher snapshot failure to parse
  * @returns Localized error message in Japanese
+ * @internal Exported primarily for testing purposes
  */
-function parseFetcherSnapshotFailure(failure: FetcherSnapshotFailure): string {
+export function parseFetcherSnapshotFailure(
+  failure: FetcherSnapshotFailure,
+): string {
   const buildFetcherFailureContextLines = (
     currentLocalizedMessage: string,
   ): string[] => {
     const lines: string[] = [];
 
-    const method = failure.details.req?.method;
-    const url = failure.details.req?.url;
+    const { method, url } = failure.details.req ?? {};
     if (method || url) {
       lines.push(`リクエスト: ${[method, url].filter(Boolean).join(' ')}`);
     }
 
-    const statusText = failure.details.res?.statusText;
-    const resCode = failure.details.res?.code;
+    const { statusText, code: resCode } = failure.details.res ?? {};
     if (failure.status || statusText) {
       if (failure.status) {
         lines.push(
@@ -221,8 +222,11 @@ function parseFetcherSnapshotFailure(failure: FetcherSnapshotFailure): string {
  *
  * @param failure - The store snapshot failure to parse
  * @returns Localized error message in Japanese
+ * @internal Exported primarily for testing purposes
  */
-function parseStoreSnapshotFailure(failure: StoreSnapshotFailure): string {
+export function parseStoreSnapshotFailure(
+  failure: StoreSnapshotFailure,
+): string {
   const localizeStoreDataState = (
     dataState: StoreSnapshotFailure['dataState'],
   ): string => {
@@ -305,8 +309,11 @@ function parseStoreSnapshotFailure(failure: StoreSnapshotFailure): string {
  *
  * @param failure - The unknown snapshot failure to parse
  * @returns Localized error message in Japanese
+ * @internal Exported primarily for testing purposes
  */
-function parseUnknownSnapshotFailure(failure: UnknownSnapshotFailure): string {
+export function parseUnknownSnapshotFailure(
+  failure: UnknownSnapshotFailure,
+): string {
   return failure.message;
 }
 
@@ -357,8 +364,7 @@ export function toLocalizedMessage(
       return parseUnknownSnapshotFailure(failure);
     default: {
       const _exhaustiveCheck: never = origin;
-      void _exhaustiveCheck;
-      return '不明なエラーが発生しました。';
+      return _exhaustiveCheck;
     }
   }
 }
