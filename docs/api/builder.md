@@ -85,7 +85,7 @@ try {
 
 **ConfigurationError:**
 
-```
+```plaintext
 ストアの設定が無効です。
 次を確認してください:
 - maxDataSizeBytesが30 MiBを超えていないか
@@ -98,7 +98,7 @@ try {
 
 **DataSizeExceededError:**
 
-```
+```plaintext
 データサイズが制限を超えました。
 既存のスナップショットは保持されます。
 次を試してください:
@@ -114,7 +114,7 @@ dataState: UNCHANGED
 
 **SizeEstimationError:**
 
-```
+```plaintext
 データサイズの推定に失敗しました。
 既存のスナップショットは保持されます。
 次のような原因が考えられます:
@@ -129,13 +129,13 @@ dataState: UNCHANGED
 
 **汎用Error (APIトークンエラー):**
 
-```
+```plaintext
 APIトークンが設定されていません
 ```
 
 **汎用Error (その他):**
 
-```
+```plaintext
 不明なエラーが発生しました: [元のエラーメッセージ]
 ```
 

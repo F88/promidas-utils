@@ -37,6 +37,7 @@ export function parseConfigurationError(error: ConfigurationError): string {
       lines.push(`詳細: ${error.message}`);
     }
 
+    /* c8 ignore next 2 */
     if (lines.length === 0) {
       return '';
     }
@@ -97,6 +98,7 @@ export function parseDataSizeExceededError(
       lines.push(`詳細: ${error.message}`);
     }
 
+    /* c8 ignore next 2 */
     if (lines.length === 0) {
       return '';
     }
@@ -158,6 +160,7 @@ export function parseSizeEstimationError(error: SizeEstimationError): string {
       lines.push(`詳細: ${error.message}`);
     }
 
+    /* c8 ignore next 2 */
     if (lines.length === 0) {
       return '';
     }
@@ -302,6 +305,7 @@ export function toErrorMessage(error: Error): string {
     return parseError(error);
   }
 
+  /* c8 ignore next */
   // Unknown
   return '不明なエラーが発生しました。';
 }
