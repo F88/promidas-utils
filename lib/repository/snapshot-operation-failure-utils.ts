@@ -236,8 +236,6 @@ export function parseFetcherSnapshotFailure(
  *
  * @param failure - The store snapshot failure to parse
  * @returns Localized error message in Japanese with troubleshooting information
- * @param failure - The store snapshot failure to parse
- * @returns Localized error message in Japanese
  * @internal Exported primarily for testing purposes
  */
 export function parseStoreSnapshotFailure(
@@ -328,8 +326,6 @@ export function parseStoreSnapshotFailure(
  * Returns the original error message as-is since no additional context is available.
  *
  * @param failure - The unknown snapshot failure to parse
- * @returns The original error message from the failur
- * @param failure - The unknown snapshot failure to parse
  * @returns Localized error message in Japanese
  * @internal Exported primarily for testing purposes
  */
@@ -340,10 +336,8 @@ export function parseUnknownSnapshotFailure(
 }
 
 /**
- * Parses snapshot operation failures to structured error information. origin.
- * All original properties are preserved
- * Adds a localized message to the original error object based on the error's
- * origin (fetcher, store, or unknown).
+ * Adds a localized message to the snapshot operation failure while preserving all properties.
+ * origin (fetcher, store, or unknown) is used to choose the appropriate parser.
  *
  * @param failure - The snapshot operation failure to parse, or null
  * @returns Original error with localized message added, or null if input is null
@@ -360,10 +354,10 @@ export function parseSnapshotOperationFailure(
 }
 
 /**
- * Converts snapshot operation failures to user-friendly Japanese messages..
- * Returns a default message for null input
- * Directly calls the appropriate parse function based on the error's origin,
- * avoiding unnecessary object creation when only the message is needed.
+ * Converts snapshot operation failures to user-friendly Japanese messages.
+ * Returns a default message for null input.
+ * Directly calls the appropriate parse function based on the error's origin
+ * to avoid unnecessary object creation when only the message is needed.
  *
  * @param failure - The snapshot operation failure to convert, or null
  * @returns Localized error message in Japanese
