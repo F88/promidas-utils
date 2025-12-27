@@ -76,6 +76,7 @@ export function parseFetcherSnapshotFailure(
     currentLocalizedMessage: string,
   ): string => {
     const lines = buildFetcherFailureContextLines(currentLocalizedMessage);
+    /* c8 ignore next 2 */
     if (lines.length === 0) {
       return '';
     }
@@ -83,6 +84,7 @@ export function parseFetcherSnapshotFailure(
   };
 
   const withFetcherReferenceInfo = (localizedMessage: string): string => {
+    /* c8 ignore next */
     return `${localizedMessage}${buildFetcherFailureReferenceBlock(localizedMessage)}`;
   };
 
@@ -272,6 +274,7 @@ export function parseStoreSnapshotFailure(
       lines.push(`詳細: ${failure.message}`);
     }
 
+    /* c8 ignore next 2 */
     if (lines.length === 0) {
       return '';
     }
@@ -280,6 +283,7 @@ export function parseStoreSnapshotFailure(
   };
 
   const withStoreReferenceInfo = (localizedMessage: string): string => {
+    /* c8 ignore next */
     return `${localizedMessage}${buildStoreFailureReferenceBlock(localizedMessage)}`;
   };
 

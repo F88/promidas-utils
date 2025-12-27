@@ -1047,6 +1047,27 @@ describe('snapshot-operation-failure-utils', () => {
         );
       });
 
+      it('should include request/response context when available', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_BAD_REQUEST',
+          message: 'Bad Request',
+          // status intentionally undefined to exercise statusText branch
+          details: {
+            req: { method: 'GET', url: 'https://example.com/data' },
+            res: { statusText: 'Bad Request', code: 'ECONNRESET' },
+          },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+
+        expect(result).toContain('リクエスト: GET https://example.com/data');
+        expect(result).toContain('レスポンス: Bad Request');
+        expect(result).toContain('レスポンスコード: ECONNRESET');
+      });
+
       it('should return empty string when fetcher failure has no lines in reference block', () => {
         const failure: FetcherSnapshotFailure = {
           ok: false,
