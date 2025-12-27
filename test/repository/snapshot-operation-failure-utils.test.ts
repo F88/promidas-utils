@@ -743,7 +743,7 @@ describe('snapshot-operation-failure-utils', () => {
 
         const result = parseStoreSnapshotFailure(failure);
         expect(result).toContain('エラーコード: STORE_CAPACITY_EXCEEDED');
-        expect(result).toContain('分類: storage');
+        expect(result).toContain('分類: storage_limit');
         expect(result).toContain('dataState: UNCHANGED');
       });
 
