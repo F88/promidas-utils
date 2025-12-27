@@ -16,6 +16,64 @@ import {
 } from '@f88/promidas/store';
 
 /**
+ * Localizes dataState values to Japanese messages.
+ *
+ * @param dataState - The data state to localize
+ * @returns Localized message in Japanese
+ * @internal
+ */
+function localizeDataState(dataState: 'UNCHANGED' | 'UNKNOWN'): string {
+  switch (dataState) {
+    case 'UNCHANGED':
+      return '既存のスナップショットは保持されます。';
+    case 'UNKNOWN':
+      return '既存のスナップショットの状態は不明です。';
+    /* c8 ignore next */
+    default: {
+      const _exhaustiveCheck: never = dataState;
+      return _exhaustiveCheck;
+    }
+  }
+}
+
+/**
+ * Builds a reference information block with error details.
+ *
+ * @param details - Key-value pairs to include in the reference block
+ * @param errorMessage - The error message to check for duplication
+ * @param localizedMessage - The localized message to avoid duplicating
+ * @returns Formatted reference block or empty string
+ * @internal
+ */
+function buildReferenceBlock(
+  details: Record<string, unknown>,
+  errorMessage: string | undefined,
+  localizedMessage: string,
+): string {
+  const lines: string[] = [];
+
+  // Add all detail fields
+  for (const [key, value] of Object.entries(details)) {
+    if (value !== undefined && value !== null) {
+      lines.push(`${key}: ${value}`);
+    }
+  }
+
+  // Keep raw message as-is for stability (no parsing).
+  // Avoid duplicating it when the localized message includes the raw message.
+  if (errorMessage && !localizedMessage.includes(errorMessage)) {
+    lines.push(`詳細: ${errorMessage}`);
+  }
+
+  /* c8 ignore next 2 */
+  if (lines.length === 0) {
+    return '';
+  }
+
+  return `\n\n[参考情報]\n${lines.join('\n')}`;
+}
+
+/**
  * Parses ConfigurationError to localized Japanese message.
  *
  * Converts configuration validation errors into user-friendly messages
@@ -26,25 +84,6 @@ import {
  * @internal Exported primarily for testing purposes
  */
 export function parseConfigurationError(error: ConfigurationError): string {
-  const buildReferenceBlock = (currentLocalizedMessage: string): string => {
-    const lines: string[] = [];
-
-    lines.push(`エラー種別: ${error.name}`);
-
-    // Keep raw message as-is for stability (no parsing).
-    // Avoid duplicating it when the localized message includes the raw message.
-    if (error.message && !currentLocalizedMessage.includes(error.message)) {
-      lines.push(`詳細: ${error.message}`);
-    }
-
-    /* c8 ignore next 2 */
-    if (lines.length === 0) {
-      return '';
-    }
-
-    return `\n\n[参考情報]\n${lines.join('\n')}`;
-  };
-
   const localizedMessage = [
     'ストアの設定が無効です。',
     '次を確認してください:',
@@ -52,7 +91,13 @@ export function parseConfigurationError(error: ConfigurationError): string {
     '- 設定値の型や範囲が正しいか',
   ].join('\n');
 
-  return `${localizedMessage}${buildReferenceBlock(localizedMessage)}`;
+  const refBlock = buildReferenceBlock(
+    { エラー種別: error.name },
+    error.message,
+    localizedMessage,
+  );
+
+  return `${localizedMessage}${refBlock}`;
 }
 
 /**
@@ -68,44 +113,6 @@ export function parseConfigurationError(error: ConfigurationError): string {
 export function parseDataSizeExceededError(
   error: DataSizeExceededError,
 ): string {
-  const localizeDataState = (
-    dataState: DataSizeExceededError['dataState'],
-  ): string => {
-    switch (dataState) {
-      case 'UNCHANGED':
-        return '既存のスナップショットは保持されます。';
-      case 'UNKNOWN':
-        return '既存のスナップショットの状態は不明です。';
-      /* c8 ignore next */
-      default: {
-        const _exhaustiveCheck: never = dataState;
-        return _exhaustiveCheck;
-      }
-    }
-  };
-
-  const buildReferenceBlock = (currentLocalizedMessage: string): string => {
-    const lines: string[] = [];
-
-    lines.push(`エラー種別: ${error.name}`);
-    lines.push(`データサイズ: ${error.dataSizeBytes} バイト`);
-    lines.push(`最大サイズ: ${error.maxDataSizeBytes} バイト`);
-    lines.push(`dataState: ${error.dataState}`);
-
-    // Keep raw message as-is for stability (no parsing).
-    // Avoid duplicating it when the localized message includes the raw message.
-    if (error.message && !currentLocalizedMessage.includes(error.message)) {
-      lines.push(`詳細: ${error.message}`);
-    }
-
-    /* c8 ignore next 2 */
-    if (lines.length === 0) {
-      return '';
-    }
-
-    return `\n\n[参考情報]\n${lines.join('\n')}`;
-  };
-
   const localizedMessage = [
     'データサイズが制限を超えました。',
     localizeDataState(error.dataState),
@@ -114,7 +121,18 @@ export function parseDataSizeExceededError(
     '- ストアのmaxDataSizeBytesを増やす',
   ].join('\n');
 
-  return `${localizedMessage}${buildReferenceBlock(localizedMessage)}`;
+  const refBlock = buildReferenceBlock(
+    {
+      エラー種別: error.name,
+      データサイズ: `${error.dataSizeBytes} バイト`,
+      最大サイズ: `${error.maxDataSizeBytes} バイト`,
+      dataState: error.dataState,
+    },
+    error.message,
+    localizedMessage,
+  );
+
+  return `${localizedMessage}${refBlock}`;
 }
 
 /**
@@ -128,46 +146,6 @@ export function parseDataSizeExceededError(
  * @internal Exported primarily for testing purposes
  */
 export function parseSizeEstimationError(error: SizeEstimationError): string {
-  const localizeDataState = (
-    dataState: SizeEstimationError['dataState'],
-  ): string => {
-    switch (dataState) {
-      case 'UNCHANGED':
-        return '既存のスナップショットは保持されます。';
-      case 'UNKNOWN':
-        return '既存のスナップショットの状態は不明です。';
-      /* c8 ignore next */
-      default: {
-        const _exhaustiveCheck: never = dataState;
-        return _exhaustiveCheck;
-      }
-    }
-  };
-
-  const buildReferenceBlock = (currentLocalizedMessage: string): string => {
-    const lines: string[] = [];
-
-    lines.push(`エラー種別: ${error.name}`);
-    lines.push(`dataState: ${error.dataState}`);
-
-    if (error.cause) {
-      lines.push(`原因: ${error.cause}`);
-    }
-
-    // Keep raw message as-is for stability (no parsing).
-    // Avoid duplicating it when the localized message includes the raw message.
-    if (error.message && !currentLocalizedMessage.includes(error.message)) {
-      lines.push(`詳細: ${error.message}`);
-    }
-
-    /* c8 ignore next 2 */
-    if (lines.length === 0) {
-      return '';
-    }
-
-    return `\n\n[参考情報]\n${lines.join('\n')}`;
-  };
-
   const localizedMessage = [
     'データサイズの推定に失敗しました。',
     localizeDataState(error.dataState),
@@ -176,7 +154,17 @@ export function parseSizeEstimationError(error: SizeEstimationError): string {
     '- JSONシリアライズできない型が含まれている',
   ].join('\n');
 
-  return `${localizedMessage}${buildReferenceBlock(localizedMessage)}`;
+  const refBlock = buildReferenceBlock(
+    {
+      エラー種別: error.name,
+      dataState: error.dataState,
+      原因: error.cause,
+    },
+    error.message,
+    localizedMessage,
+  );
+
+  return `${localizedMessage}${refBlock}`;
 }
 
 /**
@@ -189,44 +177,21 @@ export function parseSizeEstimationError(error: SizeEstimationError): string {
  * @internal Exported primarily for testing purposes
  */
 export function parseStoreError(error: StoreError): string {
-  const localizeDataState = (dataState: StoreError['dataState']): string => {
-    switch (dataState) {
-      case 'UNCHANGED':
-        return '既存のスナップショットは保持されます。';
-      case 'UNKNOWN':
-        return '既存のスナップショットの状態は不明です。';
-      default: {
-        const _exhaustiveCheck: never = dataState;
-        return _exhaustiveCheck;
-      }
-    }
-  };
-
-  const buildReferenceBlock = (currentLocalizedMessage: string): string => {
-    const lines: string[] = [];
-
-    lines.push(`エラー種別: ${error.name}`);
-    lines.push(`dataState: ${error.dataState}`);
-
-    // Keep raw message as-is for stability (no parsing).
-    // Avoid duplicating it when the localized message includes the raw message.
-    if (error.message && !currentLocalizedMessage.includes(error.message)) {
-      lines.push(`詳細: ${error.message}`);
-    }
-
-    if (lines.length === 0) {
-      return '';
-    }
-
-    return `\n\n[参考情報]\n${lines.join('\n')}`;
-  };
-
   const localizedMessage = [
     'ストアのエラーが発生しました。',
     localizeDataState(error.dataState),
   ].join('\n');
 
-  return `${localizedMessage}${buildReferenceBlock(localizedMessage)}`;
+  const refBlock = buildReferenceBlock(
+    {
+      エラー種別: error.name,
+      dataState: error.dataState,
+    },
+    error.message,
+    localizedMessage,
+  );
+
+  return `${localizedMessage}${refBlock}`;
 }
 
 /**
