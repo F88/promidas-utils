@@ -919,4 +919,133 @@ describe('snapshot-operation-failure-utils', () => {
       expect(result).toBe('Something went wrong');
     });
   });
+
+  describe('Coverage improvements for edge cases', () => {
+    describe('HTTP status code ranges', () => {
+      it('should handle 4xx client errors not specifically handled', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_ERROR',
+          message: 'Client error',
+          status: 418,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('クライアントエラーが発生しました (HTTP 418)');
+      });
+
+      it('should handle 5xx server errors not specifically handled', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'SERVER_ERROR',
+          message: 'Server error',
+          status: 599,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('サーバーエラーが発生しました (HTTP 599)');
+      });
+
+      it('should handle other HTTP status codes', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'UNKNOWN',
+          message: 'Unknown HTTP error',
+          status: 300,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('HTTPエラーが発生しました (HTTP 300)');
+      });
+    });
+
+    describe('Store errors with UNKNOWN dataState', () => {
+      it('should handle STORE_CAPACITY_EXCEEDED with UNKNOWN dataState', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message: 'Data size exceeded',
+          dataState: 'UNKNOWN',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        expect(result).toContain('既存のスナップショットの状態は不明です');
+      });
+
+      it('should handle STORE_SERIALIZATION_FAILED with UNKNOWN dataState', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'serialization',
+          code: 'STORE_SERIALIZATION_FAILED',
+          message: 'Serialization failed',
+          dataState: 'UNKNOWN',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        expect(result).toContain('既存のスナップショットの状態は不明です');
+      });
+
+      it('should handle STORE_UNKNOWN with UNKNOWN dataState', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'unknown',
+          code: 'STORE_UNKNOWN',
+          message: 'Unknown store error',
+          dataState: 'UNKNOWN',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        expect(result).toContain('既存のスナップショットの状態は不明です');
+      });
+    });
+
+    describe('Reference block edge cases', () => {
+      it('should not include message in reference block when it matches localized message', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message:
+            'データサイズが制限を超えました。\n既存のスナップショットは保持されます。\n次を試してください:\n- limitパラメータを減らす\n- ストアのmaxDataSizeBytesを増やす(設定可能な場合)',
+          dataState: 'UNCHANGED',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        // Should not have "詳細:" line since the message matches the localized message
+        expect(result).not.toContain('詳細: データサイズが制限を超えました');
+      });
+
+      it('should not include message in fetcher reference block when it matches localized message', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_UNAUTHORIZED',
+          message: 'APIトークンが無効です。設定を確認してください。',
+          status: 401,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        // Should not have "詳細:" line since the message matches the localized message
+        expect(result).not.toContain(
+          '詳細: APIトークンが無効です。設定を確認してください。',
+        );
+      });
+    });
+  });
 });

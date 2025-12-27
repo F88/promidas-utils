@@ -278,4 +278,55 @@ describe('build-error-utils', () => {
       expect(result).toContain('データに循環参照が含まれている');
     });
   });
+
+  describe('Edge cases and coverage improvements', () => {
+    it('should handle null error input', () => {
+      const result = toErrorMessage(null as unknown as Error);
+
+      expect(result).toBe('不明なエラーが発生しました。');
+    });
+
+    it('should handle DataSizeExceededError with UNKNOWN dataState', () => {
+      const error = new DataSizeExceededError('UNKNOWN', 2000000, 1000000);
+
+      const result = parseDataSizeExceededError(error);
+
+      expect(result).toContain('既存のスナップショットの状態は不明です');
+    });
+
+    it('should handle SizeEstimationError with UNKNOWN dataState', () => {
+      const causeError = new Error('Test error');
+      const error = new SizeEstimationError('UNKNOWN', causeError);
+
+      const result = parseSizeEstimationError(error);
+
+      expect(result).toContain('既存のスナップショットの状態は不明です');
+    });
+
+    it('should handle StoreError with empty message', () => {
+      const error = new StoreError('');
+
+      const result = parseStoreError(error);
+
+      expect(result).toContain('ストアのエラーが発生しました');
+      expect(result).not.toContain('詳細:');
+    });
+
+    it('should handle DataSizeExceededError with empty message', () => {
+      const error = new DataSizeExceededError('UNCHANGED', 2000000, 1000000);
+      Object.defineProperty(error, 'message', { value: '' });
+
+      const result = parseDataSizeExceededError(error);
+
+      expect(result).not.toContain('詳細:');
+    });
+
+    it('should handle generic Error', () => {
+      const error = new Error('Generic error message');
+
+      const result = toErrorMessage(error);
+
+      expect(result).toBe('不明なエラーが発生しました: Generic error message');
+    });
+  });
 });
