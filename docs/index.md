@@ -10,6 +10,11 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
+<p style="display: flex; gap: 8px; flex-wrap: wrap;">
+  <a href="https://deepwiki.com/F88/promidas-utils"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+  <a href="https://codewiki.google/github.com/f88/promidas-utils"><img src="https://www.gstatic.com/_/boq-sdlc-agents-ui/_/r/YUi5dj2UWvE.svg" alt="View Code Wiki"></a>
+</p>
+
 # 🧰 PROMIDAS Utilities
 
 Utilities to assist development using PROMIDAS.
