@@ -42,7 +42,7 @@ type ParsedSnapshotOperationFailure = SnapshotOperationFailure & {
 スナップショット操作エラーを解析し、ローカライズされたメッセージを追加します。
 
 - `failure` が `null` の場合は `null` を返します
-- エラーの発生元 (fetcher, store, unknown) に応じて適切な日本語メッセージを生成します
+- エラーの発生元 (fetcher, store, repository, unknown) に応じて適切な日本語メッセージを生成します
 - 元のエラーオブジェクトの全てのプロパティを保持します
 
 #### 使用例
@@ -116,6 +116,28 @@ APIリクエストの失敗時に生成されるメッセージ。以下の情�
 - `"データサイズが制限を超えました。\n既存のスナップショットは保持されます。\n次を試してください:\n- limitパラメータを減らす\n- ストアのmaxDataSizeBytesを増やす(設定可能な場合)"`
 - `"データのシリアライズに失敗しました。\n既存のスナップショットは保持されます。\nデータ形式に問題がある可能性があります。"`
 - `"ストレージエラーが発生しました。\n既存のスナップショットは保持されます。"`
+
+### Repository エラー
+
+リポジトリ層での検証やデータ処理の失敗時に生成されるメッセージ (`@f88/promidas` v1.1.0以降):
+
+- `REPOSITORY_VALIDATION_ERROR`: スナップショットデータの検証に失敗した場合 (Zodバリデーションエラー)
+- `REPOSITORY_INVALID_STATE`: リポジトリの状態が不正な場合 (例: `setupSnapshot()` 実行前に `refreshSnapshot()` を呼び出し)
+- `REPOSITORY_SIZE_ESTIMATION_ERROR`: データサイズの推定に失敗した場合
+- `REPOSITORY_UNKNOWN`: 原因不明のリポジトリエラー
+
+すべてのリポジトリエラーには以下の参照情報が含まれます:
+
+- エラーコード
+- 分類 (kind)
+- 詳細メッセージ (localizedMessageと異なる場合のみ)
+
+例:
+
+- `"データの検証に失敗しました。データ形式が正しくありません。\n\n[参考情報]\nエラーコード: REPOSITORY_VALIDATION_ERROR\n分類: validation\n詳細: Invalid prototype data"`
+- `"リポジトリの状態が不正です。先にsetupSnapshot()を実行してください。\n\n[参考情報]\nエラーコード: REPOSITORY_INVALID_STATE\n分類: invalid_state"`
+- `"データサイズの推定に失敗しました。\n\n[参考情報]\nエラーコード: REPOSITORY_SIZE_ESTIMATION_ERROR\n分類: size_estimation"`
+- `"リポジトリエラーが発生しました。\n\n[参考情報]\nエラーコード: REPOSITORY_UNKNOWN\n分類: unknown"`
 
 ### Unknown エラー
 
