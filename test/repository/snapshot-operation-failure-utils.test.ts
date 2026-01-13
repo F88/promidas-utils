@@ -1,5 +1,6 @@
 import type {
   FetcherSnapshotFailure,
+  RepositorySnapshotFailure,
   SnapshotOperationFailure,
   StoreSnapshotFailure,
   UnknownSnapshotFailure,
@@ -8,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   parseFetcherSnapshotFailure,
+  parseRepositorySnapshotFailure,
   parseSnapshotOperationFailure,
   parseStoreSnapshotFailure,
   parseUnknownSnapshotFailure,
@@ -833,6 +835,26 @@ describe('snapshot-operation-failure-utils', () => {
       );
     });
 
+    it('should add localizedMessage to repository failure', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'invalid_state',
+        code: 'REPOSITORY_INVALID_STATE',
+        message: 'Invalid state',
+      };
+
+      const result = parseSnapshotOperationFailure(failure);
+
+      expect(result).not.toBeNull();
+      expect(result?.origin).toBe('repository');
+      if (result?.origin === 'repository') {
+        expect(result.code).toBe('REPOSITORY_INVALID_STATE');
+      }
+      expect(result?.localizedMessage).toContain('リポジトリの状態が不正です');
+      expect(result?.localizedMessage).toContain('参考情報');
+    });
+
     it('should add localizedMessage to unknown failure', () => {
       const failure: UnknownSnapshotFailure = {
         ok: false,
@@ -873,50 +895,73 @@ describe('snapshot-operation-failure-utils', () => {
   });
 
   describe('toLocalizedMessage', () => {
-    it('should return default message when input is null', () => {
-      const result = toLocalizedMessage(null);
-      expect(result).toBe('不明なエラーが発生しました。');
+    describe('null input', () => {
+      it('should return default message when input is null', () => {
+        const result = toLocalizedMessage(null);
+        expect(result).toBe('不明なエラーが発生しました。');
+      });
     });
 
-    it('should delegate to parseFetcherSnapshotFailure for fetcher failures', () => {
-      const failure: FetcherSnapshotFailure = {
-        ok: false,
-        origin: 'fetcher',
-        kind: 'http',
-        code: 'CLIENT_UNAUTHORIZED',
-        message: 'Unauthorized',
-        status: 401,
-        details: { req: {}, res: {} },
-      };
+    describe('fetcher failures', () => {
+      it('should delegate to parseFetcherSnapshotFailure', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_UNAUTHORIZED',
+          message: 'Unauthorized',
+          status: 401,
+          details: { req: {}, res: {} },
+        };
 
-      const result = toLocalizedMessage(failure);
-      expect(result).toContain('APIトークンが無効です');
+        const result = toLocalizedMessage(failure);
+        expect(result).toContain('APIトークンが無効です');
+      });
     });
 
-    it('should delegate to parseStoreSnapshotFailure for store failures', () => {
-      const failure: StoreSnapshotFailure = {
-        ok: false,
-        origin: 'store',
-        kind: 'storage_limit',
-        code: 'STORE_CAPACITY_EXCEEDED',
-        message: 'Data size exceeded',
-        dataState: 'UNCHANGED',
-      };
+    describe('store failures', () => {
+      it('should delegate to parseStoreSnapshotFailure', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message: 'Data size exceeded',
+          dataState: 'UNCHANGED',
+        };
 
-      const result = toLocalizedMessage(failure);
-      expect(result).toContain('データサイズが制限を超えました');
+        const result = toLocalizedMessage(failure);
+        expect(result).toContain('データサイズが制限を超えました');
+      });
     });
 
-    it('should delegate to parseUnknownSnapshotFailure for unknown failures', () => {
-      const failure: UnknownSnapshotFailure = {
-        ok: false,
-        origin: 'unknown',
+    describe('repository failures', () => {
+      it('should delegate to parseRepositorySnapshotFailure', () => {
+        const failure: RepositorySnapshotFailure = {
+          ok: false,
+          origin: 'repository',
+          kind: 'validation',
+          code: 'REPOSITORY_VALIDATION_ERROR',
+          message: 'Validation failed',
+        };
 
-        message: 'Something went wrong',
-      };
+        const result = toLocalizedMessage(failure);
+        expect(result).toContain('データの検証に失敗しました');
+      });
+    });
 
-      const result = toLocalizedMessage(failure);
-      expect(result).toBe('Something went wrong');
+    describe('unknown failures', () => {
+      it('should delegate to parseUnknownSnapshotFailure', () => {
+        const failure: UnknownSnapshotFailure = {
+          ok: false,
+          origin: 'unknown',
+
+          message: 'Something went wrong',
+        };
+
+        const result = toLocalizedMessage(failure);
+        expect(result).toBe('Something went wrong');
+      });
     });
   });
 
@@ -1099,6 +1144,97 @@ describe('snapshot-operation-failure-utils', () => {
         // Should still have reference block
         expect(result).toContain('[参考情報]');
       });
+
+      it('should return empty string when repository failure has no lines in reference block', () => {
+        const failure: RepositorySnapshotFailure = {
+          ok: false,
+          origin: 'repository',
+          kind: 'invalid_state',
+          code: 'REPOSITORY_INVALID_STATE',
+          message:
+            'リポジトリの状態が不正です。先にsetupSnapshot()を実行してください。',
+        };
+        const result = parseRepositorySnapshotFailure(failure);
+        // Should still have reference block
+        expect(result).toContain('[参考情報]');
+      });
+    });
+  });
+
+  describe('parseRepositorySnapshotFailure', () => {
+    it('should handle REPOSITORY_VALIDATION_ERROR', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'validation',
+        code: 'REPOSITORY_VALIDATION_ERROR',
+        message: 'Validation failed',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('データの検証に失敗しました');
+      expect(result).toContain('[参考情報]');
+      expect(result).toContain('エラーコード: REPOSITORY_VALIDATION_ERROR');
+      expect(result).toContain('分類: validation');
+      expect(result).toContain('詳細: Validation failed');
+    });
+
+    it('should handle REPOSITORY_INVALID_STATE', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'invalid_state',
+        code: 'REPOSITORY_INVALID_STATE',
+        message: 'Invalid state',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('リポジトリの状態が不正です');
+      expect(result).toContain('setupSnapshot()を実行してください');
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should handle REPOSITORY_SIZE_ESTIMATION_ERROR', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'size_estimation',
+        code: 'REPOSITORY_SIZE_ESTIMATION_ERROR',
+        message: 'Size estimation failed',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('データサイズの推定に失敗しました');
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should handle REPOSITORY_UNKNOWN', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'unknown',
+        code: 'REPOSITORY_UNKNOWN',
+        message: 'Unknown repository error',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('リポジトリエラーが発生しました');
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should avoid duplicating message when localized message matches raw message', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'unknown',
+        code: 'REPOSITORY_UNKNOWN',
+        message: 'リポジトリエラーが発生しました。',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      // Should not duplicate the message in details
+      const detailsMatch = result.match(/詳細:/g);
+      expect(detailsMatch).toBeNull();
     });
   });
 });
