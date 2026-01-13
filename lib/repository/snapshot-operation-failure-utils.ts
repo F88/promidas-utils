@@ -62,7 +62,9 @@ export function parseFetcherSnapshotFailure(
       lines.push(`レスポンスコード: ${resCode}`);
     }
 
-    lines.push(`エラーコード: ${failure.code}`);
+    if (failure.code) {
+      lines.push(`エラーコード: ${failure.code}`);
+    }
 
     // Keep raw message as-is for stability (no parsing).
     // Avoid duplicating it when the localized message is already the raw message.
@@ -263,9 +265,15 @@ export function parseStoreSnapshotFailure(
   ): string => {
     const lines: string[] = [];
 
-    lines.push(`エラーコード: ${failure.code}`);
-    lines.push(`分類: ${failure.kind}`);
-    lines.push(`dataState: ${failure.dataState}`);
+    if (failure.code) {
+      lines.push(`エラーコード: ${failure.code}`);
+    }
+    if (failure.kind) {
+      lines.push(`分類: ${failure.kind}`);
+    }
+    if (failure.dataState) {
+      lines.push(`dataState: ${failure.dataState}`);
+    }
 
     // Keep raw message as-is for stability (no parsing).
     // Avoid duplicating it when the localized message is already the raw message.
@@ -338,8 +346,12 @@ export function parseRepositorySnapshotFailure(
   ): string => {
     const lines: string[] = [];
 
-    lines.push(`エラーコード: ${failure.code}`);
-    lines.push(`分類: ${failure.kind}`);
+    if (failure.code) {
+      lines.push(`エラーコード: ${failure.code}`);
+    }
+    if (failure.kind) {
+      lines.push(`分類: ${failure.kind}`);
+    }
 
     // Keep raw message as-is for stability (no parsing).
     // Avoid duplicating it when the localized message is already the raw message.
