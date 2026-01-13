@@ -1145,7 +1145,7 @@ describe('snapshot-operation-failure-utils', () => {
         expect(result).toContain('[参考情報]');
       });
 
-      it('should return empty string when repository failure has no lines in reference block', () => {
+      it('should not include details in reference block when raw message matches localized message', () => {
         const failure: RepositorySnapshotFailure = {
           ok: false,
           origin: 'repository',
@@ -1157,6 +1157,8 @@ describe('snapshot-operation-failure-utils', () => {
         const result = parseRepositorySnapshotFailure(failure);
         // Should still have reference block
         expect(result).toContain('[参考情報]');
+        // But the "詳細:" part should not be present
+        expect(result).not.toContain('詳細:');
       });
     });
   });
