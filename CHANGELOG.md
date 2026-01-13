@@ -24,7 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - `REPOSITORY_UNKNOWN` - 未分類のリポジトリエラー
     - `toLocalizedMessage()` を更新し、リポジトリエラーを新しいパーサーに委譲
     - すべてのリポジトリエラーにデバッグ用の参照情報（エラーコード、分類、詳細）を含める
-- **ビルド環境**: Node.js の最低要件を 22 以降に引き上げ、`engines` フィールド、CI (22.x/24.x) とドキュメントの記載を更新
 
 ## [0.3.0] - 2025-12-27
 
