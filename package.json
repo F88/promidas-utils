@@ -49,14 +49,14 @@
     "@f88/promidas": ">=1.0.0"
   },
   "devDependencies": {
-    "@f88/promidas": "github:f88/promidas#v1.0.0",
+    "@f88/promidas": "github:f88/promidas#v1.1.0",
     "@types/eslint": "^9.6.1",
     "@types/node": "^24.10.2",
     "@types/webappsec-credential-management": "^0.6.9",
-    "@typescript-eslint/eslint-plugin": "^8.50.1",
-    "@typescript-eslint/parser": "^8.50.1",
-    "@vitest/coverage-v8": "^4.0.16",
-    "@vitest/ui": "^4.0.16",
+    "@typescript-eslint/eslint-plugin": "^8.53.0",
+    "@typescript-eslint/parser": "^8.53.0",
+    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/ui": "^4.0.17",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -66,7 +66,7 @@
     "ts-essentials": "^10.1.1",
     "typescript": "^5.9.3",
     "vitepress": "^1.6.4",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.17"
   },
   "files": [
     "README.md",

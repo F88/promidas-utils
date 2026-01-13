@@ -8,8 +8,9 @@
  */
 
 import type {
-  SnapshotOperationFailure,
   FetcherSnapshotFailure,
+  RepositorySnapshotFailure,
+  SnapshotOperationFailure,
   StoreSnapshotFailure,
   UnknownSnapshotFailure,
 } from '@f88/promidas/repository/types';
@@ -61,7 +62,9 @@ export function parseFetcherSnapshotFailure(
       lines.push(`レスポンスコード: ${resCode}`);
     }
 
-    lines.push(`エラーコード: ${failure.code}`);
+    if (failure.code) {
+      lines.push(`エラーコード: ${failure.code}`);
+    }
 
     // Keep raw message as-is for stability (no parsing).
     // Avoid duplicating it when the localized message is already the raw message.
@@ -262,9 +265,15 @@ export function parseStoreSnapshotFailure(
   ): string => {
     const lines: string[] = [];
 
-    lines.push(`エラーコード: ${failure.code}`);
-    lines.push(`分類: ${failure.kind}`);
-    lines.push(`dataState: ${failure.dataState}`);
+    if (failure.code) {
+      lines.push(`エラーコード: ${failure.code}`);
+    }
+    if (failure.kind) {
+      lines.push(`分類: ${failure.kind}`);
+    }
+    if (failure.dataState) {
+      lines.push(`dataState: ${failure.dataState}`);
+    }
 
     // Keep raw message as-is for stability (no parsing).
     // Avoid duplicating it when the localized message is already the raw message.
@@ -314,6 +323,71 @@ export function parseStoreSnapshotFailure(
           localizeStoreDataState(failure.dataState),
         ].join('\n'),
       );
+    /* c8 ignore next */
+    default: {
+      const _exhaustiveCheck: never = failure.code;
+      return _exhaustiveCheck;
+    }
+  }
+}
+
+/**
+ * Converts repository errors into user-friendly Japanese messages.
+ *
+ * @param failure - The repository snapshot failure to parse
+ * @returns Localized error message in Japanese with troubleshooting information
+ * @internal Exported primarily for testing purposes
+ */
+export function parseRepositorySnapshotFailure(
+  failure: RepositorySnapshotFailure,
+): string {
+  const buildRepositoryFailureReferenceBlock = (
+    currentLocalizedMessage: string,
+  ): string => {
+    const lines: string[] = [];
+
+    if (failure.code) {
+      lines.push(`エラーコード: ${failure.code}`);
+    }
+    if (failure.kind) {
+      lines.push(`分類: ${failure.kind}`);
+    }
+
+    // Keep raw message as-is for stability (no parsing).
+    // Avoid duplicating it when the localized message is already the raw message.
+    if (failure.message && currentLocalizedMessage !== failure.message) {
+      lines.push(`詳細: ${failure.message}`);
+    }
+
+    /* c8 ignore next 2 */
+    if (lines.length === 0) {
+      return '';
+    }
+
+    return `\n\n[参考情報]\n${lines.join('\n')}`;
+  };
+
+  const withRepositoryReferenceInfo = (localizedMessage: string): string => {
+    /* c8 ignore next */
+    return `${localizedMessage}${buildRepositoryFailureReferenceBlock(localizedMessage)}`;
+  };
+
+  // Exhaustive handling of repository error codes.
+  // If PROMIDAS adds a new RepositoryErrorCode, this switch should fail to compile
+  // until we decide how to present it in the demo site.
+  switch (failure.code) {
+    case 'REPOSITORY_VALIDATION_ERROR':
+      return withRepositoryReferenceInfo(
+        'データの検証に失敗しました。データ形式が正しくありません。',
+      );
+    case 'REPOSITORY_INVALID_STATE':
+      return withRepositoryReferenceInfo(
+        'リポジトリの状態が不正です。先にsetupSnapshot()を実行してください。',
+      );
+    case 'REPOSITORY_SIZE_ESTIMATION_ERROR':
+      return withRepositoryReferenceInfo('データサイズの推定に失敗しました。');
+    case 'REPOSITORY_UNKNOWN':
+      return withRepositoryReferenceInfo('リポジトリエラーが発生しました。');
     /* c8 ignore next */
     default: {
       const _exhaustiveCheck: never = failure.code;
@@ -376,6 +450,8 @@ export function toLocalizedMessage(
       return parseFetcherSnapshotFailure(failure);
     case 'store':
       return parseStoreSnapshotFailure(failure);
+    case 'repository':
+      return parseRepositorySnapshotFailure(failure);
     case 'unknown':
       return parseUnknownSnapshotFailure(failure);
     /* c8 ignore next */

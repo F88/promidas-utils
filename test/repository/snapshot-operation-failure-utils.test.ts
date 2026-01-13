@@ -1,5 +1,6 @@
 import type {
   FetcherSnapshotFailure,
+  RepositorySnapshotFailure,
   SnapshotOperationFailure,
   StoreSnapshotFailure,
   UnknownSnapshotFailure,
@@ -8,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   parseFetcherSnapshotFailure,
+  parseRepositorySnapshotFailure,
   parseSnapshotOperationFailure,
   parseStoreSnapshotFailure,
   parseUnknownSnapshotFailure,
@@ -416,6 +418,51 @@ describe('snapshot-operation-failure-utils', () => {
         const result = parseFetcherSnapshotFailure(failure);
         expect(result).toContain('サーバーエラーが発生しました');
       });
+
+      it('should handle unspecific 4xx client errors', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_ERROR',
+          message: 'Client error',
+          status: 418,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('クライアントエラーが発生しました (HTTP 418)');
+      });
+
+      it('should handle unspecific 5xx server errors', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'SERVER_ERROR',
+          message: 'Server error',
+          status: 599,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('サーバーエラーが発生しました (HTTP 599)');
+      });
+
+      it('should handle other HTTP status codes', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'UNKNOWN',
+          message: 'Unknown HTTP error',
+          status: 300,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('HTTPエラーが発生しました (HTTP 300)');
+      });
     });
 
     describe('network errors', () => {
@@ -664,6 +711,113 @@ describe('snapshot-operation-failure-utils', () => {
         expect(result).toContain('エラーコード: CLIENT_UNAUTHORIZED');
         expect(result).not.toContain('リクエスト:');
       });
+
+      it('should skip empty code field', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_UNAUTHORIZED',
+          message: 'Custom error message',
+          status: 401,
+          details: { req: {}, res: {} },
+        };
+        Object.defineProperty(failure, 'code', { value: '' });
+
+        const result = parseFetcherSnapshotFailure(failure);
+
+        // Should not show "エラーコード: " line when code is empty
+        expect(result).not.toContain('エラーコード:');
+        // But should still have reference block with message
+        expect(result).toContain('[参考情報]');
+        expect(result).toContain('詳細: Custom error message');
+      });
+
+      it('should include statusText when status is undefined', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_BAD_REQUEST',
+          message: 'Bad Request',
+          // status is undefined
+          details: {
+            req: {},
+            res: { statusText: 'Bad Request' },
+          },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+
+        expect(result).toContain('レスポンス: Bad Request');
+        expect(result).not.toContain('HTTP undefined');
+      });
+
+      it('should return empty reference block when all fields are empty and message matches', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_UNAUTHORIZED',
+          message: 'APIトークンが無効です。設定を確認してください。',
+          status: 401,
+          details: { req: {}, res: {} },
+        };
+        Object.defineProperty(failure, 'code', { value: '' });
+        Object.defineProperty(failure, 'kind', { value: '' });
+
+        const result = parseFetcherSnapshotFailure(failure);
+
+        // Should not include reference block when all fields are empty and message matches
+        expect(result).not.toContain('[参考情報]');
+      });
+    });
+
+    describe('HTTP status code ranges', () => {
+      it('should handle 4xx client errors not specifically handled', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'CLIENT_ERROR',
+          message: 'Client error',
+          status: 418,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('クライアントエラーが発生しました (HTTP 418)');
+      });
+
+      it('should handle 5xx server errors not specifically handled', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'SERVER_ERROR',
+          message: 'Server error',
+          status: 599,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('サーバーエラーが発生しました (HTTP 599)');
+      });
+
+      it('should handle other HTTP status codes', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'UNKNOWN',
+          message: 'Unknown HTTP error',
+          status: 300,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('HTTPエラーが発生しました (HTTP 300)');
+      });
     });
   });
 
@@ -730,6 +884,36 @@ describe('snapshot-operation-failure-utils', () => {
       expect(result).toContain('既存のスナップショットは保持されます');
     });
 
+    it('should handle STORE_SERIALIZATION_FAILED with UNKNOWN dataState', () => {
+      const failure: StoreSnapshotFailure = {
+        ok: false,
+        origin: 'store',
+        kind: 'serialization',
+        code: 'STORE_SERIALIZATION_FAILED',
+        message: 'Serialization failed',
+        dataState: 'UNKNOWN',
+      };
+
+      const result = parseStoreSnapshotFailure(failure);
+      expect(result).toContain('データのシリアライズに失敗しました');
+      expect(result).toContain('既存のスナップショットの状態は不明です');
+    });
+
+    it('should handle STORE_UNKNOWN with UNKNOWN dataState', () => {
+      const failure: StoreSnapshotFailure = {
+        ok: false,
+        origin: 'store',
+        kind: 'unknown',
+        code: 'STORE_UNKNOWN',
+        message: 'Unknown store error',
+        dataState: 'UNKNOWN',
+      };
+
+      const result = parseStoreSnapshotFailure(failure);
+      expect(result).toContain('ストレージエラーが発生しました');
+      expect(result).toContain('既存のスナップショットの状態は不明です');
+    });
+
     describe('reference information', () => {
       it('should include error code, kind, and dataState', () => {
         const failure: StoreSnapshotFailure = {
@@ -760,6 +944,206 @@ describe('snapshot-operation-failure-utils', () => {
         const result = parseStoreSnapshotFailure(failure);
         expect(result).toContain('詳細: Size limit 5MB exceeded: got 10MB');
       });
+
+      it('should skip empty dataState field in reference block', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message: 'Custom error message',
+          dataState: 'UNCHANGED',
+        };
+        Object.defineProperty(failure, 'dataState', { value: '' });
+
+        const result = parseStoreSnapshotFailure(failure);
+
+        // Should not show empty dataState field
+        expect(result).not.toContain('dataState: ');
+        // But should show non-empty fields
+        expect(result).toContain('エラーコード: STORE_CAPACITY_EXCEEDED');
+        expect(result).toContain('分類: storage_limit');
+        expect(result).toContain('[参考情報]');
+        expect(result).toContain('詳細: Custom error message');
+      });
+
+      it('should return empty reference block when all fields are empty and message matches', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message:
+            'データサイズが制限を超えました。\n既存のスナップショットは保持されます。\n次を試してください:\n- limitパラメータを減らす\n- ストアのmaxDataSizeBytesを増やす(設定可能な場合)',
+          dataState: 'UNCHANGED',
+        };
+        Object.defineProperty(failure, 'code', { value: '' });
+        Object.defineProperty(failure, 'kind', { value: '' });
+        Object.defineProperty(failure, 'dataState', { value: '' });
+
+        const result = parseStoreSnapshotFailure(failure);
+
+        // Should not include reference block when all fields are empty and message matches
+        expect(result).not.toContain('[参考情報]');
+      });
+    });
+
+    describe('Store errors with UNKNOWN dataState', () => {
+      it('should handle STORE_CAPACITY_EXCEEDED with UNKNOWN dataState', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'storage_limit',
+          code: 'STORE_CAPACITY_EXCEEDED',
+          message: 'Data size exceeded',
+          dataState: 'UNKNOWN',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        expect(result).toContain('既存のスナップショットの状態は不明です');
+      });
+
+      it('should handle STORE_SERIALIZATION_FAILED with UNKNOWN dataState', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'serialization',
+          code: 'STORE_SERIALIZATION_FAILED',
+          message: 'Serialization failed',
+          dataState: 'UNKNOWN',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        expect(result).toContain('既存のスナップショットの状態は不明です');
+      });
+
+      it('should handle STORE_UNKNOWN with UNKNOWN dataState', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'unknown',
+          code: 'STORE_UNKNOWN',
+          message: 'Unknown store error',
+          dataState: 'UNKNOWN',
+        };
+
+        const result = parseStoreSnapshotFailure(failure);
+        expect(result).toContain('既存のスナップショットの状態は不明です');
+      });
+    });
+  });
+
+  describe('parseRepositorySnapshotFailure', () => {
+    it('should handle REPOSITORY_VALIDATION_ERROR', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'validation',
+        code: 'REPOSITORY_VALIDATION_ERROR',
+        message: 'Validation failed',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('データの検証に失敗しました');
+      expect(result).toContain('[参考情報]');
+      expect(result).toContain('エラーコード: REPOSITORY_VALIDATION_ERROR');
+      expect(result).toContain('分類: validation');
+      expect(result).toContain('詳細: Validation failed');
+    });
+
+    it('should handle REPOSITORY_INVALID_STATE', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'invalid_state',
+        code: 'REPOSITORY_INVALID_STATE',
+        message: 'Invalid state',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('リポジトリの状態が不正です');
+      expect(result).toContain('setupSnapshot()を実行してください');
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should handle REPOSITORY_SIZE_ESTIMATION_ERROR', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'size_estimation',
+        code: 'REPOSITORY_SIZE_ESTIMATION_ERROR',
+        message: 'Size estimation failed',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('データサイズの推定に失敗しました');
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should handle REPOSITORY_UNKNOWN', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'unknown',
+        code: 'REPOSITORY_UNKNOWN',
+        message: 'Unknown repository error',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      expect(result).toContain('リポジトリエラーが発生しました');
+      expect(result).toContain('[参考情報]');
+    });
+
+    it('should avoid duplicating message when localized message matches raw message', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'unknown',
+        code: 'REPOSITORY_UNKNOWN',
+        message: 'リポジトリエラーが発生しました。',
+      };
+
+      const result = parseRepositorySnapshotFailure(failure);
+      // Should not duplicate the message in details
+      const detailsMatch = result.match(/詳細:/g);
+      expect(detailsMatch).toBeNull();
+    });
+
+    it('should skip empty kind field', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'unknown',
+        code: 'REPOSITORY_UNKNOWN',
+        message: 'Custom error message',
+      };
+      Object.defineProperty(failure, 'kind', { value: '' });
+
+      const result = parseRepositorySnapshotFailure(failure);
+
+      // Should not show "分類: " line when kind is empty
+      expect(result).not.toContain('分類:');
+      // But should show non-empty field
+      expect(result).toContain('エラーコード: REPOSITORY_UNKNOWN');
+      expect(result).toContain('[参考情報]');
+      expect(result).toContain('詳細: Custom error message');
+    });
+
+    it('should return empty reference block when all fields are empty and message matches', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'unknown',
+        code: 'REPOSITORY_UNKNOWN',
+        message: 'リポジトリエラーが発生しました。',
+      };
+      Object.defineProperty(failure, 'code', { value: '' });
+      Object.defineProperty(failure, 'kind', { value: '' });
+
+      const result = parseRepositorySnapshotFailure(failure);
+
+      // Should not include reference block when all fields are empty and message matches
+      expect(result).not.toContain('[参考情報]');
     });
   });
 
@@ -833,6 +1217,26 @@ describe('snapshot-operation-failure-utils', () => {
       );
     });
 
+    it('should add localizedMessage to repository failure', () => {
+      const failure: RepositorySnapshotFailure = {
+        ok: false,
+        origin: 'repository',
+        kind: 'invalid_state',
+        code: 'REPOSITORY_INVALID_STATE',
+        message: 'Invalid state',
+      };
+
+      const result = parseSnapshotOperationFailure(failure);
+
+      expect(result).not.toBeNull();
+      expect(result?.origin).toBe('repository');
+      if (result?.origin === 'repository') {
+        expect(result.code).toBe('REPOSITORY_INVALID_STATE');
+      }
+      expect(result?.localizedMessage).toContain('リポジトリの状態が不正です');
+      expect(result?.localizedMessage).toContain('参考情報');
+    });
+
     it('should add localizedMessage to unknown failure', () => {
       const failure: UnknownSnapshotFailure = {
         ok: false,
@@ -873,231 +1277,72 @@ describe('snapshot-operation-failure-utils', () => {
   });
 
   describe('toLocalizedMessage', () => {
-    it('should return default message when input is null', () => {
-      const result = toLocalizedMessage(null);
-      expect(result).toBe('不明なエラーが発生しました。');
+    describe('null input', () => {
+      it('should return default message when input is null', () => {
+        const result = toLocalizedMessage(null);
+        expect(result).toBe('不明なエラーが発生しました。');
+      });
     });
 
-    it('should delegate to parseFetcherSnapshotFailure for fetcher failures', () => {
-      const failure: FetcherSnapshotFailure = {
-        ok: false,
-        origin: 'fetcher',
-        kind: 'http',
-        code: 'CLIENT_UNAUTHORIZED',
-        message: 'Unauthorized',
-        status: 401,
-        details: { req: {}, res: {} },
-      };
-
-      const result = toLocalizedMessage(failure);
-      expect(result).toContain('APIトークンが無効です');
-    });
-
-    it('should delegate to parseStoreSnapshotFailure for store failures', () => {
-      const failure: StoreSnapshotFailure = {
-        ok: false,
-        origin: 'store',
-        kind: 'storage_limit',
-        code: 'STORE_CAPACITY_EXCEEDED',
-        message: 'Data size exceeded',
-        dataState: 'UNCHANGED',
-      };
-
-      const result = toLocalizedMessage(failure);
-      expect(result).toContain('データサイズが制限を超えました');
-    });
-
-    it('should delegate to parseUnknownSnapshotFailure for unknown failures', () => {
-      const failure: UnknownSnapshotFailure = {
-        ok: false,
-        origin: 'unknown',
-
-        message: 'Something went wrong',
-      };
-
-      const result = toLocalizedMessage(failure);
-      expect(result).toBe('Something went wrong');
-    });
-  });
-
-  describe('Coverage improvements for edge cases', () => {
-    describe('HTTP status code ranges', () => {
-      it('should handle 4xx client errors not specifically handled', () => {
+    describe('fetcher failures', () => {
+      it('should delegate to parseFetcherSnapshotFailure', () => {
         const failure: FetcherSnapshotFailure = {
           ok: false,
           origin: 'fetcher',
           kind: 'http',
-          code: 'CLIENT_ERROR',
-          message: 'Client error',
-          status: 418,
+          code: 'CLIENT_UNAUTHORIZED',
+          message: 'Unauthorized',
+          status: 401,
           details: { req: {}, res: {} },
         };
 
-        const result = parseFetcherSnapshotFailure(failure);
-        expect(result).toContain('クライアントエラーが発生しました (HTTP 418)');
-      });
-
-      it('should handle 5xx server errors not specifically handled', () => {
-        const failure: FetcherSnapshotFailure = {
-          ok: false,
-          origin: 'fetcher',
-          kind: 'http',
-          code: 'SERVER_ERROR',
-          message: 'Server error',
-          status: 599,
-          details: { req: {}, res: {} },
-        };
-
-        const result = parseFetcherSnapshotFailure(failure);
-        expect(result).toContain('サーバーエラーが発生しました (HTTP 599)');
-      });
-
-      it('should handle other HTTP status codes', () => {
-        const failure: FetcherSnapshotFailure = {
-          ok: false,
-          origin: 'fetcher',
-          kind: 'http',
-          code: 'UNKNOWN',
-          message: 'Unknown HTTP error',
-          status: 300,
-          details: { req: {}, res: {} },
-        };
-
-        const result = parseFetcherSnapshotFailure(failure);
-        expect(result).toContain('HTTPエラーが発生しました (HTTP 300)');
+        const result = toLocalizedMessage(failure);
+        expect(result).toContain('APIトークンが無効です');
       });
     });
 
-    describe('Store errors with UNKNOWN dataState', () => {
-      it('should handle STORE_CAPACITY_EXCEEDED with UNKNOWN dataState', () => {
+    describe('store failures', () => {
+      it('should delegate to parseStoreSnapshotFailure', () => {
         const failure: StoreSnapshotFailure = {
           ok: false,
           origin: 'store',
           kind: 'storage_limit',
           code: 'STORE_CAPACITY_EXCEEDED',
           message: 'Data size exceeded',
-          dataState: 'UNKNOWN',
+          dataState: 'UNCHANGED',
         };
 
-        const result = parseStoreSnapshotFailure(failure);
-        expect(result).toContain('既存のスナップショットの状態は不明です');
-      });
-
-      it('should handle STORE_SERIALIZATION_FAILED with UNKNOWN dataState', () => {
-        const failure: StoreSnapshotFailure = {
-          ok: false,
-          origin: 'store',
-          kind: 'serialization',
-          code: 'STORE_SERIALIZATION_FAILED',
-          message: 'Serialization failed',
-          dataState: 'UNKNOWN',
-        };
-
-        const result = parseStoreSnapshotFailure(failure);
-        expect(result).toContain('既存のスナップショットの状態は不明です');
-      });
-
-      it('should handle STORE_UNKNOWN with UNKNOWN dataState', () => {
-        const failure: StoreSnapshotFailure = {
-          ok: false,
-          origin: 'store',
-          kind: 'unknown',
-          code: 'STORE_UNKNOWN',
-          message: 'Unknown store error',
-          dataState: 'UNKNOWN',
-        };
-
-        const result = parseStoreSnapshotFailure(failure);
-        expect(result).toContain('既存のスナップショットの状態は不明です');
+        const result = toLocalizedMessage(failure);
+        expect(result).toContain('データサイズが制限を超えました');
       });
     });
 
-    describe('Reference block edge cases', () => {
-      it('should not include message in reference block when it matches localized message', () => {
-        const failure: StoreSnapshotFailure = {
+    describe('repository failures', () => {
+      it('should delegate to parseRepositorySnapshotFailure', () => {
+        const failure: RepositorySnapshotFailure = {
           ok: false,
-          origin: 'store',
-          kind: 'storage_limit',
-          code: 'STORE_CAPACITY_EXCEEDED',
-          message:
-            'データサイズが制限を超えました。\n既存のスナップショットは保持されます。\n次を試してください:\n- limitパラメータを減らす\n- ストアのmaxDataSizeBytesを増やす(設定可能な場合)',
-          dataState: 'UNCHANGED',
+          origin: 'repository',
+          kind: 'validation',
+          code: 'REPOSITORY_VALIDATION_ERROR',
+          message: 'Validation failed',
         };
 
-        const result = parseStoreSnapshotFailure(failure);
-        // Should not have "詳細:" line since the message matches the localized message
-        expect(result).not.toContain('詳細: データサイズが制限を超えました');
+        const result = toLocalizedMessage(failure);
+        expect(result).toContain('データの検証に失敗しました');
       });
+    });
 
-      it('should not include message in fetcher reference block when it matches localized message', () => {
-        const failure: FetcherSnapshotFailure = {
+    describe('unknown failures', () => {
+      it('should delegate to parseUnknownSnapshotFailure', () => {
+        const failure: UnknownSnapshotFailure = {
           ok: false,
-          origin: 'fetcher',
-          kind: 'http',
-          code: 'CLIENT_UNAUTHORIZED',
-          message: 'APIトークンが無効です。設定を確認してください。',
-          status: 401,
-          details: { req: {}, res: {} },
+          origin: 'unknown',
+
+          message: 'Something went wrong',
         };
 
-        const result = parseFetcherSnapshotFailure(failure);
-        // Should not have "詳細:" line since the message matches the localized message
-        expect(result).not.toContain(
-          '詳細: APIトークンが無効です。設定を確認してください。',
-        );
-      });
-
-      it('should include request/response context when available', () => {
-        const failure: FetcherSnapshotFailure = {
-          ok: false,
-          origin: 'fetcher',
-          kind: 'http',
-          code: 'CLIENT_BAD_REQUEST',
-          message: 'Bad Request',
-          // status intentionally undefined to exercise statusText branch
-          details: {
-            req: { method: 'GET', url: 'https://example.com/data' },
-            res: { statusText: 'Bad Request', code: 'ECONNRESET' },
-          },
-        };
-
-        const result = parseFetcherSnapshotFailure(failure);
-
-        expect(result).toContain('リクエスト: GET https://example.com/data');
-        expect(result).toContain('レスポンス: Bad Request');
-        expect(result).toContain('レスポンスコード: ECONNRESET');
-      });
-
-      it('should return empty string when fetcher failure has no lines in reference block', () => {
-        const failure: FetcherSnapshotFailure = {
-          ok: false,
-          origin: 'fetcher',
-          kind: 'http',
-          code: 'CLIENT_UNAUTHORIZED',
-          message: 'APIトークンが無効です。設定を確認してください。',
-          status: 401,
-          details: { req: {}, res: {} },
-        };
-
-        const result = parseFetcherSnapshotFailure(failure);
-        // Should still have reference block
-        expect(result).toContain('[参考情報]');
-      });
-
-      it('should return empty string when store failure has no lines in reference block', () => {
-        const failure: StoreSnapshotFailure = {
-          ok: false,
-          origin: 'store',
-          kind: 'storage_limit',
-          code: 'STORE_CAPACITY_EXCEEDED',
-          message:
-            'データサイズが制限を超えました。\n既存のスナップショットは保持されます。\n次を試してください:\n- limitパラメータを減らす\n- ストアのmaxDataSizeBytesを増やす(設定可能な場合)',
-          dataState: 'UNCHANGED',
-        };
-
-        const result = parseStoreSnapshotFailure(failure);
-        // Should still have reference block
-        expect(result).toContain('[参考情報]');
+        const result = toLocalizedMessage(failure);
+        expect(result).toBe('Something went wrong');
       });
     });
   });

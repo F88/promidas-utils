@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **リポジトリユーティリティ**: `@f88/promidas` v1.1.0に対応するため、スナップショット失敗処理を強化
+    - リポジトリ層のエラーを処理する `parseRepositorySnapshotFailure()` 関数を追加
+    - 4種類の新しいリポジトリエラーコードに対応:
+        - `REPOSITORY_VALIDATION_ERROR` - データ検証の失敗
+        - `REPOSITORY_INVALID_STATE` - 不正な状態での操作呼び出し
+        - `REPOSITORY_SIZE_ESTIMATION_ERROR` - サイズ計算の失敗
+        - `REPOSITORY_UNKNOWN` - 未分類のリポジトリエラー
+    - `toLocalizedMessage()` を更新し、リポジトリエラーを新しいパーサーに委譲
+    - すべてのリポジトリエラーにデバッグ用の参照情報（エラーコード、分類、詳細）を含める
+
 ## [0.3.0] - 2025-12-27
 
 ### Added
