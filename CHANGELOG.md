@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking
+
+- **ビルド環境**: Node.js 22 以降が必須になりました（Node 20/21 は非対応）
+
 ### Changed
 
 - **リポジトリユーティリティ**: `@f88/promidas` v1.1.0に対応するため、スナップショット失敗処理を強化

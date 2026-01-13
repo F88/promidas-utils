@@ -31,7 +31,7 @@ PROMIDASを使用することで、API通信、インメモリキャッシュ、
 ### Core
 
 - **TypeScript 5.9** - Type-safe development
-- **Node.js 20+** - Runtime environment
+- **Node.js 22+** - Runtime environment
 
 ### Testing & Documentation
 
