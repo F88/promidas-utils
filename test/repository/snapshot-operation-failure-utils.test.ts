@@ -1160,6 +1160,60 @@ describe('snapshot-operation-failure-utils', () => {
         // But the "詳細:" part should not be present
         expect(result).not.toContain('詳細:');
       });
+
+      it('should return empty reference block when fetcher failure has all empty fields and matching message', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'unknown',
+          code: 'UNKNOWN',
+          message: '不明なエラーが発生しました。',
+          details: { req: {}, res: {} },
+        };
+        Object.defineProperty(failure, 'code', { value: '' });
+        Object.defineProperty(failure, 'kind', { value: '' });
+
+        const result = toLocalizedMessage(failure);
+
+        // Should not include reference block when all fields are empty and message matches
+        expect(result).not.toContain('[参考情報]');
+      });
+
+      it('should return empty reference block when store failure has all empty fields and matching message', () => {
+        const failure: StoreSnapshotFailure = {
+          ok: false,
+          origin: 'store',
+          kind: 'serialization',
+          code: 'STORE_SERIALIZATION_FAILED',
+          message: 'データのシリアライズに失敗しました。',
+          dataState: 'UNKNOWN',
+        };
+        Object.defineProperty(failure, 'code', { value: '' });
+        Object.defineProperty(failure, 'kind', { value: '' });
+        Object.defineProperty(failure, 'dataState', { value: '' });
+
+        const result = toLocalizedMessage(failure);
+
+        // Should not include reference block when all fields are empty and message matches
+        expect(result).not.toContain('[参考情報]');
+      });
+
+      it('should return empty reference block when repository failure has all empty fields and matching message', () => {
+        const failure: RepositorySnapshotFailure = {
+          ok: false,
+          origin: 'repository',
+          kind: 'unknown',
+          code: 'REPOSITORY_UNKNOWN',
+          message: 'リポジトリエラーが発生しました。',
+        };
+        Object.defineProperty(failure, 'code', { value: '' });
+        Object.defineProperty(failure, 'kind', { value: '' });
+
+        const result = toLocalizedMessage(failure);
+
+        // Should not include reference block when all fields are empty and message matches
+        expect(result).not.toContain('[参考情報]');
+      });
     });
   });
 

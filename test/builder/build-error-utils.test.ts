@@ -207,6 +207,15 @@ describe('build-error-utils', () => {
       expect(result).toContain('データサイズが制限を超えました');
       expect(result).not.toContain('ストアのエラーが発生しました');
     });
+
+    it('should handle non-Error objects thrown as errors', () => {
+      // In JavaScript, any value can be thrown, not just Error instances
+      const nonErrorValue = 'string error' as unknown as Error;
+
+      const result = toErrorMessage(nonErrorValue);
+
+      expect(result).toBe('不明なエラーが発生しました。');
+    });
   });
 
   describe('Reference block formatting', () => {
