@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-01-13
+
 ### Breaking
 
 - **ビルド環境**: Node.js 22 以降が必須になりました（Node 20/21 は非対応）
@@ -85,7 +87,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API documentation with per-path reference pages
 - Release guide and changelog
 
-[Unreleased]: https://github.com/F88/promidas-utils/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/F88/promidas-utils/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/F88/promidas-utils/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/F88/promidas-utils/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/F88/promidas-utils/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/F88/promidas-utils/releases/tag/v0.1.0
