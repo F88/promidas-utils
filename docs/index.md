@@ -15,16 +15,11 @@ instructions-for-ais:
 
 # 🧰 PROMIDAS Utilities
 
-Utilities to assist development using PROMIDAS.
+PROMIDAS を使用した開発を支援するユーティリティ集です。
 
 ## 🧰 PROMIDAS とは
 
 **ProtoPediaのデータを「もっと手軽に」「もっと高速に」扱うためのツールセットです。**
 
-APIから取得したデータをメモリ上に保存(キャッシュ)することで、以下のようなメリットを提供します：
-
-- 🧩 **扱いやすい**: 複雑なAPI通信やキャッシュ管理を意識せず、直感的なコードで開発できます。
-- ⚡ **効率的なAPI利用**: 無駄なリクエストを削減し、APIサーバーへの負荷を軽減します。
-- 🚀 **高速アクセス**: 一度取得したデータはメモリから即座に検索できます。
-
-データ分析スクリプトから本格的なWebアプリケーションまで、幅広く活用できます。
+- **[📖 ドキュメント](https://f88.github.io/promidas/)** - 使い方とサンプルコード
+- **[🛝 PROMIDAS Playground](https://f88.github.io/PROMIDAS-demo/)** - デモ
