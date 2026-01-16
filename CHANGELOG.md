@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **依存関係**: `@f88/promidas` から `promidas` に変更 (v2.0.0)
+    - パッケージ名が `@f88/promidas` から `promidas` に改名されました
+    - レジストリがGitHub Packagesから npm (<https://www.npmjs.com/package/promidas>) に変更されました
+    - peerDependencies と devDependencies を更新
+    - すべてのimport文とドキュメントの例を更新
+
 ## [1.0.0] - 2026-01-13
 
 ### Breaking
