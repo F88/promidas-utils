@@ -16,7 +16,7 @@ instructions-for-ais:
 
 This document describes the release procedures for package maintainers.
 
-**Package Distribution:** This package is published to [GitHub Packages](https://github.com/F88/promidas-utils/packages) (`@f88/promidas-utils`). Releases are automatically published when a GitHub Release is created.
+**Package Distribution:** This package is published to [npmjs](https://www.npmjs.com/package/promidas-utils) (`promidas-utils`). Releases are automatically published when a GitHub Release is created.
 
 ## Release Procedures
 
