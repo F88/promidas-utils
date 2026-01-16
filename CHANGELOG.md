@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **CI/CD**: Trusted Publishers (OIDC) 対応
+    - npmjs公開ワークフローから `NODE_AUTH_TOKEN` を削除
+    - OIDCトークンを使用した安全な自動公開に移行
+
 ## [2.0.0] - 2026-01-16
 
 ### Added
