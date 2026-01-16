@@ -9,18 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- **パッケージ名**: `@f88/promidas-utils` から `promidas-utils` に変更
-    - スコープなしパッケージとして公開
-- レジストリがGitHub Packagesから npm (<https://www.npmjs.com/package/promidas-utils>) に変更
-    - `publishConfig` を更新: registry, access, provenance
-    - すべてのドキュメントとJSDocコメントでパッケージ名を更新
-- **依存関係**: `@f88/promidas` から `promidas` に変更 (v2.0.0)
-    - パッケージ名が `@f88/promidas` から `promidas` に改名されました
-    - レジストリがGitHub Packagesから npm (<https://www.npmjs.com/package/promidas>) に変更されました
-    - peerDependencies と devDependencies を更新
-    - すべてのimport文とドキュメントの例を更新
+## [2.0.0] - 2026-01-16
 
 ### Added
 
@@ -28,6 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - リリース作成時とmanual dispatchで公開可能
     - ビルド、テスト、リントを実行後に公開
     - provenance対応
+
+### Changed
+
+- **パッケージ名**: `@f88/promidas-utils` から `promidas-utils` に変更 (破壊的変更)
+    - スコープなしパッケージとして公開
+- **レジストリ**: GitHub Packagesから npm (<https://www.npmjs.com/package/promidas-utils>) に変更
+    - `publishConfig` を更新: registry, access, provenance
+    - すべてのドキュメントとJSDocコメントでパッケージ名を更新
+- **依存関係**: `@f88/promidas` から `promidas` に変更 (v2.0.0)
+    - パッケージ名が `@f88/promidas` から `promidas` に改名されました
+    - レジストリがGitHub Packagesから npm (<https://www.npmjs.com/package/promidas>) に変更されました
+    - peerDependencies と devDependencies を更新
+    - すべてのimport文とドキュメントの例を更新
 
 ### Deprecated
 
