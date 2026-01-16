@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **パッケージ名**: `@f88/promidas-utils` から `promidas-utils` に変更
     - スコープなしパッケージとして公開
-    - レジストリがGitHub Packagesから npm (<https://www.npmjs.com/>) に変更
+- レジストリがGitHub Packagesから npm (<https://www.npmjs.com/package/promidas-utils>) に変更
     - `publishConfig` を更新: registry, access, provenance
     - すべてのドキュメントとJSDocコメントでパッケージ名を更新
 - **依存関係**: `@f88/promidas` から `promidas` に変更 (v2.0.0)
