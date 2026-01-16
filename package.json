@@ -1,5 +1,5 @@
 {
-  "name": "@f88/promidas-utils",
+  "name": "promidas-utils",
   "version": "1.0.0",
   "description": "Utilities for Promidas",
   "engines": {
@@ -98,8 +98,8 @@
     }
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/",
-    "@f88:registry": "https://npm.pkg.github.com/",
-    "access": "restricted"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
   }
 }
