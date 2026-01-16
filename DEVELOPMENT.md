@@ -1,6 +1,6 @@
 # Development Guide
 
-This document provides guidelines for developers working on `@f88/promidas-utils`.
+This document provides information for developers working on this project.
 
 ## Prerequisites
 
