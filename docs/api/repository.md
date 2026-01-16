@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Snapshot Operation Result
-title-en: Utilities for Snapshot Operation Result
-title-ja: スナップショット操作結果ユーティリティ
+title: リポジトリ管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,11 +7,15 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Snapshot Operation Result
+# リポジトリ管理
+
+## 概要
+
+リポジトリ操作を使いやすくするユーティリティです。
+
+## API
 
 エントリーポイント: `promidas-utils/repository`
-
-公開 API:
 
 - 型: `ParsedSnapshotOperationFailure`
 - 関数: `parseSnapshotOperationFailure`, `toLocalizedMessage`

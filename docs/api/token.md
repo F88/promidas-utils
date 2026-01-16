@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Token Management
-title-en: Utilities for Token Management
-title-ja: トークン管理ユーティリティ
+title: トークン管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,11 +7,15 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Token Management
+# トークン管理
+
+## 概要
+
+APIトークンの保存・取得・削除を行うユーティリティです。ブラウザのWeb Storage (localStorage, sessionStorage) や環境変数 (process.env) に対応し、統一的なインターフェースでトークンを管理できます。
+
+## API
 
 エントリーポイント: `promidas-utils/token`
-
-公開 API:
 
 - 定数: `TOKEN_KEYS`
 - 型: `TokenIdentifier`, `ReadOnlyTokenStorage`, `TokenStorage`

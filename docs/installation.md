@@ -1,8 +1,6 @@
 ---
-lang: ja
-title: Installation and Update
-title-en: Installation and Updated
-title-ja: インストールと更新
+title: インストールと更新
+description: promidas-utilsのインストールと更新方法
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -19,18 +17,18 @@ instructions-for-ais:
 
 ## インストール
 
-このパッケージは GitHub リポジトリから直接インストールできます。
+このパッケージは npm から直接インストールできます。
 
 ### 最新版のインストール
 
 ```bash
-npm install github:F88/promidas-utils
+npm install promidas-utils
 ```
 
 ### 特定バージョンのインストール
 
 ```bash
-npm install github:F88/promidas-utils#v0.1.0
+npm install promidas-utils@2.0.0
 ```
 
 ## 更新

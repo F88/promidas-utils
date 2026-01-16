@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Builder Error Handling
-title-en: Utilities for Builder Error Handling
-title-ja: ビルダーエラー処理ユーティリティ
+title: ビルダー / ファクトリー
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,25 +7,27 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Builder Error Handling
+# ビルダー / ファクトリー
+
+## 概要
+
+ビルダー / ファクトリーのエラー処理を支援するユーティリティです。
+
+ファクトリーは内部でビルダーを利用しているため、ファクトリー使用時にもビルダーのエラーが発生することがあります。このユーティリティを使用することで、どちらの方法でリポジトリを作成した場合でも、一貫したエラーハンドリングが可能になります。
+
+## API
 
 エントリーポイント: `promidas-utils/builder`
-
-公開 API:
 
 - 関数: `toErrorMessage`
 
 > ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
-## 概要
-
-`PromidasRepositoryBuilder.build()` が投げるエラーを日本語メッセージに変換するユーティリティです。ストア関連エラー (`ConfigurationError`, `DataSizeExceededError`, `SizeEstimationError`, `StoreError`) と汎用エラー (`Error`) に対応します。
-
 ## 関数
 
 ### `toErrorMessage(error: Error): string`
 
-ビルドエラーをユーザーフレンドリーな日本語メッセージに変換します。
+`PromidasRepositoryBuilder.build()` が投げるエラーをユーザーフレンドリーな日本語メッセージに変換します。ストア関連エラー (`ConfigurationError`, `DataSizeExceededError`, `SizeEstimationError`, `StoreError`) と汎用エラー (`Error`) に対応します。
 
 **パラメータ:**
 

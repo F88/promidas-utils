@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Config Management
-title-en: Utilities for Config Management
-title-ja: 設定値管理ユーティリティ
+title: 設定管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,11 +7,15 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Config Management
+# 設定管理
+
+## 概要
+
+設定値の保存・取得・削除を行うユーティリティです。ブラウザのlocalStorageや環境変数 (process.env) に対応し、統一的なインターフェースで設定値を管理できます。
+
+## API
 
 エントリーポイント: `promidas-utils/config`
-
-公開 API:
 
 - 型: `ConfigIdentifier`, `ReadOnlyConfigStorage`, `ConfigStorage`
 - クラス: `ConfigManager`

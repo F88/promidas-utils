@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Store Management
-title-en: Utilities for Store Management
-title-ja: ストア管理ユーティリティ
+title: ストア管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,11 +7,15 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Store Management
+# ストア管理
+
+## 概要
+
+PROMIDASのストアを使いやすくするユーティリティです。
+
+## API
 
 エントリーポイント: `promidas-utils/store`
-
-公開 API:
 
 - 型: `StoreState`
 - 関数: `getStoreState`
