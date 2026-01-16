@@ -13,7 +13,7 @@ import type {
   SnapshotOperationFailure,
   StoreSnapshotFailure,
   UnknownSnapshotFailure,
-} from '@f88/promidas/repository/types';
+} from 'promidas/repository/types';
 
 /**
  * Parsed snapshot operation failure with localized message.

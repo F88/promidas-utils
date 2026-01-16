@@ -13,7 +13,7 @@ import {
   DataSizeExceededError,
   SizeEstimationError,
   StoreError,
-} from '@f88/promidas/store';
+} from 'promidas/store';
 
 /**
  * Localizes dataState values to Japanese messages.
@@ -223,7 +223,7 @@ export function parseError(error: Error): string {
  *
  * @example
  * ```typescript
- * import { PromidasRepositoryBuilder } from '@f88/promidas';
+ * import { PromidasRepositoryBuilder } from 'promidas';
  * import { toErrorMessage } from '@f88/promidas-utils/builder';
  *
  * try {

@@ -3,7 +3,7 @@
  * @module lib/store/store-state
  */
 
-import type { PrototypeInMemoryStats } from '@f88/promidas';
+import type { PrototypeInMemoryStats } from 'promidas';
 
 import type { StoreState } from './types.js';
 
