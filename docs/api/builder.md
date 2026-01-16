@@ -49,7 +49,7 @@ instructions-for-ais:
 **使用例:**
 
 ```typescript
-import { PromidasRepositoryBuilder } from '@f88/promidas';
+import { PromidasRepositoryBuilder } from 'promidas';
 import { toErrorMessage } from '@f88/promidas-utils/builder';
 
 try {

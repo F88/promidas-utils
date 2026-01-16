@@ -119,7 +119,7 @@ APIリクエストの失敗時に生成されるメッセージ。以下の情�
 
 ### Repository エラー
 
-リポジトリ層での検証やデータ処理の失敗時に生成されるメッセージ (`@f88/promidas` v1.1.0以降):
+リポジトリ層での検証やデータ処理の失敗時に生成されるメッセージ (`@f88/promidas` v1.1.0以降 / `promidas` v2.0.0以降):
 
 - `REPOSITORY_VALIDATION_ERROR`: スナップショットデータの検証に失敗した場合 (Zodバリデーションエラー)
 - `REPOSITORY_INVALID_STATE`: リポジトリの状態が不正な場合 (例: `setupSnapshot()` 実行前に `refreshSnapshot()` を呼び出し)
