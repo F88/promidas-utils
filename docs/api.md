@@ -22,7 +22,7 @@ instructions-for-ais:
 - ビルダー関連: `promidas-utils/builder`
 - リポジトリ関連: `promidas-utils/repository`
 
-> 現在はルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください.
+> 現在はルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## パス別ドキュメント
 
