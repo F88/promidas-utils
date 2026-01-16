@@ -14,7 +14,7 @@
  * @example
  * Using session storage:
  * ```typescript
- * import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
+ * import { TokenManager, TOKEN_KEYS } from 'promidas-utils/token';
  *
  * const tokenStorage = TokenManager.forSessionStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
  * await tokenStorage.save('my-secret-token');
@@ -30,7 +30,7 @@
  * @example
  * Using local storage:
  * ```typescript
- * import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
+ * import { TokenManager, TOKEN_KEYS } from 'promidas-utils/token';
  *
  * const tokenStorage = TokenManager.forLocalStorage(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
  * await tokenStorage.save('persistent-token');
@@ -40,7 +40,7 @@
  * @example
  * Using environment variables:
  * ```typescript
- * import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
+ * import { TokenManager, TOKEN_KEYS } from 'promidas-utils/token';
  *
  * const tokenStorage = TokenManager.forEnv(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN);
  * const token = await tokenStorage.get();

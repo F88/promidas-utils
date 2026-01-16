@@ -22,7 +22,7 @@
  *
  * @example
  * ```typescript
- * import { TOKEN_KEYS } from '@f88/promidas-utils/token';
+ * import { TOKEN_KEYS } from 'promidas-utils/token';
  *
  * // Use with browser storage
  * localStorage.setItem(TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN, token);
@@ -51,8 +51,8 @@ export const TOKEN_KEYS = Object.freeze({
  *
  * @example
  * ```typescript
- * import type { TokenIdentifier } from '@f88/promidas-utils/token';
- * import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
+ * import type { TokenIdentifier } from 'promidas-utils/token';
+ * import { TokenManager, TOKEN_KEYS } from 'promidas-utils/token';
  *
  * const storage = TokenManager.forSessionStorage(
  *   TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN
