@@ -13,19 +13,18 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/F88/promidas-utils)
 [![View Code Wiki](https://www.gstatic.com/_/boq-sdlc-agents-ui/_/r/YUi5dj2UWvE.svg)](https://codewiki.google/github.com/f88/promidas-utils)
 
-Utilities to assist development using PROMIDAS
+Utilities to assist development using PROMIDAS.
 
-🧰 PROMIDAS Utilities
-<https://f88.github.io/promidas-utils/>
+PROMIDAS を使用した開発を支援するユーティリティ集です。
 
-## PROMIDAS
+- [📖 ドキュメント](https://f88.github.io/promidas-utils/)
 
-PROMIDASは、ProtoPedia API v2を利用したデータ取得とキャッシュ管理を簡素化するライブラリです。
+## 🧰 PROMIDAS
 
-PROMIDASを使用することで、API通信、インメモリキャッシュ、リポジトリ管理、データ表示の各コンポーネント間のデータフローを効率的に実装できます。
+**ProtoPediaのデータを「もっと手軽に」「もっと高速に」扱うためのツールセットです。**
 
-🧰 PROMIDAS
-<https://f88.github.io/promidas/>
+- [📖 ドキュメント](https://f88.github.io/promidas/) - 使い方とサンプルコード
+- [🛝 PROMIDAS Playground](https://f88.github.io/PROMIDAS-demo/) - デモ
 
 ## Tech Stack
 
