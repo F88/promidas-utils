@@ -6,7 +6,7 @@
 [![Publish package to npmjs.com](https://github.com/F88/promidas-utils/actions/workflows/publish-package-to-npmjs.yml/badge.svg)](https://github.com/F88/promidas-utils/actions/workflows/publish-package-to-npmjs.yml)
 [![Deploy VitePress site to Pages](https://github.com/F88/promidas-utils/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/F88/promidas-utils/actions/workflows/deploy-docs.yml)
 
-[![npm version](https://badge.fury.io/js/promidas-utils.svg)](https://badge.fury.io/js/promidas-utils)
+[![npm version](https://badge.fury.io/js/promidas-utils.svg?icon=si%3Anpm)](https://badge.fury.io/js/promidas-utils)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Issues](https://img.shields.io/github/issues/F88/promidas-utils?label=issues)
 
