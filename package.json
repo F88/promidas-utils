@@ -1,7 +1,7 @@
 {
   "name": "promidas-utils",
   "version": "1.0.0",
-  "description": "Utilities for Promidas",
+  "description": "Utilities to assist development using PROMIDAS",
   "engines": {
     "node": ">=22"
   },
