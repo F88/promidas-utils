@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Config Management
-title-en: Utilities for Config Management
-title-ja: 設定値管理ユーティリティ
+title: 設定管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,17 +7,21 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Config Management
+# 設定管理
 
-エントリーポイント: `@f88/promidas-utils/config`
+## 概要
 
-公開 API:
+設定値の保存・取得・削除を行うユーティリティです。ブラウザのlocalStorageや環境変数 (process.env) に対応し、統一的なインターフェースで設定値を管理できます。
+
+## API
+
+エントリーポイント: `promidas-utils/config`
 
 - 型: `ConfigIdentifier`, `ReadOnlyConfigStorage`, `ConfigStorage`
 - クラス: `ConfigManager`
 - エラー: `EnvironmentUnavailableError`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 型
 
@@ -54,7 +55,7 @@ instructions-for-ais:
 ### 使用例
 
 ```typescript
-import { ConfigManager } from '@f88/promidas-utils/config';
+import { ConfigManager } from 'promidas-utils/config';
 
 const storage = ConfigManager.forLocalStorage('API_BASE_URL');
 await storage.save('https://api.example.com');

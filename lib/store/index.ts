@@ -9,7 +9,7 @@
  *
  * @example
  * ```typescript
- * import { getStoreState } from '@f88/promidas-utils/store';
+ * import { getStoreState } from 'promidas-utils/store';
  *
  * const state = getStoreState(stats);
  * if (state === 'expired') {

@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Token Management
-title-en: Utilities for Token Management
-title-ja: トークン管理ユーティリティ
+title: トークン管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,18 +7,22 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Token Management
+# トークン管理
 
-エントリーポイント: `@f88/promidas-utils/token`
+## 概要
 
-公開 API:
+APIトークンの保存・取得・削除を行うユーティリティです。ブラウザのWeb Storage (localStorage, sessionStorage) や環境変数 (process.env) に対応し、統一的なインターフェースでトークンを管理できます。
+
+## API
+
+エントリーポイント: `promidas-utils/token`
 
 - 定数: `TOKEN_KEYS`
 - 型: `TokenIdentifier`, `ReadOnlyTokenStorage`, `TokenStorage`
 - クラス: `TokenManager`
 - エラー: `EnvironmentUnavailableError`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 定数
 
@@ -64,7 +65,7 @@ ProtoPedia API v2 用トークンキー定数。ブラウザストレージと�
 ### 使用例
 
 ```typescript
-import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
+import { TokenManager, TOKEN_KEYS } from 'promidas-utils/token';
 
 const storage = TokenManager.forLocalStorage(
     TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,

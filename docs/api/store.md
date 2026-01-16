@@ -1,8 +1,5 @@
 ---
-lang: ja
-title: Utilities for Store Management
-title-en: Utilities for Store Management
-title-ja: ストア管理ユーティリティ
+title: ストア管理
 instructions-for-ais:
     - This document should be written in Japanese.
     - Use half-width characters for numbers, letters, and symbols.
@@ -10,16 +7,20 @@ instructions-for-ais:
     - Prohibit updating title line (1st line) in this document.
 ---
 
-# Utilities for Store Management
+# ストア管理
 
-エントリーポイント: `@f88/promidas-utils/store`
+## 概要
 
-公開 API:
+PROMIDASのストアを使いやすくするユーティリティです。
+
+## API
+
+エントリーポイント: `promidas-utils/store`
 
 - 型: `StoreState`
 - 関数: `getStoreState`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 型
 
@@ -44,7 +45,7 @@ ProtoPedia の `PrototypeInMemoryStats` から状態を判定します。
 ### 使用例
 
 ```typescript
-import { getStoreState } from '@f88/promidas-utils/store';
+import { getStoreState } from 'promidas-utils/store';
 
 const state = getStoreState(stats);
 if (state === 'expired') {

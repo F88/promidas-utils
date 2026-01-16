@@ -224,7 +224,7 @@ export function parseError(error: Error): string {
  * @example
  * ```typescript
  * import { PromidasRepositoryBuilder } from 'promidas';
- * import { toErrorMessage } from '@f88/promidas-utils/builder';
+ * import { toErrorMessage } from 'promidas-utils/builder';
  *
  * try {
  *   const repo = new PromidasRepositoryBuilder()

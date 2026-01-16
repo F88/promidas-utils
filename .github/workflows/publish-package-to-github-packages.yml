@@ -2,8 +2,9 @@ name: Publish package to GitHub Packages
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
+  # Disabled: package is now published to npmjs.com
+  # release:
+  #   types: [published]
 
 permissions:
   contents: read
@@ -15,6 +16,9 @@ concurrency:
 jobs:
   publish:
     name: Publish package to GitHub Packages
+
+    # Workflow disabled - package now published to npmjs.com
+    if: false # Workflow disabled - package now published to npmjs.com
 
     runs-on: ubuntu-latest
 
