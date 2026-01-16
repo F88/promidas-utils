@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { createPromidasForLocal } from '@f88/promidas';
+import { createPromidasForLocal } from 'promidas';
 
 /**
  * Create repository instance using factory function.

@@ -3,7 +3,7 @@ import {
   DataSizeExceededError,
   SizeEstimationError,
   StoreError,
-} from '@f88/promidas/store';
+} from 'promidas/store';
 import { describe, expect, it } from 'vitest';
 
 import {

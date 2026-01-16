@@ -1,4 +1,4 @@
-import type { PrototypeInMemoryStats } from '@f88/promidas/store';
+import type { PrototypeInMemoryStats } from 'promidas/store';
 
 export function createPrototypeInMemoryStats(
   overrides: Partial<PrototypeInMemoryStats> = {},

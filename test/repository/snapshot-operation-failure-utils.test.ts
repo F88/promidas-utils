@@ -4,7 +4,7 @@ import type {
   SnapshotOperationFailure,
   StoreSnapshotFailure,
   UnknownSnapshotFailure,
-} from '@f88/promidas/repository/types';
+} from 'promidas/repository/types';
 import { describe, expect, it } from 'vitest';
 
 import {
