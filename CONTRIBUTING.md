@@ -1,8 +1,14 @@
 # Contributing
 
-Thanks for your interest in contributing to `@f88/promidas-utils`.
+This document provides contribution guidelines for this project.
 
 External contributors do not have write access to this repository, so contributions follow a **fork-based workflow**.
+
+**Package Distribution:** This package is published to [npmjs.com](https://www.npmjs.com/package/promidas-utils) (`promidas-utils`).
+
+For development environment setup and daily development workflow, see [DEVELOPMENT.md](./DEVELOPMENT.md).
+
+For release procedures (maintainers only), see [RELEASE.md](./RELEASE.md).
 
 ## Quick Start (Fork Workflow)
 
