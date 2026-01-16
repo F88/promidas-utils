@@ -12,14 +12,14 @@ instructions-for-ais:
 
 # Utilities for Store Management
 
-エントリーポイント: `@f88/promidas-utils/store`
+エントリーポイント: `promidas-utils/store`
 
 公開 API:
 
 - 型: `StoreState`
 - 関数: `getStoreState`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 型
 
@@ -44,7 +44,7 @@ ProtoPedia の `PrototypeInMemoryStats` から状態を判定します。
 ### 使用例
 
 ```typescript
-import { getStoreState } from '@f88/promidas-utils/store';
+import { getStoreState } from 'promidas-utils/store';
 
 const state = getStoreState(stats);
 if (state === 'expired') {

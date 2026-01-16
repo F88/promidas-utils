@@ -12,7 +12,7 @@ instructions-for-ais:
 
 # Utilities for Token Management
 
-エントリーポイント: `@f88/promidas-utils/token`
+エントリーポイント: `promidas-utils/token`
 
 公開 API:
 
@@ -21,7 +21,7 @@ instructions-for-ais:
 - クラス: `TokenManager`
 - エラー: `EnvironmentUnavailableError`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 定数
 
@@ -64,7 +64,7 @@ ProtoPedia API v2 用トークンキー定数。ブラウザストレージと�
 ### 使用例
 
 ```typescript
-import { TokenManager, TOKEN_KEYS } from '@f88/promidas-utils/token';
+import { TokenManager, TOKEN_KEYS } from 'promidas-utils/token';
 
 const storage = TokenManager.forLocalStorage(
     TOKEN_KEYS.PROTOPEDIA_API_V2_TOKEN,

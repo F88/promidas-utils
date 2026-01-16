@@ -12,7 +12,7 @@ instructions-for-ais:
 
 # Utilities for Config Management
 
-エントリーポイント: `@f88/promidas-utils/config`
+エントリーポイント: `promidas-utils/config`
 
 公開 API:
 
@@ -20,7 +20,7 @@ instructions-for-ais:
 - クラス: `ConfigManager`
 - エラー: `EnvironmentUnavailableError`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 型
 
@@ -54,7 +54,7 @@ instructions-for-ais:
 ### 使用例
 
 ```typescript
-import { ConfigManager } from '@f88/promidas-utils/config';
+import { ConfigManager } from 'promidas-utils/config';
 
 const storage = ConfigManager.forLocalStorage('API_BASE_URL');
 await storage.save('https://api.example.com');

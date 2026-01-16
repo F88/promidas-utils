@@ -12,13 +12,13 @@ instructions-for-ais:
 
 # Utilities for Builder Error Handling
 
-エントリーポイント: `@f88/promidas-utils/builder`
+エントリーポイント: `promidas-utils/builder`
 
 公開 API:
 
 - 関数: `toErrorMessage`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 概要
 
@@ -50,7 +50,7 @@ instructions-for-ais:
 
 ```typescript
 import { PromidasRepositoryBuilder } from 'promidas';
-import { toErrorMessage } from '@f88/promidas-utils/builder';
+import { toErrorMessage } from 'promidas-utils/builder';
 
 try {
     const repo = new PromidasRepositoryBuilder()

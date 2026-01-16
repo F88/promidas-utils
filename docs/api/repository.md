@@ -12,14 +12,14 @@ instructions-for-ais:
 
 # Utilities for Snapshot Operation Result
 
-エントリーポイント: `@f88/promidas-utils/repository`
+エントリーポイント: `promidas-utils/repository`
 
 公開 API:
 
 - 型: `ParsedSnapshotOperationFailure`
 - 関数: `parseSnapshotOperationFailure`, `toLocalizedMessage`
 
-> ルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> ルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
 
 ## 型
 
@@ -48,7 +48,7 @@ type ParsedSnapshotOperationFailure = SnapshotOperationFailure & {
 #### 使用例
 
 ```typescript
-import { parseSnapshotOperationFailure } from '@f88/promidas-utils/repository';
+import { parseSnapshotOperationFailure } from 'promidas-utils/repository';
 
 const result = await repository.getSnapshot(prototypeId);
 
@@ -72,7 +72,7 @@ if (!result.ok) {
 #### 使用例
 
 ```typescript
-import { toLocalizedMessage } from '@f88/promidas-utils/repository';
+import { toLocalizedMessage } from 'promidas-utils/repository';
 
 const result = await repository.getSnapshot(prototypeId);
 

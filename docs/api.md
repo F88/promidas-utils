@@ -12,17 +12,17 @@ instructions-for-ais:
 
 # 公開 API 一覧
 
-このページでは `@f88/promidas-utils` が公開する API をまとめます。利用時は公開パスを指定してください。
+このページでは `promidas-utils` が公開する API をまとめます。利用時は公開パスを指定してください。
 
 ## パッケージと公開パス
 
-- トークン関連: `@f88/promidas-utils/token`
-- 設定値関連: `@f88/promidas-utils/config`
-- ストア関連: `@f88/promidas-utils/store`
-- ビルダー関連: `@f88/promidas-utils/builder`
-- リポジトリ関連: `@f88/promidas-utils/repository`
+- トークン関連: `promidas-utils/token`
+- 設定値関連: `promidas-utils/config`
+- ストア関連: `promidas-utils/store`
+- ビルダー関連: `promidas-utils/builder`
+- リポジトリ関連: `promidas-utils/repository`
 
-> 現在はルートパス `@f88/promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
+> 現在はルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください.
 
 ## パス別ドキュメント
 
