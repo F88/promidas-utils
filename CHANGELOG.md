@@ -11,11 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **パッケージ名**: `@f88/promidas-utils` から `promidas-utils` に変更
+    - スコープなしパッケージとして公開
+    - レジストリがGitHub Packagesから npm (<https://www.npmjs.com/>) に変更
+    - `publishConfig` を更新: registry, access, provenance
+    - すべてのドキュメントとJSDocコメントでパッケージ名を更新
 - **依存関係**: `@f88/promidas` から `promidas` に変更 (v2.0.0)
     - パッケージ名が `@f88/promidas` から `promidas` に改名されました
     - レジストリがGitHub Packagesから npm (<https://www.npmjs.com/package/promidas>) に変更されました
     - peerDependencies と devDependencies を更新
     - すべてのimport文とドキュメントの例を更新
+
+### Added
+
+- **CI/CD**: npmjsへの自動公開用GitHub Actionsワークフローを追加
+    - リリース作成時とmanual dispatchで公開可能
+    - ビルド、テスト、リントを実行後に公開
+    - provenance対応
+
+### Deprecated
+
+- **CI/CD**: GitHub Packagesへの公開ワークフローを無効化
+    - ファイルは参照用に保持
 
 ## [1.0.0] - 2026-01-13
 
