@@ -9,11 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-01-28
+
+### Breaking
+
+- **依存関係**: `promidas` 3.0.0 以降が必須になりました
+    - `peerDependencies` の `promidas` を `>=3.0.0` に変更
+    - `promidas` v2.x 系のサポートを終了
+
 ### Changed
 
 - **CI/CD**: Trusted Publishers (OIDC) 対応
     - npmjs公開ワークフローから `NODE_AUTH_TOKEN` を削除
     - OIDCトークンを使用した安全な自動公開に移行
+- **ドキュメント**: README.md および docs/index.md の改善
+    - 日本語表現の明確化と構成の改善
+    - プロジェクト概要の更新
 
 ## [2.0.0] - 2026-01-16
 
@@ -120,8 +131,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API documentation with per-path reference pages
 - Release guide and changelog
 
-[Unreleased]: https://github.com/F88/promidas-utils/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/F88/promidas-utils/compare/v0.3.0...v1.0.0
+[Unreleased]: https://github.com/F88/promidas-utils/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/F88/promidas-utils/compare/v2.0.0...v3.0.0
+[2.0.0]: https://github.com/F88/promidas-utils/compare/v1.0.0...v2.0.0
 [0.3.0]: https://github.com/F88/promidas-utils/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/F88/promidas-utils/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/F88/promidas-utils/releases/tag/v0.1.0
