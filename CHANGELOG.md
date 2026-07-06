@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **リポジトリ**: スナップショットの JSON ファイル I/O ユーティリティを追加 (#8)
+    - `exportSnapshotToFile()` / `importSnapshotFromFile()` を `promidas-utils/repository` から公開
+    - ディレクトリの自動作成、一時ファイルを介したアトミックな書き込み、判別可能なエラー型 (`FileIoError`) を提供
+    - import 失敗が promidas の検証由来の場合は `SnapshotOperationFailure` を保持し、既存の `toLocalizedMessage()` で日本語化可能
+
 ## [3.0.0] - 2026-01-28
 
 ### Breaking
