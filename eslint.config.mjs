@@ -1,4 +1,4 @@
-import eslintPluginImport from 'eslint-plugin-import';
+import eslintPluginImport from 'eslint-plugin-import-x';
 import eslintPluginTs from '@typescript-eslint/eslint-plugin';
 import eslintParserTs from '@typescript-eslint/parser';
 
