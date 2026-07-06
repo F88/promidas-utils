@@ -14,7 +14,10 @@ import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 import type { ProtopediaInMemoryRepository } from 'promidas/repository';
-import type { SerializableSnapshot } from 'promidas/repository/types';
+import type {
+  SerializableSnapshot,
+  SnapshotOperationResult,
+} from 'promidas/repository/types';
 
 import type {
   ExportSnapshotOptions,
@@ -183,7 +186,24 @@ export async function importSnapshotFromFile(
     };
   }
 
-  const result = repository.setupSnapshotFromSerializedData(data);
+  // `repository` may be any object satisfying the Pick type, so guard the call
+  // to uphold this function's "never throws" contract even if a custom
+  // implementation throws. PROMIDAS' own repository is documented never to throw.
+  let result: SnapshotOperationResult;
+  try {
+    result = repository.setupSnapshotFromSerializedData(data);
+  } catch (error) {
+    return {
+      ok: false,
+      filePath,
+      error: {
+        kind: 'SETUP_FAILED',
+        message: toMessage(error),
+        cause: error,
+      },
+    };
+  }
+
   if (!result.ok) {
     return {
       ok: false,

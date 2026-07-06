@@ -260,6 +260,25 @@ describe('snapshot-file-io', () => {
         toLocalizedMessage(result.error.snapshotFailure ?? null),
       ).toContain('データの検証に失敗しました');
     });
+
+    it('returns SETUP_FAILED when the repository method throws', async () => {
+      const filePath = join(dir, 'snapshot.json');
+      await writeFile(filePath, JSON.stringify(makeSnapshot(1)), 'utf8');
+
+      const repository = {
+        setupSnapshotFromSerializedData: vi.fn(() => {
+          throw new Error('unexpected repository failure');
+        }),
+      };
+      const result = await importSnapshotFromFile(repository, filePath);
+
+      expect(result.ok).toBe(false);
+      if (result.ok) return;
+      expect(result.error.kind).toBe('SETUP_FAILED');
+      expect(result.error.message).toBe('unexpected repository failure');
+      expect(result.error.cause).toBeInstanceOf(Error);
+      expect(result.error.snapshotFailure).toBeUndefined();
+    });
   });
 
   describe('round-trip', () => {
