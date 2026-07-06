@@ -45,3 +45,6 @@ scripts/sample-data/
 # VitePress build outputs
 docs/.vitepress/cache
 docs/.vitepress/dist
+
+# Local test fixtures
+test/__local_fixtures__/

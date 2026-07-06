@@ -128,12 +128,15 @@ git push origin vx.y.z
 5. Copy the relevant version content from CHANGELOG.md
 6. Click "Publish release"
 
-**Automated Publishing:** When the release is published, the [GitHub Actions workflow](.github/workflows/publish-package-to-github-packages.yml) automatically:
+**Automated Publishing:** When the release is published, the [GitHub Actions workflow](.github/workflows/publish-package-to-npmjs.yml) automatically:
 
 1. Builds the package (`npm run build`)
-2. Publishes to GitHub Packages (`npm publish`)
+2. Publishes to [npmjs](https://www.npmjs.com/package/promidas-utils) using [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC, no npm token required) with provenance (`npm publish --provenance`)
 
 No manual `npm publish` is required.
+
+> Trusted Publishing requires npm 11.5.1 or later, which the workflow provisions.
+> The legacy `publish-package-to-github-packages.yml` workflow is disabled.
 
 ## Troubleshooting
 
@@ -144,7 +147,7 @@ If the GitHub Actions workflow fails:
 1. Check the workflow run logs in the "Actions" tab
 2. Verify `package.json` version matches the release tag
 3. Ensure all CI checks passed before creating the release
-4. Check GitHub Packages permissions
+4. Verify the Trusted Publishing configuration on npmjs (the package's trusted publisher must reference this repository and the `publish-package-to-npmjs.yml` workflow)
 
 ### Tag Already Exists
 
