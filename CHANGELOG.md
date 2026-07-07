@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-07-07
+
 ### Added
 
 - **ユーティリティ**: ProtoPedia のユーザー名文字列を分解する `parseUsername` を追加 (#42)
@@ -146,7 +148,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API documentation with per-path reference pages
 - Release guide and changelog
 
-[Unreleased]: https://github.com/F88/promidas-utils/compare/v3.1.0...HEAD
+[Unreleased]: https://github.com/F88/promidas-utils/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/F88/promidas-utils/releases/tag/v3.2.0
 [3.1.0]: https://github.com/F88/promidas-utils/releases/tag/v3.1.0
 [3.0.0]: https://github.com/F88/promidas-utils/releases/tag/v3.0.0
 [2.0.0]: https://github.com/F88/promidas-utils/releases/tag/v2.0.0
