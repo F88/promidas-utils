@@ -13,7 +13,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   exportSnapshotToFile,
   importSnapshotFromFile,
-} from '../../lib/repository/snapshot-file-io.js';
+} from '../../lib/file-io/snapshot-file-io.js';
 import { toLocalizedMessage } from '../../lib/repository/snapshot-operation-failure-utils.js';
 import { createNormalizedPrototype } from '../helpers/create-normalized-prototype.js';
 import { createPrototypeInMemoryStats } from '../helpers/create-prototype-In-memory-stats.js';

@@ -19,6 +19,11 @@ import type {
   SnapshotOperationResult,
 } from 'promidas/repository/types';
 
+import {
+  parseSnapshotJson,
+  serializeSnapshotToJson,
+} from '../repository/snapshot-serialization.js';
+
 import type {
   ExportSnapshotOptions,
   FileExportResult,
@@ -86,7 +91,9 @@ export async function exportSnapshotToFile(
   try {
     const snapshot = repository.getSerializableSnapshot();
     prototypesExported = snapshot.prototypes.length;
-    json = JSON.stringify(snapshot, null, options?.pretty ? 2 : undefined);
+    json = serializeSnapshotToJson(snapshot, {
+      ...(options?.pretty !== undefined && { pretty: options.pretty }),
+    });
   } catch (error) {
     return {
       ok: false,
@@ -173,7 +180,7 @@ export async function importSnapshotFromFile(
   let data: SerializableSnapshot;
   try {
     // Structural validation is delegated to PROMIDAS' validateSerializableSnapshot.
-    data = JSON.parse(content) as SerializableSnapshot;
+    data = parseSnapshotJson(content);
   } catch (error) {
     return {
       ok: false,
