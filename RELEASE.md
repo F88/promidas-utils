@@ -5,6 +5,8 @@ title-en: Release Guide
 title-ja: リリースガイド
 related:
     - ./README.md "Project Overview"
+    - ./CONTRIBUTING.md "Contributing Guide"
+    - ./DEVELOPMENT.md "Development Guide"
 instructions-for-ais:
     - This document should be written in English for AI readability.
     - Content within code fences may be written in languages other than English.
@@ -16,7 +18,11 @@ instructions-for-ais:
 
 This document describes the release procedures for package maintainers.
 
-**Package Distribution:** This package is published to [npmjs](https://www.npmjs.com/package/promidas-utils) (`promidas-utils`). Releases are automatically published when a GitHub Release is created.
+**Package Distribution:** This package is published to [npmjs](https://www.npmjs.com/package/promidas-utils) (`promidas-utils`).
+
+Releases are automatically published when a GitHub Release is created.
+
+**Audience:** This document is for package maintainers only. Contributors should refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for PR guidelines.
 
 ## Release Procedures
 
@@ -36,7 +42,15 @@ npm run test:coverage
 
 Ensure all tests pass.
 
-#### b. Code Quality Checks
+#### b. Validate Subpath Exports
+
+```bash
+npm run test:exports
+```
+
+Ensure there are no export validation errors. See [DEVELOPMENT.md](./DEVELOPMENT.md#subpath-exports-validation) for details.
+
+#### c. Code Quality Checks
 
 ```bash
 # Linter
@@ -51,7 +65,7 @@ npm run typecheck
 
 Ensure all checks pass.
 
-#### c. Verify Build
+#### d. Verify Build
 
 ```bash
 npm run build
@@ -72,22 +86,13 @@ Update the version following Semantic Versioning:
 #### Method A: Using npm version (Recommended)
 
 ```bash
-# Update version (updates package.json AND the version field in package-lock.json)
+# Update version
 npm version patch --no-git-tag-version  # or minor, major
 
-# Regenerate lib/version.ts from the new version (prebuild runs generate-version.mjs)
+# Regenerate lib/version.ts from the new version, then run tests
 npm run build
-
-# Re-run tests against the bumped version
-# (test/version.test.ts asserts VERSION === package.json version)
 npm test
 ```
-
-> **Do NOT run `npm install` here.** `npm version` already syncs the `version`
-> field in `package-lock.json`, and a plain `npm install` prunes the
-> cross-platform `@esbuild/*` entries from the lockfile and breaks `npm ci` on
-> other OSes. (For _dependency_ updates — not version bumps — regenerate the
-> lockfile with a clean install: `rm -rf node_modules package-lock.json && npm install`.)
 
 Proceed to Step 3.
 
@@ -101,14 +106,10 @@ Manually edit `package.json`:
 }
 ```
 
-Prefer **Method A** (`npm version` also updates `package-lock.json`). If editing
-manually, also update the `version` field in `package-lock.json` to match, then
-regenerate `lib/version.ts` and re-test:
+Then update `package-lock.json`:
 
 ```bash
-# Do NOT run a plain `npm install` (it prunes cross-platform lockfile entries).
-npm run build
-npm test
+npm install
 ```
 
 Proceed to Step 3.
@@ -134,8 +135,8 @@ git push origin vx.y.z
 
 ### 5. Create GitHub Release
 
-1. Navigate to the GitHub repository page
-2. Go to "Releases" → "Draft a new release"
+1. Navigate to the repository's Releases page
+2. Click "Draft a new release"
 3. Select tag: `vx.y.z`
 4. Enter release title: `vx.y.z`
 5. Copy the relevant version content from CHANGELOG.md
@@ -144,7 +145,7 @@ git push origin vx.y.z
 **Automated Publishing:** When the release is published, the [GitHub Actions workflow](.github/workflows/publish-package-to-npmjs.yml) automatically:
 
 1. Builds the package (`npm run build`)
-2. Publishes to [npmjs](https://www.npmjs.com/package/promidas-utils) using [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC, no npm token required) with provenance (`npm publish --provenance`)
+2. Publishes to npmjs.com (`npm publish`)
 
 No manual `npm publish` is required.
 
@@ -182,4 +183,4 @@ git push origin vx.y.z
 
 - [Semantic Versioning](https://semver.org/)
 - [GitHub Releases Documentation](https://docs.github.com/en/repositories/releasing-projects-on-github)
-- [GitHub Packages Documentation](https://docs.github.com/en/packages)
+- [npm Documentation](https://docs.npmjs.com/)
