@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.1] - 2026-07-07
+
 ### Fixed
 
 - **リポジトリ**: `promidas-utils/repository` バレルがブラウザ向けバンドラ (Vite/rollup) でビルド失敗する問題を修正 (#48)
