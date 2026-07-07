@@ -1,5 +1,5 @@
-import type { NormalizedPrototype } from 'promidas/types';
 import type { SerializableSnapshot } from 'promidas/repository/types';
+import type { NormalizedPrototype } from 'promidas/types';
 import { describe, expect, it } from 'vitest';
 
 import {
