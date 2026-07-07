@@ -54,6 +54,9 @@ jobs:
       - name: Run type checking
         run: npm run typecheck
 
+      - name: Validate subpath exports
+        run: npm run test:exports
+
       - name: Run tests for Codecov Test Analytics
         run: npm run test:codecov
 
