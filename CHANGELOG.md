@@ -146,9 +146,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API documentation with per-path reference pages
 - Release guide and changelog
 
-[Unreleased]: https://github.com/F88/promidas-utils/compare/v3.0.0...HEAD
-[3.0.0]: https://github.com/F88/promidas-utils/compare/v2.0.0...v3.0.0
-[2.0.0]: https://github.com/F88/promidas-utils/compare/v1.0.0...v2.0.0
-[0.3.0]: https://github.com/F88/promidas-utils/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/F88/promidas-utils/compare/v0.1.0...v0.2.0
+[Unreleased]: https://github.com/F88/promidas-utils/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/F88/promidas-utils/releases/tag/v3.1.0
+[3.0.0]: https://github.com/F88/promidas-utils/releases/tag/v3.0.0
+[2.0.0]: https://github.com/F88/promidas-utils/releases/tag/v2.0.0
+[1.0.0]: https://github.com/F88/promidas-utils/releases/tag/v1.0.0
+[0.3.0]: https://github.com/F88/promidas-utils/releases/tag/v0.3.0
+[0.2.0]: https://github.com/F88/promidas-utils/releases/tag/v0.2.0
 [0.1.0]: https://github.com/F88/promidas-utils/releases/tag/v0.1.0
