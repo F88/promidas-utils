@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **リポジトリ**: `promidas-utils/repository` バレルがブラウザ向けバンドラ (Vite/rollup) でビルド失敗する問題を修正 (#48)
+    - バレルが Node 専用の `snapshot-file-io` を re-export していたため、`node:crypto` 等の解決に失敗していた (3.1.0 で発生した回帰)
+    - Node 専用の File I/O を `promidas-utils/file-io` サブパスへ分離し、`promidas-utils/repository` は browser-safe に戻しました
+    - これに伴い、`exportSnapshotToFile` / `importSnapshotFromFile` および `FileIoError` 等の型の import 元が `promidas-utils/repository` から `promidas-utils/file-io` に変わります (いずれも 3.1.0 で追加された API)
+
 ## [3.2.0] - 2026-07-07
 
 ### Added

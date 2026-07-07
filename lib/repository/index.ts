@@ -12,20 +12,3 @@ export {
   toLocalizedMessage,
   type ParsedSnapshotOperationFailure,
 } from './snapshot-operation-failure-utils.js';
-
-export {
-  exportSnapshotToFile,
-  importSnapshotFromFile,
-} from './snapshot-file-io.js';
-
-export type {
-  ExportSnapshotOptions,
-  FileExportFailure,
-  FileExportResult,
-  FileExportSuccess,
-  FileImportFailure,
-  FileImportResult,
-  FileImportSuccess,
-  FileIoError,
-  FileIoErrorKind,
-} from './types.js';
