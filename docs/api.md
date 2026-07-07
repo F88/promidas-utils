@@ -19,6 +19,7 @@ instructions-for-ais:
 - ストア関連: `promidas-utils/store`
 - ビルダー関連: `promidas-utils/builder`
 - リポジトリ関連: `promidas-utils/repository`
+- ファイル I/O (Node.js 専用): `promidas-utils/file-io`
 - ユーティリティ関連: `promidas-utils/utils`
 
 > 現在はルートパス `promidas-utils` からの再エクスポートはありません。必ず上記パスを利用してください。
@@ -30,4 +31,5 @@ instructions-for-ais:
 - [store](/api/store)
 - [builder](/api/builder)
 - [repository](/api/repository)
+- [file-io](/api/file-io) (Node.js 専用)
 - [utils](/api/utils)
