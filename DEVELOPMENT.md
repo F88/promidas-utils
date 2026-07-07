@@ -69,6 +69,14 @@ npm run test:coverage
 
 Coverage reports are generated in the `coverage/` directory. Open `coverage/index.html` in a browser to view detailed coverage information.
 
+#### Subpath Exports Validation
+
+```bash
+npm run test:exports
+```
+
+This builds the package and verifies that every `package.json` subpath export resolves and exposes its documented runtime symbols (`__tests__/subpath-exports.test.ts`). It is a specification of the public API contract — update the test when you change the `exports` map or a subpath's public API.
+
 ### Type Checking
 
 Type check the entire project:
@@ -229,7 +237,7 @@ Quick overview:
 3. Run all checks (typecheck, format:check, lint, test)
 4. Commit and tag
 5. Push with tags
-6. GitHub Actions will publish to GitHub Packages
+6. GitHub Actions will publish to npm (npmjs.com)
 
 ## Troubleshooting
 
