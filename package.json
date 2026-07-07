@@ -95,6 +95,10 @@
     "./repository": {
       "types": "./dist/lib/repository/index.d.ts",
       "import": "./dist/lib/repository/index.js"
+    },
+    "./utils": {
+      "types": "./dist/lib/utils/index.d.ts",
+      "import": "./dist/lib/utils/index.js"
     }
   },
   "publishConfig": {
