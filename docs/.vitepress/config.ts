@@ -44,6 +44,7 @@ export default defineConfig({
               { text: 'store', link: '/api/store' },
               { text: 'builder', link: '/api/builder' },
               { text: 'repository', link: '/api/repository' },
+              { text: 'utils', link: '/api/utils' },
             ],
           },
         ],
