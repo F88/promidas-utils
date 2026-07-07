@@ -72,13 +72,22 @@ Update the version following Semantic Versioning:
 #### Method A: Using npm version (Recommended)
 
 ```bash
-# Update version automatically
+# Update version (updates package.json AND the version field in package-lock.json)
 npm version patch --no-git-tag-version  # or minor, major
-# This updates package.json and package-lock.json
 
-# Ensure package-lock.json is synchronized
-npm install
+# Regenerate lib/version.ts from the new version (prebuild runs generate-version.mjs)
+npm run build
+
+# Re-run tests against the bumped version
+# (test/version.test.ts asserts VERSION === package.json version)
+npm test
 ```
+
+> **Do NOT run `npm install` here.** `npm version` already syncs the `version`
+> field in `package-lock.json`, and a plain `npm install` prunes the
+> cross-platform `@esbuild/*` entries from the lockfile and breaks `npm ci` on
+> other OSes. (For _dependency_ updates — not version bumps — regenerate the
+> lockfile with a clean install: `rm -rf node_modules package-lock.json && npm install`.)
 
 Proceed to Step 3.
 
@@ -92,10 +101,14 @@ Manually edit `package.json`:
 }
 ```
 
-Then update `package-lock.json`:
+Prefer **Method A** (`npm version` also updates `package-lock.json`). If editing
+manually, also update the `version` field in `package-lock.json` to match, then
+regenerate `lib/version.ts` and re-test:
 
 ```bash
-npm install
+# Do NOT run a plain `npm install` (it prunes cross-platform lockfile entries).
+npm run build
+npm test
 ```
 
 Proceed to Step 3.
@@ -107,8 +120,8 @@ Document the changes in `CHANGELOG.md`:
 ### 4. Commit and Create Tag
 
 ```bash
-# Commit changes (package.json, package-lock.json, CHANGELOG.md)
-git add package.json package-lock.json CHANGELOG.md
+# Commit changes (include the regenerated lib/version.ts)
+git add package.json package-lock.json CHANGELOG.md lib/version.ts
 git commit -m "chore(release): x.y.z"
 
 # Create tag (signed, using .npmrc configuration)
