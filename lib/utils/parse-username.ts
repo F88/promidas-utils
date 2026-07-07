@@ -123,6 +123,11 @@ export interface ParsedUsername {
  * ```
  */
 export function parseUsername(username: string): ParsedUsername {
+  // Handle non-string input gracefully (e.g. `undefined` or `null`).
+  if (typeof username !== 'string') {
+    return { displayName: 'unknown', profileId: 'unknown' };
+  }
+
   const separatorIndex = username.lastIndexOf('@');
 
   if (separatorIndex < 0) {

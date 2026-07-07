@@ -158,6 +158,49 @@ describe('parseUsername', () => {
     });
   });
 
+  describe('non-string input (type-guard fallback -> "unknown")', () => {
+    // parseUsername is typed `(username: string)`. For a non-string passed at
+    // runtime (untyped JS / raw API data), the type guard returns a sentinel
+    // instead of throwing or leaking a non-string field. Note an array has its
+    // own `lastIndexOf` / `slice`, so without the guard it would NOT throw but
+    // return array-typed fields — these tests lock that hole shut.
+    const nonStrings: unknown[] = [
+      null,
+      undefined,
+      123,
+      true,
+      {},
+      [],
+      ['a', '@', 'b'],
+      Symbol('x'),
+    ];
+
+    it('returns the "unknown" sentinel for every non-string input', () => {
+      for (const input of nonStrings) {
+        expect(parseUsername(input as unknown as string)).toEqual({
+          displayName: 'unknown',
+          profileId: 'unknown',
+        });
+      }
+    });
+
+    it('never throws on non-string inputs', () => {
+      for (const input of nonStrings) {
+        expect(() => parseUsername(input as unknown as string)).not.toThrow();
+      }
+    });
+
+    it('always returns string-typed fields (no array/object leakage)', () => {
+      for (const input of nonStrings) {
+        const { displayName, profileId } = parseUsername(
+          input as unknown as string,
+        );
+        expect(typeof displayName).toBe('string');
+        expect(typeof profileId).toBe('string');
+      }
+    });
+  });
+
   describe('contract: total, deterministic, no trimming', () => {
     const inputs = [
       '',
