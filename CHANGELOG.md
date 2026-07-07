@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **ユーティリティ**: ProtoPedia のユーザー名文字列を分解する `parseUsername` を追加 (#42)
+    - `parseUsername(username): ParsedUsername` を `promidas-utils/utils` から公開
+    - best-effort な処理です。実際の `profileId` が `@` を含むデータは正しく復元できません (制限事項として明記)
+
 ## [3.1.0] - 2026-07-06
 
 ### Added
