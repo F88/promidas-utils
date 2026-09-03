@@ -55,8 +55,8 @@
     "@types/webappsec-credential-management": "^0.6.9",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
     "@typescript-eslint/parser": "^8.63.0",
-    "@vitest/coverage-v8": "^4.1.10",
-    "@vitest/ui": "^4.1.10",
+    "@vitest/coverage-v8": "^5.0.0",
+    "@vitest/ui": "^5.0.0",
     "dotenv": "^17.4.2",
     "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
@@ -67,7 +67,7 @@
     "ts-essentials": "^10.2.1",
     "typescript": "^5.9.3",
     "vitepress": "^1.6.4",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   },
   "files": [
     "README.md",
