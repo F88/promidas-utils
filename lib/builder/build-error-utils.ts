@@ -202,8 +202,11 @@ export function parseStoreError(error: StoreError): string {
  * @returns Localized error message in Japanese
  */
 export function parseError(error: Error): string {
-  // Thrown by ProtoPediaApiClient when API token is missing
-  if (error.message?.includes('Missing PROTOPEDIA_API_V2_TOKEN')) {
+  // Thrown by createProtoPediaClient and createPromidasForServer when API token is missing
+  if (
+    error.message?.includes('Missing API token') ||
+    error.message?.includes('PROTOPEDIA_API_V2_TOKEN environment variable')
+  ) {
     return 'APIトークンが設定されていません';
   }
 

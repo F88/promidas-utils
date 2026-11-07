@@ -48,7 +48,7 @@ export function parseFetcherSnapshotFailure(
       lines.push(`リクエスト: ${[method, url].filter(Boolean).join(' ')}`);
     }
 
-    const { statusText, code: resCode } = failure.details.res ?? {};
+    const { statusText, code: networkCode } = failure.details.res ?? {};
     if (failure.status || statusText) {
       if (failure.status) {
         lines.push(
@@ -58,12 +58,17 @@ export function parseFetcherSnapshotFailure(
         lines.push(`レスポンス: ${statusText}`);
       }
     }
-    if (resCode) {
-      lines.push(`レスポンスコード: ${resCode}`);
-    }
 
     if (failure.code) {
       lines.push(`エラーコード: ${failure.code}`);
+    }
+    if (failure.kind) {
+      lines.push(`分類: ${failure.kind}`);
+    }
+    // `details.res.code` does not come from a response: it identifies the failure
+    // at the network layer (e.g. UND_ERR_SOCKET). Only show it when it adds something.
+    if (networkCode && networkCode !== failure.code) {
+      lines.push(`通信エラーコード: ${networkCode}`);
     }
 
     // Keep raw message as-is for stability (no parsing).
@@ -134,6 +139,12 @@ export function parseFetcherSnapshotFailure(
           const message = `サーバーエラーが発生しました (HTTP ${failure.status})。しばらく待ってから再試行してください。`;
           return withFetcherReferenceInfo(message);
         }
+        // A successful status with a failure, such as invalid JSON in the body
+        if (failure.status >= 200 && failure.status < 300) {
+          return withFetcherReferenceInfo(
+            'サーバーの応答を処理できませんでした。応答の形式が正しくない可能性があります。',
+          );
+        }
         {
           const message = `HTTPエラーが発生しました (HTTP ${failure.status})。`;
           return withFetcherReferenceInfo(message);
@@ -192,6 +203,7 @@ export function parseFetcherSnapshotFailure(
           'ネットワークエラーが発生しました。',
           '次のような原因が考えられます:',
           '- ネットワークがオフライン',
+          '- 通信が途中で切断された',
           '- サーバーが一時的に利用できない',
           '- ファイアウォールやプロキシの設定',
         ].join('\n'),
@@ -205,21 +217,33 @@ export function parseFetcherSnapshotFailure(
         'サーバーが見つかりませんでした。URLを確認してください。',
       );
     case 'ETIMEDOUT':
-    case 'TIMEOUT':
       return withFetcherReferenceInfo(
         'リクエストがタイムアウトしました。ネットワーク接続を確認してください。',
+      );
+    // `timeoutMs` covers the whole response, so a large or slow download can hit it.
+    case 'TIMEOUT':
+      return withFetcherReferenceInfo(
+        [
+          'リクエストがタイムアウトしました。',
+          '次を試してください:',
+          '- ネットワーク接続を確認する',
+          '- limitパラメータを減らす',
+          '- timeoutMs を長くする (設定できる場合)',
+        ].join('\n'),
       );
     case 'ABORTED':
       return withFetcherReferenceInfo('リクエストがキャンセルされました。');
 
-    // CORS
+    // Browsers report a CORS block and a failed connection with the same error.
     case 'CORS_BLOCKED':
       return withFetcherReferenceInfo(
         [
-          'APIサーバーとの通信がCORSポリシーによりブロックされました。',
-          '最も可能性が高い原因:',
-          '- APIトークンが未設定、または無効',
-          '注: ProtoPedia API は Access-Control-Allow-Origin を付与しないため、PROMIDASでは401(認証エラー)を正しく判定出来ません。',
+          'APIサーバーとの通信に失敗しました。',
+          'ブラウザの制限により、原因を特定できません。',
+          '次のような原因が考えられます:',
+          '- APIトークンが無効 (認証エラーはこの表示になります)',
+          '- ネットワークがオフライン',
+          '- サーバーに接続できない',
         ].join('\n'),
       );
 
