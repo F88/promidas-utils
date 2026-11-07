@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `createPromidasForServer()` のトークン未設定も判定できるようにしました
 - **リポジトリ**: 正常なステータスで応答を処理できない場合に、`HTTPエラーが発生しました (HTTP 200)` と表示される問題を修正
 
+### Changed
+
+- **CI**: Node.js 22、24、26 でテストするようにしました
+- **開発**: Vitest 5 など、開発用の依存を更新しました
+
 ## [3.2.1] - 2026-07-07
 
 ### Fixed
