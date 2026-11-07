@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1",
-    "@types/node": "^24.10.2",
+    "@types/node": "^26.0.0",
     "@types/webappsec-credential-management": "^0.6.9",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
     "@typescript-eslint/parser": "^8.63.0",
