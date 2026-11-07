@@ -4,7 +4,7 @@ This document provides information for developers working on this project.
 
 ## Prerequisites
 
-- **Node.js**: 20.x or later
+- **Node.js**: 22.x or later
 - **npm**: 9.x or later (10.x recommended)
 
 ## Setup

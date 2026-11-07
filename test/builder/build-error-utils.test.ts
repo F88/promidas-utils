@@ -1,10 +1,11 @@
+import { createPromidasForServer, PromidasRepositoryBuilder } from 'promidas';
 import {
   ConfigurationError,
   DataSizeExceededError,
   SizeEstimationError,
   StoreError,
 } from 'promidas/store';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   parseConfigurationError,
@@ -13,6 +14,15 @@ import {
   parseStoreError,
   toErrorMessage,
 } from '../../lib/builder/build-error-utils.js';
+
+function catchBuildError(build: () => unknown): Error {
+  try {
+    build();
+  } catch (error) {
+    return error as Error;
+  }
+  throw new Error('Expected build to throw');
+}
 
 describe('build-error-utils', () => {
   describe('parseConfigurationError', () => {
@@ -190,11 +200,37 @@ describe('build-error-utils', () => {
     });
 
     it('should handle API token missing error', () => {
-      const error = new Error('Missing PROTOPEDIA_API_V2_TOKEN.');
+      const error = new Error(
+        'Missing API token. Pass it with the `token` option.',
+      );
 
       const result = toErrorMessage(error);
 
       expect(result).toBe('APIトークンが設定されていません');
+    });
+
+    // Uses the real SDK: its message can change without any change here.
+    it('should handle the API token missing error from a real build', () => {
+      const error = catchBuildError(() =>
+        new PromidasRepositoryBuilder()
+          .setStoreConfig({ logLevel: 'silent' })
+          .setRepositoryConfig({ logLevel: 'silent' })
+          .setApiClientConfig({ logLevel: 'silent' })
+          .build(),
+      );
+
+      expect(toErrorMessage(error)).toBe('APIトークンが設定されていません');
+    });
+
+    it('should handle the API token missing error from createPromidasForServer', () => {
+      vi.stubEnv('PROTOPEDIA_API_V2_TOKEN', '');
+
+      const error = catchBuildError(() =>
+        createPromidasForServer({ logLevel: 'silent' }),
+      );
+      vi.unstubAllEnvs();
+
+      expect(toErrorMessage(error)).toBe('APIトークンが設定されていません');
     });
 
     it('should prioritize specific error types over generic StoreError', () => {

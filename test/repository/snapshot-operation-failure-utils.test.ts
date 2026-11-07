@@ -463,6 +463,22 @@ describe('snapshot-operation-failure-utils', () => {
         const result = parseFetcherSnapshotFailure(failure);
         expect(result).toContain('HTTPエラーが発生しました (HTTP 300)');
       });
+
+      it('should not call a successful status an HTTP error', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'http',
+          code: 'UNKNOWN',
+          message: 'API request failed',
+          status: 200,
+          details: { req: {}, res: {} },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('サーバーの応答を処理できませんでした');
+        expect(result).not.toContain('HTTPエラー');
+      });
     });
 
     describe('network errors', () => {
@@ -479,6 +495,7 @@ describe('snapshot-operation-failure-utils', () => {
         const result = parseFetcherSnapshotFailure(failure);
         expect(result).toContain('ネットワークエラーが発生しました');
         expect(result).toContain('ネットワークがオフライン');
+        expect(result).toContain('通信が途中で切断された');
       });
 
       it('should handle ECONNREFUSED', () => {
@@ -521,6 +538,7 @@ describe('snapshot-operation-failure-utils', () => {
 
         const result = parseFetcherSnapshotFailure(failure);
         expect(result).toContain('リクエストがタイムアウトしました');
+        expect(result).not.toContain('timeoutMs');
       });
 
       it('should handle TIMEOUT', () => {
@@ -535,6 +553,9 @@ describe('snapshot-operation-failure-utils', () => {
 
         const result = parseFetcherSnapshotFailure(failure);
         expect(result).toContain('リクエストがタイムアウトしました');
+        expect(result).toContain('limit');
+        // The factories fix timeoutMs. Only the builder can change it.
+        expect(result).toContain('timeoutMs を長くする (設定できる場合)');
       });
 
       it('should handle ABORTED', () => {
@@ -564,8 +585,14 @@ describe('snapshot-operation-failure-utils', () => {
         };
 
         const result = parseFetcherSnapshotFailure(failure);
-        expect(result).toContain('CORSポリシーによりブロックされました');
-        expect(result).toContain('APIトークンが未設定、または無効');
+        expect(result).toContain('APIサーバーとの通信に失敗しました');
+        expect(result).toContain('原因を特定できません');
+        expect(result).toContain('APIトークンが無効');
+        // A missing token fails in build() and never reaches the network.
+        expect(result).not.toContain('未設定');
+        expect(result).toContain('ネットワークがオフライン');
+        expect(result).toContain('サーバーに接続できない');
+        expect(result).not.toContain('CORSポリシーによりブロックされました');
       });
     });
 
@@ -629,24 +656,70 @@ describe('snapshot-operation-failure-utils', () => {
         expect(result).toContain('レスポンス: HTTP 401 Unauthorized');
       });
 
-      it('should include response code', () => {
+      it('should include the network code when it adds information', () => {
         const failure: FetcherSnapshotFailure = {
           ok: false,
           origin: 'fetcher',
-          kind: 'http',
-          code: 'CLIENT_UNAUTHORIZED',
-          message: 'Unauthorized',
-          status: 401,
+          kind: 'network',
+          code: 'NETWORK_ERROR',
+          message: 'Failed to read the response body',
           details: {
             req: {},
             res: {
-              code: 'AUTH_FAILED',
+              code: 'UND_ERR_SOCKET',
             },
           },
         };
 
         const result = parseFetcherSnapshotFailure(failure);
-        expect(result).toContain('レスポンスコード: AUTH_FAILED');
+        expect(result).toContain('通信エラーコード: UND_ERR_SOCKET');
+        expect(result).not.toContain('レスポンスコード');
+      });
+
+      it('should not repeat the network code when it equals the error code', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'timeout',
+          code: 'TIMEOUT',
+          message: 'Upstream request timed out',
+          details: {
+            req: {},
+            res: {
+              code: 'TIMEOUT',
+            },
+          },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain('エラーコード: TIMEOUT');
+        expect(result).not.toContain('通信エラーコード');
+      });
+
+      it('should list the reference info in the same order as other failures', () => {
+        const failure: FetcherSnapshotFailure = {
+          ok: false,
+          origin: 'fetcher',
+          kind: 'cors',
+          code: 'CORS_BLOCKED',
+          message: 'Failed to fetch',
+          details: {
+            res: {
+              code: 'NETWORK_ERROR',
+            },
+          },
+        };
+
+        const result = parseFetcherSnapshotFailure(failure);
+        expect(result).toContain(
+          [
+            '[参考情報]',
+            'エラーコード: CORS_BLOCKED',
+            '分類: cors',
+            '通信エラーコード: NETWORK_ERROR',
+            '詳細: Failed to fetch',
+          ].join('\n'),
+        );
       });
 
       it('should include error code', () => {

@@ -14,6 +14,9 @@ instructions-for-ais:
 
 - Node.js 22 以降
 - npm 9 以降 (推奨 npm 10 以降)
+- `promidas` 4.0.0 以降の 4.x
+
+`promidas` 3.x を使う場合は `promidas-utils` 3.x を使ってください。
 
 ## インストール
 
@@ -28,7 +31,7 @@ npm install promidas-utils
 ### 特定バージョンのインストール
 
 ```bash
-npm install promidas-utils@2.0.0
+npm install promidas-utils@4.0.0
 ```
 
 ## 更新

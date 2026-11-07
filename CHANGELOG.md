@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### BREAKING CHANGES
+
+- **Peer dependency**: `promidas` の要件を `^4.0.0` に変更しました (以前は `>=3.0.0`)
+    - `promidas` 3.x を使う場合は `promidas-utils` 3.x を使ってください
+    - 上限を設けたので、今後の `promidas` のメジャー版は確認してから対応します
+- **リポジトリ**: `parseFetcherSnapshotFailure()` の文言を変更しました。文言の文字列に依存しているコードは確認してください
+    - `CORS_BLOCKED`: CORS と断定せず、原因を特定できないことを案内します。ブラウザでは、CORS のブロックと接続の失敗を区別できないためです
+    - `NETWORK_ERROR`: 原因に「通信が途中で切断された」を追加しました
+    - `TIMEOUT`: `limit` と `timeoutMs` も案内します。`timeoutMs` が本文の受信完了までを含むようになったためです。`ETIMEDOUT` は変わりません
+    - `[参考情報]`: `レスポンスコード` を `通信エラーコード` に変更し、`エラーコード` と同じ値なら表示しません。応答のコードではないためです。store と repository に合わせて、`エラーコード`、`分類` の順に表示します
+
+### Fixed
+
+- **ビルダー**: `toErrorMessage()` で API トークンの未設定を判定できない問題を修正
+    - `protopedia-api-v2-client` 4.0.0 でエラーメッセージが変わり、`不明なエラーが発生しました: Missing API token. ...` と表示されていました
+    - `createPromidasForServer()` のトークン未設定も判定できるようにしました
+- **リポジトリ**: 正常なステータスで応答を処理できない場合に、`HTTPエラーが発生しました (HTTP 200)` と表示される問題を修正
+
 ## [3.2.1] - 2026-07-07
 
 ### Fixed
