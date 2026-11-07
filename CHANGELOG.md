@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **CI**: Node.js 22、24、26 でテストするようにしました
 - **開発**: Vitest 5 など、開発用の依存を更新しました
+- **セキュリティ**: GitHub Actions のロックファイル (`.github/workflows/actions.lock`) を導入しました。直接と間接のすべての Action を確認済みのコミットに固定し、`verify-lockfile` ワークフローが PR と `main` への push で検証します
+- **CI**: 無効にしていた `publish-package-to-github-packages.yml` を削除しました
 
 ## [3.2.1] - 2026-07-07
 
