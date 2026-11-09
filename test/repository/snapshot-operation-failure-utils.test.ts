@@ -574,12 +574,12 @@ describe('snapshot-operation-failure-utils', () => {
     });
 
     describe('CORS errors', () => {
-      it('should handle CORS_BLOCKED', () => {
+      it('should handle BROWSER_FETCH_FAILED', () => {
         const failure: FetcherSnapshotFailure = {
           ok: false,
           origin: 'fetcher',
-          kind: 'cors',
-          code: 'CORS_BLOCKED',
+          kind: 'browser_fetch',
+          code: 'BROWSER_FETCH_FAILED',
           message: 'CORS blocked',
           details: { req: {}, res: {} },
         };
@@ -665,9 +665,7 @@ describe('snapshot-operation-failure-utils', () => {
           message: 'Failed to read the response body',
           details: {
             req: {},
-            res: {
-              code: 'UND_ERR_SOCKET',
-            },
+            causeCode: 'UND_ERR_SOCKET',
           },
         };
 
@@ -680,19 +678,17 @@ describe('snapshot-operation-failure-utils', () => {
         const failure: FetcherSnapshotFailure = {
           ok: false,
           origin: 'fetcher',
-          kind: 'timeout',
-          code: 'TIMEOUT',
-          message: 'Upstream request timed out',
+          kind: 'network',
+          code: 'ECONNREFUSED',
+          message: 'fetch failed',
           details: {
             req: {},
-            res: {
-              code: 'TIMEOUT',
-            },
+            causeCode: 'ECONNREFUSED',
           },
         };
 
         const result = parseFetcherSnapshotFailure(failure);
-        expect(result).toContain('エラーコード: TIMEOUT');
+        expect(result).toContain('エラーコード: ECONNREFUSED');
         expect(result).not.toContain('通信エラーコード');
       });
 
@@ -700,23 +696,18 @@ describe('snapshot-operation-failure-utils', () => {
         const failure: FetcherSnapshotFailure = {
           ok: false,
           origin: 'fetcher',
-          kind: 'cors',
-          code: 'CORS_BLOCKED',
+          kind: 'browser_fetch',
+          code: 'BROWSER_FETCH_FAILED',
           message: 'Failed to fetch',
-          details: {
-            res: {
-              code: 'NETWORK_ERROR',
-            },
-          },
+          details: {},
         };
 
         const result = parseFetcherSnapshotFailure(failure);
         expect(result).toContain(
           [
             '[参考情報]',
-            'エラーコード: CORS_BLOCKED',
-            '分類: cors',
-            '通信エラーコード: NETWORK_ERROR',
+            'エラーコード: BROWSER_FETCH_FAILED',
+            '分類: browser_fetch',
             '詳細: Failed to fetch',
           ].join('\n'),
         );
@@ -1250,7 +1241,7 @@ describe('snapshot-operation-failure-utils', () => {
         status: 401,
         details: {
           req: { method: 'GET', url: 'https://api.example.com/data' },
-          res: { statusText: 'Unauthorized', code: 'UNAUTHORIZED' },
+          res: { statusText: 'Unauthorized' },
         },
       };
 

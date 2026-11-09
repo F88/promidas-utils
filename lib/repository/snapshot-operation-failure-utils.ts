@@ -48,7 +48,8 @@ export function parseFetcherSnapshotFailure(
       lines.push(`リクエスト: ${[method, url].filter(Boolean).join(' ')}`);
     }
 
-    const { statusText, code: networkCode } = failure.details.res ?? {};
+    const { statusText } = failure.details.res ?? {};
+    const { causeCode } = failure.details;
     if (failure.status || statusText) {
       if (failure.status) {
         lines.push(
@@ -65,10 +66,9 @@ export function parseFetcherSnapshotFailure(
     if (failure.kind) {
       lines.push(`分類: ${failure.kind}`);
     }
-    // `details.res.code` does not come from a response: it identifies the failure
-    // at the network layer (e.g. UND_ERR_SOCKET). Only show it when it adds something.
-    if (networkCode && networkCode !== failure.code) {
-      lines.push(`通信エラーコード: ${networkCode}`);
+    // The code found on the error (e.g. UND_ERR_SOCKET). Only show it when it adds something.
+    if (causeCode && causeCode !== failure.code) {
+      lines.push(`通信エラーコード: ${causeCode}`);
     }
 
     // Keep raw message as-is for stability (no parsing).
@@ -235,7 +235,7 @@ export function parseFetcherSnapshotFailure(
       return withFetcherReferenceInfo('リクエストがキャンセルされました。');
 
     // Browsers report a CORS block and a failed connection with the same error.
-    case 'CORS_BLOCKED':
+    case 'BROWSER_FETCH_FAILED':
       return withFetcherReferenceInfo(
         [
           'APIサーバーとの通信に失敗しました。',
