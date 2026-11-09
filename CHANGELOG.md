@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-11-09
+
 この版は promidas 5.x 向けです。
 
 ### BREAKING CHANGES
@@ -196,7 +198,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API documentation with per-path reference pages
 - Release guide and changelog
 
-[Unreleased]: https://github.com/F88/promidas-utils/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/F88/promidas-utils/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/F88/promidas-utils/releases/tag/v5.0.0
 [4.0.0]: https://github.com/F88/promidas-utils/releases/tag/v4.0.0
 [3.2.1]: https://github.com/F88/promidas-utils/releases/tag/v3.2.1
 [3.2.0]: https://github.com/F88/promidas-utils/releases/tag/v3.2.0
