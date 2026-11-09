@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+この版は promidas 5.x 向けです。
+
+### BREAKING CHANGES
+
+- **Peer dependency**: `promidas` の要件を `^5.0.0` に変更しました (以前は `^4.0.0`)
+    - `promidas` 4.x を使う場合は `promidas-utils` 4.x を使ってください
+- **リポジトリ**: promidas 5 の失敗の変更に対応しました
+    - `CORS_BLOCKED` の文言は `BROWSER_FETCH_FAILED` に表示されます
+    - `[参考情報]` の `通信エラーコード` は `details.causeCode` を表示します。promidas が作った値 (`TIMEOUT` など) は届かなくなりました
+
 ## [4.0.0] - 2026-11-09
 
 この版は promidas 4.x 向けです。
